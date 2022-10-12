@@ -1,0 +1,53 @@
+Usage : Keep track of work and advancement. Set deadlines. And share last thinks in semi remote environement.
+
+07.10.22
+
+First look at project
+Get more closer look at pdf.
+From subjects define blueprint.
+
+Focus on error management.
+
+**********12.10 :
+
+Program is executed with a map :
+./lem-in < first.map
+
+Map are made that way
+
+3			<< Number of ants
+##start		<< Comment, always follow by a "room", in this case it will declare next room and set the starting point
+0 1 0		<< Room 0 coordinate 1 0, coordinate useless as long as not trying to create a visualizer ?
+##end		<< Comment, follow by a room, declare next room and set the end point
+1 5  0		<< Room 1 coordinate 5 0
+2 9  0		<< Room 2 coordinate 9 0
+3 13 0		<< Room 3 coordinate 13 0
+0-2			<< Link, Room 0 is link with Room 2
+2-3			<< Link, Room 2 is link with Room 3
+3-1			<< Link, Room 3 is link with Room 1
+
+Solution part, printed after the map
+L1-2		<< L1 is ant 1, and 2 is the room the ant is, in that case it will directly show the first movement not L1-0
+L1-3 L2-2	<< L1 moves to room 3. L2 to the second.
+L1-1 L2-3 L3-2
+L2-1 L3-3
+L3-1		<< it stops when the last ant as arrived at destination.
+
+Considering this set of instruction map would look like :
+
+	[0]-[2]-[3]-[1]
+
+Distance between two room is always the same 1
+
+	
+How to :
+
+*MAP*
+the map part is the first to reproduce.
+Read from the file and display the map as fast as possible.
+Think about which data structure would be the fastest to retain those info.
+GNL ? putstr ?
+
+*SOLUTION*
+Find the fastest way for an x amount of ant to all arrive at the end. 1 ant at the time, can be only one ant at the time in a room.
+
