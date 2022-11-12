@@ -8,7 +8,7 @@ From subjects define blueprint.
 
 Focus on error management.
 
-**********12.10 :
+***********************************12.10****************************************************************************************************
 
 Program is executed with a map :
 ./lem-in < first.map
@@ -51,3 +51,23 @@ GNL ? putstr ?
 *SOLUTION*
 Find the fastest way for an x amount of ant to all arrive at the end. 1 ant at the time, can be only one ant at the time in a room.
 
+The question ask is probably similar to this problematic : 	https://en.wikipedia.org/wiki/Maximum_flow_problem
+															https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/
+
+***********************************19.10****************************************************************************************************
+
+Add few function to validate programm before starting any algo.
+
+Idea goes as follow :
+
+Save map in a 2d array
+check the map if every line contain either ' ' || '-' || number between 0-9 || '#'
+
+Once the basic is check validate that ant line is good.
+Then validate if room are good, in the meantime got to check about starting point and end point.
+Finally validate the room between the room.
+
+Deicide to keep count of room and links so far, not sure if the information gonna be usefull
+
+
+What is the smartest check for full compatibility or check as I go ?
