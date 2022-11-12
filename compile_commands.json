@@ -1,0 +1,980 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_putchar.o",
+      "srcs/ft_putchar.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_putchar.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_putchar.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_putchar_fd.o",
+      "srcs/ft_putchar_fd.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_putchar_fd.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_putchar_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_putstr_fd.o",
+      "srcs/ft_putstr_fd.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_putstr_fd.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_putstr_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_putstr.o",
+      "srcs/ft_putstr.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_putstr.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_putstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strlen.o",
+      "srcs/ft_strlen.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strlen.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strlen.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_putnbr_fd.o",
+      "srcs/ft_putnbr_fd.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_putnbr_fd.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_putnbr_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_putnbr.o",
+      "srcs/ft_putnbr.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_putnbr.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_putnbr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_putendl_fd.o",
+      "srcs/ft_putendl_fd.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_putendl_fd.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_putendl_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_putendl.o",
+      "srcs/ft_putendl.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_putendl.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_putendl.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_isalpha.o",
+      "srcs/ft_isalpha.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_isalpha.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_isalpha.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_isdigit.o",
+      "srcs/ft_isdigit.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_isdigit.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_isdigit.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_isalnum.o",
+      "srcs/ft_isalnum.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_isalnum.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_isalnum.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_isascii.o",
+      "srcs/ft_isascii.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_isascii.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_isascii.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_isprint.o",
+      "srcs/ft_isprint.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_isprint.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_isprint.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_isspace.o",
+      "srcs/ft_isspace.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_isspace.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_isspace.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_tolower.o",
+      "srcs/ft_tolower.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_tolower.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_tolower.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_toupper.o",
+      "srcs/ft_toupper.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_toupper.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_toupper.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_atoi.o",
+      "srcs/ft_atoi.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_atoi.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_atoi.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_memset.o",
+      "srcs/ft_memset.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_memset.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_memset.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_bzero.o",
+      "srcs/ft_bzero.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_bzero.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_bzero.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_memcpy.o",
+      "srcs/ft_memcpy.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_memcpy.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_memcpy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_memccpy.o",
+      "srcs/ft_memccpy.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_memccpy.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_memccpy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_memmove.o",
+      "srcs/ft_memmove.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_memmove.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_memmove.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_memchr.o",
+      "srcs/ft_memchr.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_memchr.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_memchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_memcmp.o",
+      "srcs/ft_memcmp.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_memcmp.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_memcmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strcpy.o",
+      "srcs/ft_strcpy.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strcpy.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strcpy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strncpy.o",
+      "srcs/ft_strncpy.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strncpy.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strncpy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strcmp.o",
+      "srcs/ft_strcmp.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strcmp.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strcmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strncmp.o",
+      "srcs/ft_strncmp.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strncmp.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strncmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strdup.o",
+      "srcs/ft_strdup.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strdup.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strdup.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strcat.o",
+      "srcs/ft_strcat.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strcat.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strcat.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strncat.o",
+      "srcs/ft_strncat.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strncat.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strncat.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strchr.o",
+      "srcs/ft_strchr.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strchr.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strrchr.o",
+      "srcs/ft_strrchr.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strrchr.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strrchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strnstr.o",
+      "srcs/ft_strnstr.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strnstr.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strnstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strstr.o",
+      "srcs/ft_strstr.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strstr.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strlcat.o",
+      "srcs/ft_strlcat.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strlcat.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strlcat.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_memalloc.o",
+      "srcs/ft_memalloc.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_memalloc.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_memalloc.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_memdel.o",
+      "srcs/ft_memdel.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_memdel.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_memdel.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strnew.o",
+      "srcs/ft_strnew.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strnew.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strnew.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strdel.o",
+      "srcs/ft_strdel.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strdel.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strdel.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strclr.o",
+      "srcs/ft_strclr.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strclr.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strclr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_striter.o",
+      "srcs/ft_striter.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_striter.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_striter.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_striteri.o",
+      "srcs/ft_striteri.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_striteri.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_striteri.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strmap.o",
+      "srcs/ft_strmap.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strmap.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strmap.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strmapi.o",
+      "srcs/ft_strmapi.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strmapi.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strmapi.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strequ.o",
+      "srcs/ft_strequ.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strequ.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strequ.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strnequ.o",
+      "srcs/ft_strnequ.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strnequ.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strnequ.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strsub.o",
+      "srcs/ft_strsub.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strsub.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strsub.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strjoin.o",
+      "srcs/ft_strjoin.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strjoin.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strjoin.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strsplit.o",
+      "srcs/ft_strsplit.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strsplit.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strsplit.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_strtrim.o",
+      "srcs/ft_strtrim.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_strtrim.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_strtrim.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_itoa.o",
+      "srcs/ft_itoa.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_itoa.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_itoa.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_lstadd.o",
+      "srcs/ft_lstadd.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_lstadd.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_lstadd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_lstdelone.o",
+      "srcs/ft_lstdelone.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_lstdelone.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_lstdelone.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_lstdel.o",
+      "srcs/ft_lstdel.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_lstdel.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_lstdel.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_lstiter.o",
+      "srcs/ft_lstiter.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_lstiter.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_lstiter.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_lstnew.o",
+      "srcs/ft_lstnew.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_lstnew.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_lstnew.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_lstmap.o",
+      "srcs/ft_lstmap.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_lstmap.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_lstmap.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_freearray.o",
+      "srcs/ft_freearray.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_freearray.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_freearray.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_maketab.o",
+      "srcs/ft_maketab.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_maketab.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_maketab.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_makearray.o",
+      "srcs/ft_makearray.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/ft_makearray.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_makearray.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/get_next_line.o",
+      "srcs/get_next_line.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/srcs/get_next_line.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/get_next_line.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/checkers.o",
+      "printf_srcs/checkers.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/checkers.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/checkers.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/converter.o",
+      "printf_srcs/converter.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/converter.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/converter.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/ft_printf.o",
+      "printf_srcs/ft_printf.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/ft_printf.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/ft_printf.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/get_info.o",
+      "printf_srcs/get_info.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/get_info.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/get_info.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_c.o",
+      "printf_srcs/type_c.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_c.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_f.o",
+      "printf_srcs/type_f.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_f.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_f.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_int.o",
+      "printf_srcs/type_int.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_int.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_int.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_o.o",
+      "printf_srcs/type_o.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_o.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_o.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_p.o",
+      "printf_srcs/type_p.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_p.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_p.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_percent.o",
+      "printf_srcs/type_percent.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_percent.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_percent.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_s.o",
+      "printf_srcs/type_s.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_s.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_s.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_u.o",
+      "printf_srcs/type_u.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_u.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_u.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_x.o",
+      "printf_srcs/type_x.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_x.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_x.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-o",
+      "object/type_xcap.o",
+      "printf_srcs/type_xcap.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in/libft",
+    "file": "/home/teppo/hive/projects/lem-in/libft/printf_srcs/type_xcap.c",
+    "output": "/home/teppo/hive/projects/lem-in/libft/object/type_xcap.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I./libft/includes/",
+      "-I./include/",
+      "-o",
+      "obj/get_info.o",
+      "srcs/get_info.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in",
+    "file": "/home/teppo/hive/projects/lem-in/srcs/get_info.c",
+    "output": "/home/teppo/hive/projects/lem-in/obj/get_info.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I./libft/includes/",
+      "-I./include/",
+      "-o",
+      "obj/main.o",
+      "srcs/main.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in",
+    "file": "/home/teppo/hive/projects/lem-in/srcs/main.c",
+    "output": "/home/teppo/hive/projects/lem-in/obj/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I./libft/includes/",
+      "-I./include/",
+      "-o",
+      "obj/reader.o",
+      "srcs/reader.c"
+    ],
+    "directory": "/home/teppo/hive/projects/lem-in",
+    "file": "/home/teppo/hive/projects/lem-in/srcs/reader.c",
+    "output": "/home/teppo/hive/projects/lem-in/obj/reader.o"
+  }
+]

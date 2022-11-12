@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
-
+/*
 void	get_room(t_info *g_info)
 {
 	char	*line;
@@ -37,3 +37,4 @@ int	get_info(t_info *g_info)
 	find_room(g_info);
 	return (0);
 }
+*/
