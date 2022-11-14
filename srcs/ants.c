@@ -6,11 +6,11 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 12:43:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/11/09 11:01:17 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:25:35 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	valid_ant(t_info *info)
+int	save_ants(t_info *info)
 {
 	int	i;
 

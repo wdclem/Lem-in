@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 15:15:13 by ccariou           #+#    #+#             */
-/*   Updated: 2022/11/08 13:46:04 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:21:18 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * nothing after
  * can probably make a isnum function for the numbers
  */
-
+/*
 int	validate_map(t_info *info)
 {
 	int		i;
@@ -48,7 +48,7 @@ int	validate_map(t_info *info)
 	else
 		return (0);
 }
-
+*/
 
 int	save_map(t_info *info)
 {
