@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:34:27 by ccariou           #+#    #+#             */
-/*   Updated: 2022/11/12 11:31:06 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/11/12 11:51:40 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@ static void	save_room(t_info *info, t_room *rooms)
 {
 	while(info->str[i] == ' ' )
 	{
-		room->id[i] = info->str[i];
+		room->id[i] = info->str[i][0];
 		i++;
 	}
 }
