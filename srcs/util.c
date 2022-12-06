@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ants.c                                             :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 12:43:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/12/06 13:10:12 by ccariou          ###   ########.fr       */
+/*   Created: 2022/12/06 13:10:26 by ccariou           #+#    #+#             */
+/*   Updated: 2022/12/06 13:29:27 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
+/*
+int	error_management(t_info *info, int error_code)
+{}
+*/
 int	check_comment(t_info *info, int i)
 {
-	while (info->str[i][0] == '#' && ft_strcmp(info->str[i], "##start") && ft_strcmp(info->str[i], "##end"))
-		i++;
-	return (i);
-}
-
-int	save_ants(t_info *info, int i)
-{
-	if (info->str[i] && !ft_strchr(info->str[i], (int) ' '))
+	while (info->str[i][0] == '#')
 	{
-		i += check_comment(info, i);
-		info->ants = ft_atoi(info->str[i]);
+		if (ft_strcmp(info->str[i], "##start") == 0)
+			info->start = i;
+		else if (ft_strcmp(info->str[i], "##end") == 0)
+			info->end = i;
+		i++;
 	}
-	if (info->ants <= 0 || info->ants > ANTS_MAX)
-		return(ERROR);
-	else
-		return (i + 1);
+	return (i);
 }

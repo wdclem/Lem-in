@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 15:15:13 by ccariou           #+#    #+#             */
-/*   Updated: 2022/11/14 16:21:18 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/11/30 16:06:32 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	validate_map(t_info *info)
 
 int	save_map(t_info *info)
 {
-	char	*line
+	char	*line;
 	int		i;
 	int 	len;
 	int 	gnl_ret;
@@ -62,21 +62,18 @@ int	save_map(t_info *info)
 	len = 5000;// Find a smarter way to put no limit to the file, dynamic ?
 	gnl_ret = 1;
 	info->str = (char **)malloc(sizeof(char *) * len + 1);
-	if (!str)
-		return(ERROR_MALLOC);
+	if (!info->str)
+		return(ERROR);
 	while(gnl_ret)
 	{
 		gnl_ret = get_next_line(0, &line);
 		if (gnl_ret == 0)
 			break;
 		if (gnl_ret < 0)
-			return(ERROR_GNL);
+			return(ERROR);
 		info->str[i] = line;
 		i++;
-		free(&line);
 	}
-	if (line)
-		free(&line);
 	return (0);
 }
 /*

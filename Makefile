@@ -6,20 +6,20 @@
 #    By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/12 14:24:10 by ccariou           #+#    #+#              #
-#    Updated: 2022/10/12 15:59:05 by ccariou          ###   ########.fr        #
+#    Updated: 2022/11/30 13:28:52 by ccariou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 	= lemin 
 HEAD 	= lemin.h
 # compile specs
-FLAGS 	= -Werror -Wextra -Wall
+FLAGS 	= -Werror -Wextra -Wall -g
 CC 		= gcc
 LFT 	= -L ./libft/ -lft
 
 # SOURCES FILES 
 SRC_DIR = ./srcs/
-SRCS 	= main.c get_info.c 
+SRCS 	= main.c ants.c map.c rooms.c
 
 INC 	= -I./include
 INC_LFT = -I./libft/includes 

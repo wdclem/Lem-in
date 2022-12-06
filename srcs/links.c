@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:19:43 by ccariou           #+#    #+#             */
-/*   Updated: 2022/11/12 11:40:31 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/12/06 15:28:18 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	save_links(t_info *info)
 {
-	char	*link
+	int		i;
+	char	*link;
+
 	while(info->str[i] == '-')
 	{
 		ft_split(info->str[i])
