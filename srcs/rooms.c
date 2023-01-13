@@ -6,19 +6,72 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:34:27 by ccariou           #+#    #+#             */
-/*   Updated: 2022/12/06 14:07:36 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/01/05 21:55:11 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-static int	save_room(t_info *info, t_room *room, int i)
+
+/* Create a new room in the HT
+ * TODO check if coordinate needed/ t_coord ?
+ */
+static int	set_table(t_info *info, t_hasht *table, char *room_key, int x, int y)
+{
+	int		i;
+//	t_room	*prev_room;
+	t_room	*new_room;
+
+	i = dj2b_hash(room_key);
+	new_room = table->room[i];
+//	prev_room = NULL; 
+	if (!new_room)
+	{
+		table->room[i] = make_room(room_key, x, y);
+		printf("room[%d] == %s\n", i, table->room[i]->id);
+//		printf("room[%d] == %s\n", i, table->room[i]->id);
+	}
+	if (info->s_check == 1)
+	{
+		info->start= table->room[i];
+//		printf("start room[%d] == %s\n", i, info->start->id);
+		//info->start = new_room;
+		info->s_check = 0;
+	}
+	else if (info->e_check == 1)
+	{
+		info->end = table->room[i];
+//		printf("teub\n");
+//		info->end = new_room;
+//		printf("end room[%d] == %s\n", i, info->end->id);
+		info->e_check = 0;
+	}
+	while (new_room != NULL)
+	{
+		if (!ft_strequ(room_key, new_room->id))
+			return (ERROR);
+	}
+//	prev_room->next = make_room(room_key, x, y);
+	return(0);
+}
+
+static int	room_to_hasht(t_info *info, t_hasht *table, int i, char **room_checker)
 {
 	int		j;
 
-	j = 0;
-//	printf("save room i = %d\n", i);
-//	printf("info->roos == %d\n", info->rooms);
+	j = -1;
+//	printf("room checker == %s\n", room_checker[0]);
+	set_table(info, table, room_checker[0], ft_atoi(room_checker[1]), ft_atoi(room_checker[2]));
+/*	if (info->start == i)
+		info->s_room= get(ht, arr[0]);
+	else if (info->end == i)
+		info->e_room= get(ht, arr[0]);
+	*/
+	while (room_checker[++j])
+		free(room_checker[j]);
+	free(room_checker);
+	return (ERROR);
+	/*
 	if(!ft_strchr(info->str[i], '-'))
 	{
 		printf("j  = %d\n", j);
@@ -26,12 +79,11 @@ static int	save_room(t_info *info, t_room *room, int i)
 			j++;
 		i = check_comment(info, i);
 		room->id[j] = info->str[i][0];
-		/*
 		printf("info->str[i] == %s\n", info->str[i]);
 		printf("room = %d i = %d j = %d\n", room->id[j], i,  j);
-		*/
 	}
-	printf("before return i = %d\n", i);
+	*/
+//	printf("before return i = %d\n", i);
 	return (i);
 }
 
@@ -59,52 +111,43 @@ int	unique_id(t_room *room, char **room_checker)
 	return (0);
 }
 
-int	validate_room(t_info *info, t_room *room, int i)
+int	validate_room(t_info *info, t_hasht *table, int i)
 {
 	char	**room_checker;
 
-	if (ft_strchr(info->str[i], ' ')) 
-	{
-		room_checker = ft_strsplit(info->str[i], ' ');
-		if (validate_room_input(room_checker) != 3)
-			return(ERROR);
-		if(ft_atoi(room_checker[1]) < 0 || ft_atoi(room_checker[2]) < 0)
-			return(ERROR);
-		if (!unique_id(room, room_checker))
-			return(ERROR);
-	}
-		/* char **valid_room;
-		 * valid_room = ft_split(info->str[i]) if more than 3 split ERROR, if no 0 1 2 ERROR if 0 isnot alphanum and if 1 2 arenet digit ERROR else valid
-		 */
-	//}
+	room_checker = ft_strsplit(info->str[i], ' ');
+	if (validate_room_input(room_checker) != 3)
+		return(ERROR);
+	if(ft_atoi(room_checker[1]) < 0 || ft_atoi(room_checker[2]) < 0)
+		return(ERROR);
+	else	
+		room_to_hasht(info, table, i, room_checker);
 	return (1);
 }
 
-int	save_rooms(t_info *info, t_room *room, int i)
+int	save_rooms(t_info *info, t_hasht *table, int i)
 {
 //	int	start_check;
 
 //	start_check = 0;
-	printf("initial i in save_room == %d\n", i);
-	while(info->str[i] != NULL)
+	printf("*********ROOMS********\n");
+	while (info->str[i] && !ft_strchr(info->str[i], '-'))
 	{
-		i = check_comment(info, i);
 		if (ft_strchr(info->str[i], 'L'))
 			return(ERROR);
+		else if (info->str[i][0] == '#')
+			i = check_comment(info, i);
 		if (ft_strchr(info->str[i], ' '))
 		{
-			printf("info->str[i] == %s\n", info->str[i]);
-			if(validate_room(info, room, i) == 1)
-			{
-				i = save_room(info, room, i);
+//			printf("info->str[i] == %s\n", info->str[i]);
+			if(validate_room(info, table, i) == 1)
 				info->rooms += 1;
-			}
 		}
 		printf("after loop i = %d\n", i);
 		i++;
 	}
-	printf("info->rooms == %d\n", info->rooms);
-	if (info->start < 0 && info->end != 1)
+//	printf("info->rooms == %d\n", info->rooms);
+	if (!info->start && !info->end)
 		return(ERROR);
 	return (i);
 }
