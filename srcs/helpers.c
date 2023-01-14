@@ -6,14 +6,13 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/06 07:05:05 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/01/14 14:09:38 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-
-int dj2b_hash(char *key)
+int	dj2b_hash(char *key)
 {
 	size_t			i;
 	unsigned long	hash;
@@ -28,31 +27,9 @@ int dj2b_hash(char *key)
 	return (hash);
 }
 
-/*int	check_comment_link(t_info *info, t_hasht *table, int i)
-{
-	while (info->str[i][0] == '#') 
-	{
-		if (ft_strequ(info->str[i], "##start"))
-		{
-			info->start = pointer_to_room(table, &info->str[i + 1][0]);
-			i++;
-			return (i);
-		}
-		else if (ft_strequ(info->str[i], "##end"))
-		{
-			info->end = pointer_to_room(table, &info->str[i + 1][0]);
-			i++;
-			return (i);
-		}
-		else
-			i++;
-	}
-	return (i);
-}
-*/
 int	check_comment(t_info *info, int i)
 {
-	while (info->str[i][0] == '#') 
+	while (info->str[i][0] == '#')
 	{
 		if (ft_strequ(info->str[i], "##start"))
 		{
@@ -74,20 +51,19 @@ int	check_comment(t_info *info, int i)
 
 t_link	*new_link(t_room *from, t_room *link_to)
 {
-	t_link *link;
+	t_link	*link;
 
-	link = (t_link*)malloc(sizeof(t_link));
+	link = (t_link *)malloc(sizeof(t_link));
 	if (!link)
 		return (NULL);
 	link->from = from;
 	link->link_to = link_to;
-	link->has_cap = 1;
 	link->flow = 0;
 	link->next = NULL;
 	return (link);
 }
 
-t_room	*make_room(char *key,int x, int y)
+t_room	*make_room(char *key, int x, int y)
 {
 	t_room	*room;
 
@@ -99,7 +75,7 @@ t_room	*make_room(char *key,int x, int y)
 	room->y = y;
 	room->visited = 0;
 	room->valid = 0;
-	room->link = NULL;
+	room->link_head = NULL;
 	room->next = NULL;
 	return (room);
 }

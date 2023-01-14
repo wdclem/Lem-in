@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 12:43:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/12/30 18:31:29 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/01/14 13:39:01 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	save_ants(t_info *info, int i)
 		info->ants = ft_atoi(info->str[i]);
 	}
 	if (info->ants <= 0 || info->ants > ANTS_MAX)
-		return(ERROR);
+		return (ERROR);
 	else
 		return (i + 1);
 }
