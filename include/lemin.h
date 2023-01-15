@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/14 13:53:01 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/01/15 18:30:07 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef struct s_link
 {
 	t_room			*from;
 	t_room			*link_to;
-	int				left;
-	int				right;
+	int				in;
+	int				out;
 	int				cap;
 	int				flow;
 	struct s_link	*next;
@@ -49,6 +49,7 @@ typedef struct s_link
 typedef struct s_info
 {
 	int				total_links;	
+	int				total_paths;
 	int				ants;
 	int				rooms;
 	int				s_check;
@@ -63,6 +64,13 @@ typedef struct s_queueitem
 	t_room				*room;
 	struct s_queueitem	*previous;
 }						t_queueitem;
+
+typedef struct s_path
+{
+	t_link	**links;
+	int		len;
+	int		alloced;
+} t_path;
 
 typedef struct s_hasht
 {
