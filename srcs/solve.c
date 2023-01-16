@@ -50,7 +50,7 @@ int	can_find_path(t_queueitem *start, t_queueitem *end, t_path *path)
 				return (0);
 		}
 		current_link->flow += 1;
-		path->links[i] = current_link;
+		path->arr[i] = current_link;
 		seek = seek->previous;
 		i++;
 	}
@@ -116,8 +116,8 @@ int	solve(t_info *info)
 	printf("********SOLVE******\n");
 	path = (t_path *)malloc(sizeof(t_path));
 	ft_bzero(path, sizeof(t_path));
-	path->links = (t_link **)malloc(sizeof(t_link *) * 42);
-	ft_bzero(path->links, sizeof(t_link *) * 42);
+	path->arr = (t_link **)malloc(sizeof(t_link *) * 42);
+	ft_bzero(path->arr, sizeof(t_link *) * 42);
 	queue = (t_queueitem **)malloc(sizeof(t_queueitem *) * (info->rooms + 1));
 	if (!queue || !path)
 		return (ERROR);
@@ -138,7 +138,7 @@ int	solve(t_info *info)
 		printf("********path, len = %d******\n[", path->len);
 		while (i >= 0)
 		{
-			printf("%s -> %s", path->links[i]->from->id, path->links[i]->link_to->id);
+			printf("%s -> %s", path->arr[i]->from->id, path->arr[i]->link_to->id);
 			i -= 1;
 			if (i >= 0)
 				printf(", ");
