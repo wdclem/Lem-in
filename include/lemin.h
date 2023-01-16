@@ -104,11 +104,11 @@ t_room	*make_room(char *key, int x, int y);
 t_link	*new_link(t_room *from, t_room *link_to);
 
 /* DYNAMIC CONTAINERS */
-int		open_q(t_queue **q, int len);
+int		open_queue(t_queue **q, int len);
 int		reserve_q(t_queue **q, int len);
-int		add_to_q(t_queue **q, t_room *room, t_queueitem *previous);
-void	clear_q(t_queue **q);
-void	close_q(t_queue **q);
+int		add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
+void	clear_queue(t_queue **q);
+void	close_queue(t_queue **q);
 
 int		open_path(t_path **path, int len);
 int		reserve_path(t_path **path, int len);

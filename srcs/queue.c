@@ -14,7 +14,7 @@
 #include "libft.h"
 
 /* q should be a null pointer */
-int	open_q(t_queue **q, int len)
+int	open_queue(t_queue **q, int len)
 {
 	t_queue		*new_q;
 
@@ -61,13 +61,13 @@ int	add_to_q(t_queue **q, t_room *room, t_queueitem *previous)
 	return (1);
 }
 
-void	clear_q(t_queue **q)
+void	clear_queue(t_queue **q)
 {
 	ft_bzero((*q)->arr, (*q)->len * sizeof(t_queueitem));
 	(*q)->len = 0;
 }
 
-void	close_q(t_queue **q)
+void	close_queue(t_queue **q)
 {
 	ft_memdel((void **)&(*q)->arr);
 	ft_memdel((void **)q);
