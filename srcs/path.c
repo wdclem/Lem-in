@@ -13,45 +13,40 @@
 #include "lemin.h"
 #include "libft.h"
 
-/* q should be a null pointer */
-int	open_path(t_path **path, int len)
+static int	reserve_path(t_path **path, int len)
+{
+	t_link	**new_arr;
+
+	new_arr = (t_link **)ft_memalloc(len * sizeof(t_link *));
+	if (!new_arr)
+		return (0);
+	(*path)->arr = new_arr;
+	(*path)->len = len;
+	return (len);
+}
+
+t_path	*open_path(int len)
 {
 	t_path		*new_path;
 
 	new_path = (t_path *)ft_memalloc(sizeof(t_path));
 	if (!new_path)
-		return (-1);
-	reserve_path(&new_path, len);
-	*path = new_path;
-	return (1);
-}
-
-int	reserve_path(t_path **path, int len)
-{
-	t_link	**new_arr;
-	int		new_size;
-
-	if ((*path)->alloced >= len * (int)sizeof(t_link *))
-		return (1);
-	new_size = (*path)->alloced;
-	while (new_size < len * (int)sizeof(t_link))
-		new_size *= 2;
-	new_arr = (t_link **)ft_memalloc(new_size);
-	if (!new_arr)
-		return (-1);
-	ft_memcpy((void *)new_arr, (void *)(*path)->arr, (*path)->alloced);
-	ft_memdel((void **)&(*path)->arr);
-	(*path)->arr = new_arr;
-	(*path)->alloced = new_size;
-	(*path)->len = len;
-	return (1);
+		return (NULL);
+	if (!reserve_path(&new_path, len))
+	{
+		ft_memdel((void **)new_path);
+		return (NULL);
+	}
+	return (new_path);
 }
 
 void	set_path_step(t_path **path, t_link* link, int index)
 {
 	t_link	**ptr;
 
-	ptr = *(&(*path)->arr + index);
+	if (index > (*path)->len)
+		return ;
+	ptr = (*path)->arr + index;
 	*ptr = link;
 }
 

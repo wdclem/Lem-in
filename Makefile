@@ -6,11 +6,11 @@
 #    By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/12 14:24:10 by ccariou           #+#    #+#              #
-#    Updated: 2023/01/11 16:49:38 by ccariou          ###   ########.fr        #
+#    Updated: 2023/01/15 18:46:44 by teppo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 	= lemin 
+NAME 	= lem-in 
 HEAD 	= lemin.h
 # compile specs
 FLAGS 	= -Werror -Wextra -Wall -g
@@ -19,7 +19,7 @@ LFT 	= -L ./libft/ -lft
 
 # SOURCES FILES 
 SRC_DIR = ./srcs/
-SRCS 	= main.c ants.c map.c rooms.c helpers.c init.c links.c solve.c
+SRCS 	= main.c ants.c map.c rooms.c helpers.c init.c links.c solve.c queue.c path.c
 
 INC 	= -I./include
 INC_LFT = -I./libft/includes 

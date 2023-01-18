@@ -12,142 +12,116 @@
 
 #include "lemin.h"
 
-t_queueitem	*add_to_q(t_queueitem **q, t_queueitem *cur, t_room *link_to, int size)
+static t_path *find_path(t_queueitem *start)
 {
-	int i;
-
-	i = 0;
-	while (i < size)
-	{
-		if (q[i]->room == link_to)
-			return (0);
-		i++;
-	}
-	q[i] = (t_queueitem *)malloc(sizeof(t_queueitem));
-	q[i]->room = link_to;
-	q[i]->previous = cur;
-	//printf("%s -> %s\n", cur->room->id, link_to->id);
-	return (q[i]);
-}
-
-int	can_find_path(t_queueitem *start, t_queueitem *end, t_path *path)
-{
-	t_queueitem *seek;
+	t_queueitem *current_item;
 	t_link		*current_link;
+	t_path		*new_path;
 	int 		i;
 
-	seek = start;
+	current_item = start;
+	new_path = open_path(start->steps);
+	if (!new_path)
+		return (NULL);
 	current_link = NULL;
-	i = 0;
-
-	while (seek->previous && seek != end)
+	i = start->steps - 1;
+	while (i >= 0)
 	{
-		current_link = seek->room->link_head;
-		while (current_link->from != seek->previous->room && current_link->link_to != seek->previous->room )
+		current_link = current_item->room->link_head;
+		while (!(current_link->from == current_item->previous->room || current_link->link_to == current_item->previous->room))
 		{
 			current_link = current_link->next;
 			if (current_link == NULL)
+			{
+				close_path(&new_path);
 				return (0);
+			}
 		}
+		set_path_step(&new_path, current_link, i);
 		current_link->flow += 1;
-		path->arr[i] = current_link;
-		seek = seek->previous;
-		i++;
+		current_item = current_item->previous;
+		i -= 1;
 	}
-	path->len = i;
-	//printf("hello!!!!\n");
-	return (1);
+	return (new_path);
 }
 
-static int	bfs(t_queueitem **queue, t_path *path, t_info *info, int round)
+static t_path	*bfs(t_queue *queue, t_info *info, int round)
 {
-	t_room	*current_room;
-	t_link	*seek;
-	t_queueitem *new;
-	int queuesize = 1;
+	t_queueitem *current_item;
+	t_room		*current_room;
+	t_link		*current_link;
 	int		i;
 
 	i = 0;
-	while (queue[i] != NULL)
+	while (i < queue->len)
 	{
-		current_room = queue[i]->room;
-		//printf("current room name = %s\n", current_room->id);
-		seek = current_room->link_head;
-		while (seek != NULL)
+		current_item = &queue->arr[i];
+		current_room = current_item->room;
+		current_link = current_room->link_head;
+		while (current_link != NULL)
 		{
-			if (seek->link_to->visited < round && seek->link_to->link_head->flow != 1)
+			if (current_link->link_to->visited < round && \
+					current_link->link_to->link_head->flow != 1)
 			{
-				seek->link_to->visited = 1;
-				new = add_to_q(queue, queue[i], seek->link_to, queuesize);
-				if (new)
-				{
-					queuesize++;
-					if (seek->link_to == info->end)
-					{
-						return (can_find_path(new, queue[0], path));
-					}
-				}
+				current_link->link_to->visited = 1;
+				if (!add_to_queue(&queue, current_link->link_to, current_item))
+					return (0);
+				if (current_link->link_to == info->end)
+					return (find_path(current_item));
 			}
-			seek = seek->next;
+			current_link = current_link->next;
 		}
 		i++;
 	}
 	return (0);
 }
 
-t_queueitem	**init_q(t_queueitem **queue, t_info *info, int round)
-{
-	queue[0] = (t_queueitem *)malloc(sizeof(t_queueitem));
-	queue[0]->room = info->start;
-	queue[0]->previous = NULL;
-	queue[0]->room->visited = round;
-	return (queue);
-}
+#define MAX_PATH 1024
 
 int	solve(t_info *info)
 {	
-	t_queueitem	**queue;
-	t_path		*path;
+	t_queue		*queue;
+	t_path		**paths;
+	t_path		*next_path;
 	int			round;
 
 	//TODO wipe queueue
 
 	round = 1;
+	paths = (t_path **)ft_memalloc(MAX_PATH * sizeof(t_path *));
 	printf("********SOLVE******\n");
-	path = (t_path *)malloc(sizeof(t_path));
-	ft_bzero(path, sizeof(t_path));
-	path->arr = (t_link **)malloc(sizeof(t_link *) * 42);
-	ft_bzero(path->arr, sizeof(t_link *) * 42);
-	queue = (t_queueitem **)malloc(sizeof(t_queueitem *) * (info->rooms + 1));
-	if (!queue || !path)
+	queue = open_queue(info->start, 8);
+	if (!queue)
 		return (ERROR);
-
 	printf("ants = %d\n", info->ants);
 	while (info->total_paths < info->ants)
 	{
 		printf("\nROUND %d, total_paths = %d\n", round, info->total_paths);
-		queue = init_q(queue, info, round);
-		if (bfs(queue, path, info, round) == 0)
+		next_path = bfs(queue, info, round);
+		if (!next_path)
 		{
 			printf("All paths found!\n");
+			close_queue(&queue);
 			break ;
 		}
 		else
-			info->total_paths += 1;
-		int i = path->len - 1;
-		printf("********path, len = %d******\n[", path->len);
-		while (i >= 0)
 		{
-			printf("%s -> %s", path->arr[i]->from->id, path->arr[i]->link_to->id);
-			i -= 1;
-			if (i >= 0)
+			clear_queue(&queue);
+			paths[info->total_paths] = next_path;
+			info->total_paths += 1;
+		}
+		printf("********path, len = %d******\n[", next_path->len);
+		int i = 0;
+		while (i < next_path->len)
+		{
+			printf("%s -> %s", next_path->arr[i]->from->id, next_path->arr[i]->link_to->id);
+			i += 1;
+			if (i < next_path->len)
 				printf(", ");
 			else
 				printf("]\n");
 		}
 		round++;
-		if (round > 4)
-			break ;
 	}
 	printf("teub a l'air\n");
 //	send_ants(info, path);

@@ -77,7 +77,6 @@ typedef struct s_path
 {
 	t_link	**arr;
 	int		len;
-	int		alloced;
 } t_path;
 
 typedef struct s_hasht
@@ -104,14 +103,13 @@ t_room	*make_room(char *key, int x, int y);
 t_link	*new_link(t_room *from, t_room *link_to);
 
 /* DYNAMIC CONTAINERS */
-int		open_queue(t_queue **q, int len);
-int		reserve_q(t_queue **q, int len);
+t_queue	*open_queue(t_room *start, int len);
+int		reserve_space_in_queue(t_queue **q, int len);
 int		add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
 void	clear_queue(t_queue **q);
 void	close_queue(t_queue **q);
 
-int		open_path(t_path **path, int len);
-int		reserve_path(t_path **path, int len);
+t_path	*open_path(int len);
 void	set_path_step(t_path **path, t_link* link, int index);
 void	close_path(t_path **path);
 #endif
