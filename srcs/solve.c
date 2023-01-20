@@ -45,25 +45,39 @@ static t_path *find_path(t_queueitem *start)
 	return (new_path);
 }
 
-static t_path	*bfs(t_queue *queue, t_info *info, int round)
+static int	can_add_to_queue(t_queueitem *current_item, t_room *link_to)
+{
+	t_queueitem	*seek;
+
+	seek = current_item;
+	while (seek)
+	{
+		if (seek->room == link_to)
+			return (0);
+		seek = seek->previous;
+	}
+	return (1);
+}
+
+static t_path	*bfs(t_queue *queue, t_info *info)
 {
 	t_queueitem *current_item;
 	t_room		*current_room;
 	t_link		*current_link;
-	int		i;
+	static int	i;
 
-	i = 0;
 	while (i < queue->len)
 	{
-		current_item = &queue->arr[i];
+		current_item = &queue->arr[i++];
 		current_room = current_item->room;
 		current_link = current_room->link_head;
 		while (current_link != NULL)
 		{
-			if (current_link->link_to->visited < round && \
-					current_link->link_to->link_head->flow != 1)
+			if (can_add_to_queue(current_item, current_link->link_to))
 			{
-				current_link->link_to->visited = 1;
+				//TODO should there be more conditions to stop searching?
+				//currently we potentially iterate through every node in
+				//graph multiple times
 				if (!add_to_queue(&queue, current_link->link_to, current_item))
 					return (0);
 				if (current_link->link_to == info->end)
@@ -71,7 +85,6 @@ static t_path	*bfs(t_queue *queue, t_info *info, int round)
 			}
 			current_link = current_link->next;
 		}
-		i++;
 	}
 	return (0);
 }
@@ -85,19 +98,18 @@ int	solve(t_info *info)
 	t_path		*next_path;
 	int			round;
 
-	//TODO wipe queueue
-
 	round = 1;
+	//#TODO should path container be dynamic?
 	paths = (t_path **)ft_memalloc(MAX_PATH * sizeof(t_path *));
 	printf("********SOLVE******\n");
-	queue = open_queue(info->start, 8);
+	queue = open_queue(info->start, 80);
 	if (!queue)
 		return (ERROR);
 	printf("ants = %d\n", info->ants);
 	while (info->total_paths < info->ants)
 	{
 		printf("\nROUND %d, total_paths = %d\n", round, info->total_paths);
-		next_path = bfs(queue, info, round);
+		next_path = bfs(queue, info);
 		if (!next_path)
 		{
 			printf("All paths found!\n");
@@ -106,7 +118,6 @@ int	solve(t_info *info)
 		}
 		else
 		{
-			clear_queue(&queue);
 			paths[info->total_paths] = next_path;
 			info->total_paths += 1;
 		}

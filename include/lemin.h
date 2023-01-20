@@ -38,10 +38,10 @@ typedef struct s_link
 {
 	t_room			*from;
 	t_room			*link_to;
-	int				in;
-	int				out;
-	int				cap;
-	int				flow;
+	//int				from_used;
+	//int				link_to_used;
+	//int				cap;
+	//int				flow;
 	struct s_link	*next;
 }					t_link;
 
@@ -64,6 +64,8 @@ typedef struct s_queueitem
 	t_room				*room;
 	int					steps;
 	struct s_queueitem	*previous;
+	struct s_queueitem	*next;
+	int					conflict;
 }						t_queueitem;
 
 typedef struct s_queue

@@ -47,6 +47,7 @@ int	reserve_space_in_queue(t_queue **q, int size)
 		return (0);
 	ft_memcpy((void *)new_arr, (void *)(*q)->arr, \
 			(*q)->len * sizeof(t_queueitem));
+	//TODO refresh linked list addresses
 	ft_memdel((void **)&(*q)->arr);
 	(*q)->arr = new_arr;
 	(*q)->alloced = new_alloc;
@@ -64,6 +65,8 @@ int	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous)
 	new_item->previous = previous;
 	new_item->steps = previous->steps + 1;
 	(*q)->len += 1;
+	printf("linking from %s to %s\n", previous->room->id, room->id);
+	printf("%zu -> %d\n", previous - (*q)->arr, (*q)->len-1);
 	return (1);
 }
 

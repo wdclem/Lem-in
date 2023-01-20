@@ -1,0 +1,4 @@
+target create "lem-in"
+settings set target.load-cwd-lldbinit true
+settings set target.input-path ./map1a.txt
+settings set target.input-path ./miro_map.txt
