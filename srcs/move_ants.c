@@ -92,7 +92,11 @@ int	move_ants(t_info *info, t_path **path)
 	return(0);
 }
 
-t_room *get_next_room(t_ant *ant);
+t_room *get_next_room(t_ant *ant)
+{
+	(void) ant;
+	return (NULL);
+}
 
 void move_ant(t_ant **ant)
 {

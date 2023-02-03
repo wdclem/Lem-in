@@ -80,7 +80,17 @@ typedef struct s_path
 {
 	t_room	**arr;
 	int		len;
+	int		group;
 } t_path;
+
+typedef struct s_pathcontainer
+{
+	t_path	**arr;
+	int		len;
+	int		alloced;
+	int		group;
+	int		capacity;
+} t_pathcontainer;
 
 typedef struct s_hasht
 {
@@ -121,7 +131,6 @@ void	close_queue(t_queue **q);
 
 /* PRINT OUTUPUT */
 int	move_ants(t_info *info, t_path **path);
-
 
 t_path	*open_path(int len);
 void	set_path_step(t_path **path, t_link* link, int index);

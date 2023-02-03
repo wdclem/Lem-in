@@ -65,8 +65,8 @@ int	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous)
 	new_item->previous = previous;
 	new_item->steps = previous->steps + 1;
 	(*q)->len += 1;
-	printf("linking from %s to %s\n", previous->room->id, room->id);
-	printf("%zu -> %d\n", previous - (*q)->arr, (*q)->len-1);
+	//printf("linking from %s to %s\n", previous->room->id, room->id);
+	//printf("%zu -> %d\n", previous - (*q)->arr, (*q)->len-1);
 	return (1);
 }
 
