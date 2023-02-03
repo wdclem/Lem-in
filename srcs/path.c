@@ -20,7 +20,7 @@ static int	reserve_path(t_path **path, int len)
 	new_arr = (t_link **)ft_memalloc(len * sizeof(t_link *));
 	if (!new_arr)
 		return (0);
-	(*path)->arr = new_arr;
+	//(*path)->arr = new_arr;
 	(*path)->len = len;
 	return (len);
 }
@@ -40,16 +40,18 @@ t_path	*open_path(int len)
 	return (new_path);
 }
 
+/*
 void	set_path_step(t_path **path, t_link* link, int index)
 {
 	t_link	**ptr;
 
 	if (index > (*path)->len)
 		return ;
-	ptr = (*path)->arr + index;
+	//ptr = (*path)->arr + index;
 	*ptr = link;
 }
 
+*/
 void	close_path(t_path **path)
 {
 	ft_memdel((void **)&(*path)->arr);

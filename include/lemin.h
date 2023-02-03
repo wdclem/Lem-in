@@ -78,7 +78,7 @@ typedef struct s_queue
 
 typedef struct s_path
 {
-	t_link	**arr;
+	t_room	**arr;
 	int		len;
 } t_path;
 
@@ -91,7 +91,7 @@ typedef	struct		s_ant
 {
 	int				id;
 	t_room			*room;
-	t_link			*path;
+	t_path			*path;
 }					t_ant;
 
 int		main(int argc, char **argv);

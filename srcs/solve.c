@@ -125,7 +125,7 @@ int	solve(t_info *info)
 		int i = 0;
 		while (i < next_path->len)
 		{
-			printf("%s -> %s", next_path->arr[i]->from->id, next_path->arr[i]->link_to->id);
+			//printf("%s -> %s", next_path->arr[i]->from->id, next_path->arr[i]->link_to->id);
 			i += 1;
 			if (i < next_path->len)
 				printf(", ");
