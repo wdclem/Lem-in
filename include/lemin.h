@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/21 14:41:54 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:42:44 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ typedef struct s_queue
 
 typedef struct s_path
 {
-	t_link	**arr;
+	t_room	**arr;
 	int		len;
+	int		ants_in;
 } t_path;
 
 typedef struct s_hasht
@@ -87,12 +88,12 @@ typedef struct s_hasht
 	t_room	**room;
 }			t_hasht;
 
-typedef	struct		s_ant
+typedef	struct	s_ant
 {
-	int				id;
-	t_room			*room;
-	t_link			*path;
-}					t_ant;
+	int			id;
+	t_room		*room;
+	t_path		*path;
+}				t_ant;
 
 int		main(int argc, char **argv);
 int		solve(t_info *info);
@@ -121,6 +122,7 @@ void	close_queue(t_queue **q);
 
 /* PRINT OUTUPUT */
 int	move_ants(t_info *info, t_path **path);
+void test_ant_move(void);
 
 
 t_path	*open_path(int len);
