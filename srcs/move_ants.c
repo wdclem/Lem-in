@@ -6,25 +6,13 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 09:43:23 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/21 15:11:42 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/03 11:24:15 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
 /*
-int		ant_move(t_info *info, t_ant ***ant)
-{
-	if ((*ant)->path->next->room->free == 0)
-	{
-		(*ant)->path->room->free= 0;
-		(*ant)->path = (*ant)->path->next;
-		if ((*ant)->path->room != info->end)
-			(*ant)->path->room->occupied = 1;
-		return (1);
-	}
-	else
-		return (0);
 }
 */
 
@@ -67,23 +55,32 @@ t_array	*assign_ant(t_ant **array, t_path **path)
 	i = 0;
 	while (array)
 	{
-		while (paths && paths[i]->len + paths[i]->ants_amount >=
-							paths[i]->len + paths[i]->ants_amount)
-			paths = paths->next;
-		if (paths->size > 2)
-			paths->ants_amount++;
-		array[i]->paths->path;
 	}
 	return (array);
 }
 */
-int	move_ants(t_info *info, t_path *path)
+int	move_ants(t_info *info, t_path **path)
 {
 	int	i;
+	int	j;
 	t_ant	**ants;
 //	char	*result;
 
 	i = 0;
+	j = 0;
+	while(path)
+	{
+		while (i < path[i]->len)
+		{
+			printf("%s -> %s", path[i]->arr[j]->from->id, path[i]->arr[j]->link_to->id);
+			j += 1;
+			if (i < path[i]->len)
+				printf(", ");
+			else
+				printf("]\n");
+		}
+		i++;
+	}
 	ants = NULL;
 	ants = (t_ant **)malloc(sizeof(t_ant *) * info->ants);
 	ants = ants_array(info, ants);
@@ -92,30 +89,5 @@ int	move_ants(t_info *info, t_path *path)
 		printf("array[i] == %d\n", ants[i]->id);
 		i++;
 	}
-	/*
-	assign_ant(info, array);
-	print(array)
-	*/
-	/*
-	while (first)
-	{
-		ants = first;
-		while (ants)
-		{
-			if (ant_move_through_path(&ants, *farm))
-				ft_printf("L%d-%s ", ants->number, ants->path->room->name);
-			if (ants->path->room == (*farm)->end)
-			{
-				if (ants == first)
-					first = ants->next;
-				remove_ant(&first, &ants);
-			}
-			else
-				ants = ants->next;
-		}
-		ft_printf("\n", moves++);
-	}
-	(*farm)->moves_done = moves;
-	*/
 	return(0);
 }
