@@ -26,6 +26,14 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct s_dintarr
+{
+	char			name[32];	
+	int				*arr;
+	size_t			alloced;
+	size_t			len;
+}				t_dintarr;
+
 /*
  * Printing functions
 */
@@ -112,5 +120,15 @@ char	**ft_maketab(int len);
 char	*ft_makearray(int len);
 int		get_next_line(const int fd, char **line);
 int		ft_printf(const char *str, ...);
+
+/*
+ * Dynamic integer arrays
+ */
+
+ssize_t		ft_dintarr_create(t_dintarr **darr, size_t size, const char *name);
+ssize_t		ft_dintarr_add(t_dintarr **darr, const int n);
+ssize_t		ft_dintarr_close(t_dintarr **src, int **dst);
+ssize_t		ft_dintarr_clear(t_dintarr **darr);
+ssize_t		ft_dintarr_copy(t_dintarr **src, t_dintarr **dst, size_t n);
 
 #endif

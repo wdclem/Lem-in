@@ -88,11 +88,40 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 	return (0);
 }
 
-static void place_path_in_group(t_path *path, t_pathcontainer **containers)
+t_pathgroup *new_group(t_path *path)
 {
-	(void) path;
-	(void) containers;
+	t_pathgroup	*new;
 
+	new = (t_pathgroup *)ft_memalloc(sizeof(t_pathgroup));
+	new->arr[new->len] = path;
+//	ft_dintarr_copy(&path->rooms_used, &new->rooms_used, path->len);
+	new->len++;
+	return (new);
+}
+
+static int path_rooms_overlap(t_dintarr *left, t_dintarr *right)
+{
+	(void) left;
+	(void) right;
+	return (0);
+}
+
+static void place_path_in_group(t_path *path, t_pathgroup **groups)
+{
+	int	group_idx;
+
+	group_idx = 0;
+	while (groups[group_idx] != NULL)
+	{
+		if (!path_rooms_overlap(groups[group_idx]->rooms_used, path->rooms_used))
+		{
+			ft_dintarr_add(&path->groups, group_idx);
+		}
+	}
+	if (path->groups->len == 0)
+	{
+		groups[group_idx] = new_group(path);
+	}
 }
 
 #define MAX_PATH 1024
@@ -102,14 +131,14 @@ int	solve(t_info *info)
 {	
 	t_queue		*queue;
 	t_path		**paths;
-	t_pathcontainer **containers;
+	t_pathgroup **groups;
 	t_path		*next_path;
 	int			round;
 
 	round = 1;
 	//#TODO should path container be dynamic?
 	paths = (t_path **)ft_memalloc(MAX_PATH * sizeof(t_path *));
-	containers = (t_pathcontainer **)ft_memalloc(sizeof(t_pathcontainer *) * \
+	groups = (t_pathgroup **)ft_memalloc(sizeof(t_pathgroup *) * \
 			MAX_GROUPS);
 	printf("********SOLVE******\n");
 	queue = open_queue(info->start, 80);
@@ -128,7 +157,7 @@ int	solve(t_info *info)
 		}
 		else
 		{
-			place_path_in_group(next_path, containers);
+			place_path_in_group(next_path, groups);
 			paths[info->total_paths] = next_path;
 			info->total_paths += 1;
 		}

@@ -80,7 +80,8 @@ typedef struct s_path
 {
 	t_room	**arr;
 	int		len;
-	int		group;
+	t_dintarr		*groups;
+	t_dintarr		*rooms_used;
 } t_path;
 
 typedef struct s_pathcontainer
@@ -89,8 +90,9 @@ typedef struct s_pathcontainer
 	int		len;
 	int		alloced;
 	int		group;
+	t_dintarr	*rooms_used;
 	int		capacity;
-} t_pathcontainer;
+} t_pathgroup;
 
 typedef struct s_hasht
 {
