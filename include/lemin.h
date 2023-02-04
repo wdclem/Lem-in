@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/03 17:42:44 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/04 11:00:47 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_room
 	//struct s_room	*links; Probably swap for a link struct list
 	int				link_count;
 	char			*id;
+	int				number;
 	int				x;
 	int				y;
 	int				visited;
@@ -110,7 +111,7 @@ int		check_comment(t_info *info, int i);
 int		check_comment_link(t_info *info, t_hasht *table, int i);
 int		dj2b_hash(char *key);
 t_room	*pointer_to_room(t_hasht *table, char *id);
-t_room	*make_room(char *key, int x, int y);
+t_room	*make_room(t_info *info, char *key, int x, int y);
 t_link	*new_link(t_room *from, t_room *link_to);
 
 /* DYNAMIC CONTAINERS */

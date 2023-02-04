@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/21 10:38:39 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/04 11:00:23 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_link	*new_link(t_room *from, t_room *link_to)
 	return (link);
 }
 
-t_room	*make_room(char *key, int x, int y)
+t_room	*make_room(t_info *info, char *key, int x, int y)
 {
 	t_room	*room;
 
@@ -71,6 +71,7 @@ t_room	*make_room(char *key, int x, int y)
 	if (!room)
 		return (NULL);
 	room->id = ft_strdup(key);
+	room->number = info->rooms;
 	room->x = x;
 	room->y = y;
 	room->visited = 0;

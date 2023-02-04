@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:34:27 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/14 13:45:33 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/04 11:00:09 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	set_table(t_info *info, t_hasht *table, char *room_key, int x, int y)
 	new_room = table->room[i];
 	if (!new_room)
 	{
-		table->room[i] = make_room(room_key, x, y);
+		table->room[i] = make_room(info, room_key, x, y);
 	}
 	if (info->s_check == 1)
 	{
