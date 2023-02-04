@@ -121,31 +121,28 @@ t_room *get_next_room(t_ant *ant)
 {
 	t_room	**copy;
 
-	copy = ant->path->arr;
-	while (copy)
-	{
-		if ((*copy)->free == 0)
-			return(*copy);
-		(*copy)++;
-	}
+	copy = &ant->path->arr[ant->path_idx + 1];
+	if ((*copy)->free == 0)
+		return(*copy);
 	return (0);
 }
 
-void move_ant(t_ant **ant)
+void move_ant(t_ant *ant)
 {
 	t_room	*next;
 
-	next = get_next_room(*ant);
-	if (next->free)
+	next = get_next_room(ant);
+	if (next->free == 0)
 	{
-		printf("L%d-%s", (*ant)->id, next->id);
-		(*ant)->room->free = 1;
-		(*ant)->room = next;
-		(*ant)->room->free = 0;
+		printf("L%d-%s", ant->id, next->id);
+		ant->room->free = 1;
+		ant->room = next;
+		ant->room->free = 0;
+		ant->path_idx += 1;
 	}
 }
 
-int move_ants2(t_info *info, t_ant **ants)
+int move_ants2(t_info *info, t_ant *ants)
 {
 	int	ant_idx;
 	int ants_arrived;
@@ -156,13 +153,14 @@ int move_ants2(t_info *info, t_ant **ants)
 	{
 		while (ant_idx < info->ants)
 		{
-			if (ants[ant_idx]->room == info->end)
+			if (ants[ant_idx].room == info->end)
 			{
 				ant_idx += 1;
 				continue ;
 			}
 			move_ant(&ants[ant_idx]);
-			if (ants[ant_idx]->room == info->end)
+
+			if (ants[ant_idx].room == info->end)
 				ants_arrived += 1;
 			ant_idx += 1;
 			if (ant_idx < info->ants)
@@ -176,7 +174,7 @@ int move_ants2(t_info *info, t_ant **ants)
 
 void test_ant_move(void)
 {
-#define ANTCOUNT 1
+#define ANTCOUNT 10
 	t_path sample_path;
 	t_ant *ants;
 	char	*names[3] = {"first", "second", "third"};
@@ -198,6 +196,7 @@ void test_ant_move(void)
 		sample_path.arr[room_idx] = (t_room *)calloc(1, sizeof(t_room));
 		sample_path.arr[room_idx]->id = names[room_idx];
 	}
+	sample_path.len = 3;
 	info.start = sample_path.arr[0];
 	info.end = sample_path.arr[2];
 	ants = (t_ant *)calloc(ANTCOUNT, sizeof(t_ant));
@@ -206,10 +205,8 @@ void test_ant_move(void)
 		ants[ant_idx].room = sample_path.arr[0];
 		ants[ant_idx].path = &sample_path;
 		ants[ant_idx].id = ant_idx;
+		ants[ant_idx].path_idx = 0;
 	}
-	if (move_ants2(&info, &ants))
+	if (move_ants2(&info, ants))
 		printf("Success :)\n");
-	else
-		printf("Fail :(\n)");
-
 }

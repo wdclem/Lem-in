@@ -106,6 +106,7 @@ typedef	struct	s_ant
 	int			id;
 	t_room		*room;
 	t_path		*path;
+	int			path_idx;
 }				t_ant;
 
 int		main(int argc, char **argv);

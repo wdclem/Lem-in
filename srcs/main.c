@@ -62,5 +62,6 @@ int	main(int argc, char **argv)
 	printf("content 1\n");
 	write(1, "\n", 1);
 //	solve(&info);
+	test_ant_move();
 	return (0);
 }
