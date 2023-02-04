@@ -22,25 +22,27 @@ static void add_room_to_path(t_path **path, t_room *room, int index)
 	*ptr = room;
 }
 
-static t_path *find_path(t_queueitem *start, t_info *info)
+static t_path *find_path(t_queueitem *start)
 {
 	t_queueitem *current_item;
 	t_path		*new_path;
-	int 		i;
+	int 		path_idx;
+	static int	path_count;
 
-	new_path = open_path(start->steps + 2);
-	i = start->steps + 1;
+	printf("found new path with len of %d", start->steps);
+	new_path = open_path(start->steps);
 	if (!new_path)
 		return (NULL);
-	add_room_to_path(&new_path, info->end, i--);
+	printf(" (%d)\n", new_path->len);
+	path_idx = start->steps - 1;
 	current_item = start;
-	while (i > 0)
+	while (path_idx > 0)
 	{
-		add_room_to_path(&new_path, current_item->room, i);
+		add_room_to_path(&new_path, current_item->room, path_idx);
 		current_item = current_item->previous;
-		i -= 1;
+		path_idx -= 1;
 	}
-	add_room_to_path(&new_path, info->start, i);
+	new_path->id = path_count++;
 	return (new_path);
 }
 
@@ -80,7 +82,7 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 				if (!add_to_queue(&queue, current_link->link_to, current_item))
 					return (0);
 				if (current_link->link_to == info->end)
-					return (find_path(current_item, info));
+					return (find_path(current_item));
 			}
 			current_link = current_link->next;
 		}
@@ -88,44 +90,10 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 	return (0);
 }
 
-t_pathgroup *new_group(t_path *path)
+static inline int check_bitmask_idx(t_bitmask *mask, int idx)
 {
-	t_pathgroup	*new;
-
-	new = (t_pathgroup *)ft_memalloc(sizeof(t_pathgroup));
-	new->arr[new->len] = path;
-//	ft_dintarr_copy(&path->rooms_used, &new->rooms_used, path->len);
-	new->len++;
-	return (new);
+	return (*(long *)mask[idx / sizeof(long)] & 1 << (long)idx % sizeof(long));
 }
-
-static int path_rooms_overlap(t_dintarr *left, t_dintarr *right)
-{
-	(void) left;
-	(void) right;
-	return (0);
-}
-
-static void place_path_in_group(t_path *path, t_pathgroup **groups)
-{
-	int	group_idx;
-
-	group_idx = 0;
-	while (groups[group_idx] != NULL)
-	{
-		if (!path_rooms_overlap(groups[group_idx]->rooms_used, path->rooms_used))
-		{
-			ft_dintarr_add(&path->groups, group_idx);
-		}
-	}
-	if (path->groups->len == 0)
-	{
-		groups[group_idx] = new_group(path);
-	}
-}
-
-#define MAX_PATH 1024
-#define MAX_GROUPS 256
 
 int	solve(t_info *info)
 {	
@@ -157,21 +125,58 @@ int	solve(t_info *info)
 		}
 		else
 		{
-			place_path_in_group(next_path, groups);
+			find_groups_for_path(next_path, groups);
 			paths[info->total_paths] = next_path;
 			info->total_paths += 1;
 		}
-		printf("********path, len = %d******\n[", next_path->len);
+		printf("********path#%d len:%d******\n", next_path->id, next_path->len);
+		printf("uses following rooms: ");
+		for (int i = 0; i < (int)(MASKSIZE * 8); i++)
+		{
+			if (check_bitmask_idx(&next_path->rooms_used, i))
+			{
+			printf("(%d)", i);
+			if (i < (int)MASKSIZE - 1)
+					printf(" ");
+			}
+		}
+		printf("\n");
 		int i = 0;
 		while (i < next_path->len)
-
 		{
 			printf("%s", next_path->arr[i]->id);
 			if (i < next_path->len - 1)
 				printf("->");
+			i++;
+		}
+		printf("]\n");
+		round++;
+	}
+	int group_idx = 0;
+	while (groups[group_idx] != NULL)
+	{
+		t_pathgroup *cur = groups[group_idx];
+		printf("********group#%d, len = %d******\n", cur->id, cur->len);
+		printf("contains following paths: ");
+		for (int i = 0; i < cur->len; i++)
+		{
+			printf("(%d)", cur->arr[i]->id);
+			if (i < cur->len - 1)
+				printf(" ");
 		}
 		printf("\n");
-		round++;
+		printf("uses following rooms: ");
+		for (int i = 0; i < (int)(MASKSIZE * 8); i++)
+		{
+			if (check_bitmask_idx(&cur->rooms_used, i))
+			{
+			printf("(%d)", i);
+			if (i < (int)MASKSIZE - 1)
+					printf(" ");
+			}
+		}
+		printf("\n");
+		group_idx++;
 	}
 	printf("teub a l'air\n");
 //	test_ant_move();

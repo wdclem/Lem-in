@@ -19,6 +19,10 @@
 # define ERROR 1
 # define ANTS_MAX 2147483647
 # define HT_CAP 2056 // hash table capacity 
+# define MAX_ROOMS 2056
+# define MAX_PATH 1024
+# define MAX_GROUPS 256
+# define MASKSIZE (MAX_ROOMS / (sizeof(long)))
 
 typedef struct s_room
 {
@@ -30,7 +34,7 @@ typedef struct s_room
 	int				y;
 	int				visited;
 	int				valid;
-	int				free;
+	int				occupied;
 	struct s_link	*link_head;
 	struct s_room	*next;
 	size_t			alloced;
@@ -40,9 +44,6 @@ typedef struct s_link
 {
 	t_room			*from;
 	t_room			*link_to;
-	//int				from_used;
-	//int				link_to_used;
-	//int				cap;
 	int				flow;
 	struct s_link	*next;
 }					t_link;
@@ -61,13 +62,19 @@ typedef struct s_info
 	struct s_room	*end;
 }					t_info;
 
+typedef struct s_hasht
+{
+	t_room	**room;
+}			t_hasht;
+
+typedef long t_bitmask[MASKSIZE];
+
 typedef struct s_queueitem
 {
 	t_room				*room;
 	int					steps;
 	struct s_queueitem	*previous;
 	struct s_queueitem	*next;
-	int					conflict;
 }						t_queueitem;
 
 typedef struct s_queue
@@ -79,27 +86,24 @@ typedef struct s_queue
 
 typedef struct s_path
 {
-	t_room	**arr;
-	int		len;
-	t_dintarr		*groups;
-	t_dintarr		*rooms_used;
-	int		ants_in;
+	int			id;
+	t_room		**arr;
+	int			len;
+	t_bitmask	rooms_used;
+	t_bitmask	groups;
+	int			group_count;
+	int			ants_in;
 } t_path;
 
 typedef struct s_pathcontainer
 {
-	t_path	**arr;
-	int		len;
-	int		alloced;
-	int		group;
-	t_dintarr	*rooms_used;
-	int		capacity;
+	t_path		**arr;
+	int			len;
+	int			alloced;
+	int			id;
+	t_bitmask	rooms_used;
+	int			capacity;
 } t_pathgroup;
-
-typedef struct s_hasht
-{
-	t_room	**room;
-}			t_hasht;
 
 typedef	struct	s_ant
 {
@@ -133,6 +137,9 @@ int		reserve_space_in_queue(t_queue **q, int len);
 int		add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
 void	clear_queue(t_queue **q);
 void	close_queue(t_queue **q);
+
+/* GROUPING */
+void	find_groups_for_path(t_path *path, t_pathgroup **groups);
 
 /* PRINT OUTUPUT */
 int	move_ants(t_info *info, t_path **path);

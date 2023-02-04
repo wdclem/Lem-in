@@ -22,6 +22,7 @@ static int	reserve_path(t_path **path, int len)
 		return (0);
 	(*path)->arr = new_arr;
 	(*path)->len = len;
+	printf("reserved path with len of %d\n", (*path)->len);
 	return (len);
 }
 

@@ -20,7 +20,7 @@ LFT 	= -L ./libft/ -lft
 # SOURCES FILES 
 SRC_DIR = ./srcs/
 SRCS 	= main.c ants.c map.c rooms.c helpers.c init.c links.c solve.c queue.c path.c \
-		  move_ants.c
+		  move_ants.c grouping.c
 
 INC 	= -I./include
 INC_LFT = -I./libft/includes 

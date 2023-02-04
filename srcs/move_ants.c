@@ -122,7 +122,7 @@ t_room *get_next_room(t_ant *ant)
 	t_room	**copy;
 
 	copy = &ant->path->arr[ant->path_idx + 1];
-	if ((*copy)->free == 0)
+	if ((*copy)->occupied == 0)
 		return(*copy);
 	return (0);
 }
@@ -132,12 +132,12 @@ void move_ant(t_ant *ant)
 	t_room	*next;
 
 	next = get_next_room(ant);
-	if (next->free == 0)
+	if (!next)
 	{
 		printf("L%d-%s", ant->id, next->id);
-		ant->room->free = 1;
+		ant->room->occupied = 0;
 		ant->room = next;
-		ant->room->free = 0;
+		ant->room->occupied = 1;
 		ant->path_idx += 1;
 	}
 }
