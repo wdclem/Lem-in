@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/21 14:41:54 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/04 11:00:47 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_room
 	//struct s_room	*links; Probably swap for a link struct list
 	int				link_count;
 	char			*id;
+	int				number;
 	int				x;
 	int				y;
 	int				visited;
@@ -82,6 +83,7 @@ typedef struct s_path
 	int		len;
 	t_dintarr		*groups;
 	t_dintarr		*rooms_used;
+	int		ants_in;
 } t_path;
 
 typedef struct s_pathcontainer
@@ -99,12 +101,12 @@ typedef struct s_hasht
 	t_room	**room;
 }			t_hasht;
 
-typedef	struct		s_ant
+typedef	struct	s_ant
 {
-	int				id;
-	t_room			*room;
-	t_path			*path;
-}					t_ant;
+	int			id;
+	t_room		*room;
+	t_path		*path;
+}				t_ant;
 
 int		main(int argc, char **argv);
 int		solve(t_info *info);
@@ -121,7 +123,7 @@ int		check_comment(t_info *info, int i);
 int		check_comment_link(t_info *info, t_hasht *table, int i);
 int		dj2b_hash(char *key);
 t_room	*pointer_to_room(t_hasht *table, char *id);
-t_room	*make_room(char *key, int x, int y);
+t_room	*make_room(t_info *info, char *key, int x, int y);
 t_link	*new_link(t_room *from, t_room *link_to);
 
 /* DYNAMIC CONTAINERS */
@@ -133,6 +135,7 @@ void	close_queue(t_queue **q);
 
 /* PRINT OUTUPUT */
 int	move_ants(t_info *info, t_path **path);
+void test_ant_move(void);
 
 t_path	*open_path(int len);
 void	set_path_step(t_path **path, t_link* link, int index);

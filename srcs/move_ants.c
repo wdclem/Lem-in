@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 09:43:23 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/03 11:24:15 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:31:30 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,31 @@
 /*
 }
 */
+t_path	*choose_path(t_path **path)
+{
+	t_path	*best_path;
+	int		path_idx;
+	int		i;
+	int		j;
+
+	path_idx = 0;
+	i = 0;
+	j = 0;
+	while (path[path_idx])
+	{
+		i = path[path_idx]->len + path[path_idx]->ants_in;
+		if (i > j)
+		{
+			j = i;
+			best_path = path[path_idx];
+		}
+		path_idx++;
+	}
+	best_path->ants_in += 1;
+	return (best_path);
+}
+			
+			
 
 t_ant	*init_ant(t_info *info, int *id)
 {
@@ -94,8 +119,16 @@ int	move_ants(t_info *info, t_path **path)
 
 t_room *get_next_room(t_ant *ant)
 {
-	(void) ant;
-	return (NULL);
+	t_room	**copy;
+
+	copy = ant->path->arr;
+	while (copy)
+	{
+		if ((*copy)->free == 0)
+			return(*copy);
+		(*copy)++;
+	}
+	return (0);
 }
 
 void move_ant(t_ant **ant)

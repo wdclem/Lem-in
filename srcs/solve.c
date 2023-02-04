@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:47:35 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/23 14:10:27 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:51:14 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,10 @@ int	solve(t_info *info)
 			paths[info->total_paths] = next_path;
 			info->total_paths += 1;
 		}
-		printf("********path, len = %d******\n", next_path->len);
-		for (int i = 0; i < next_path->len; i++)
+		printf("********path, len = %d******\n[", next_path->len);
+		int i = 0;
+		while (i < next_path->len)
+
 		{
 			printf("%s", next_path->arr[i]->id);
 			if (i < next_path->len - 1)
@@ -172,5 +174,10 @@ int	solve(t_info *info)
 		round++;
 	}
 	printf("teub a l'air\n");
+//	test_ant_move();
+//	move_ants(info, paths);
+//	send_ants(info, path);
+//	printf("path link_to == %s\n", path->link_to->id);
+//	free(queue);
 	return (1);
 }
