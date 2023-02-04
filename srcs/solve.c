@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
-
+const int masksize = MASKSIZE;
 static void add_room_to_path(t_path **path, t_room *room, int index)
 {
 	t_room	**ptr;
 
 	if (index > (*path)->len)
 		return ;
+	printf("adding room %s to path %d\n", room->id, (*path)->id);
 	ptr = (*path)->arr + index;
 	*ptr = room;
 }
@@ -29,11 +30,9 @@ static t_path *find_path(t_queueitem *start)
 	int 		path_idx;
 	static int	path_count;
 
-	printf("found new path with len of %d", start->steps);
 	new_path = open_path(start->steps);
 	if (!new_path)
 		return (NULL);
-	printf(" (%d)\n", new_path->len);
 	path_idx = start->steps - 1;
 	current_item = start;
 	while (path_idx > 0)

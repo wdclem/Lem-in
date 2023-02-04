@@ -22,7 +22,7 @@
 # define MAX_ROOMS 2056
 # define MAX_PATH 1024
 # define MAX_GROUPS 256
-# define MASKSIZE (MAX_ROOMS / (sizeof(long)))
+# define MASKSIZE (MAX_ROOMS / (sizeof(long) * 8))
 
 typedef struct s_room
 {
