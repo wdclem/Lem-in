@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 09:43:23 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/05 12:41:27 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/05 14:34:13 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,9 @@ t_room *get_next_room(t_ant *ant)
 	t_room	**copy;
 
 	copy = &ant->path->arr[ant->path_idx + 1];
-<<<<<<< HEAD
-	if ((*copy)->occupied == 0)
-=======
+	//if ((*copy)->occupied == 0)
 //	printf("copy free == %d\n", (*copy)->free);
-	if ((*copy)->free == 1)
->>>>>>> clem
+	if ((*copy)->occupied == 1)
 		return(*copy);
 	return (0);
 }
@@ -137,13 +134,9 @@ int	move_ant(t_info *info, t_ant *ant)
 	t_room	*next;
 
 	next = get_next_room(ant);
-<<<<<<< HEAD
-	if (!next)
-=======
 //	if (next)
 //		printf("next == %s\n", next->id);
 	if (next)
->>>>>>> clem
 	{
 		printf("L%d-%s", ant->id, next->id);
 		ant->room->occupied = 0;
@@ -153,13 +146,13 @@ int	move_ant(t_info *info, t_ant *ant)
 	}
 	if (next == info->end)
 	{
-		ant->room->free = 1;
+		ant->room->occupied = 1;
 		return (1);
 	}
 	return (0);
 }
 
-int move_ants2(t_info *info, t_ant *ants, )
+int move_ants2(t_info *info, t_ant *ants)
 {
 	int	ant_idx;
 	int ants_arrived;
@@ -213,7 +206,7 @@ void test_ant_move(void)
 	{
 		sample_path.arr[room_idx] = (t_room *)calloc(1, sizeof(t_room));
 		sample_path.arr[room_idx]->id = names[room_idx];
-		sample_path.arr[room_idx]->free = 1;
+		sample_path.arr[room_idx]->occupied = 1;
 	}
 	sample_path.len = 4;
 	info.start = sample_path.arr[0];
