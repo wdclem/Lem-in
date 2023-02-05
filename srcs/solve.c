@@ -30,30 +30,6 @@ static void print_bitmask(t_bitmask *mask)
 	printf("\n");
 }
 
-static inline void set_bitmask_idx(t_bitmask *mask, int idx)
-{
-	printf("before bitmask set\n");
-	print_bitmask(mask);
-	printf("*SET PAGE:%lu, ENTRY:%lu (%d)\n", idx / (sizeof(long) * 8), idx % (sizeof(long) * 8), idx);
-	*mask[idx / (sizeof(long) * 8)] |= (1 << (idx % (sizeof(long) * 8)));
-	printf("after bitmask set\n");
-	print_bitmask(mask);
-}
-
-static void add_room_to_path(t_path **path, t_room *room, int index)
-{
-	t_room	**ptr;
-
-	if (index > (*path)->len)
-		return ;
-	ptr = (*path)->arr + index;
-	*ptr = room;
-	printf("adding room %s (%d) to path %d\n", (*ptr)->id, (*ptr)->number, (*path)->id);
-	set_bitmask_idx(&(*path)->rooms_used, room->number);
-	printf("bitmask after adding this room:\n");
-	print_bitmask(&(*path)->rooms_used);
-}
-
 static t_path *find_path(t_queueitem *start)
 {
 	t_queueitem *current_item;
@@ -75,7 +51,7 @@ static t_path *find_path(t_queueitem *start)
 	new_path->id = path_count++;
 	for (int i = 0; i < (int)(MASKSIZE * sizeof(long) * 8); i++)
 	{
-		if (check_bitmask_idx(&new_path->rooms_used, i))
+		if (check_bitmask_idx(&new_path->room_mask, i))
 		{
 			printf("(%d)", i);
 			if (i < (int)(MASKSIZE * sizeof(long) * 8) - 1)
@@ -167,15 +143,7 @@ int	solve(t_info *info)
 		}
 		printf("********path#%d len:%d******\n", next_path->id, next_path->len);
 		printf("uses following rooms: ");
-		for (int i = 0; i < (int)(MASKSIZE * sizeof(long) * 8); i++)
-		{
-			if (check_bitmask_idx(&next_path->rooms_used, i))
-			{
-				printf("(%d)", i);
-				if (i < (int)MASKSIZE - 1)
-						printf(" ");
-			}
-		}
+		print_bitmask(&next_path->room_mask);
 		printf("\n");
 		int i = 0;
 		while (i < next_path->len)
@@ -191,26 +159,18 @@ int	solve(t_info *info)
 	int group_idx = 0;
 	while (groups[group_idx] != NULL)
 	{
-		t_pathgroup *cur = groups[group_idx];
-		printf("********group#%d, len = %d******\n", cur->id, cur->len);
+		t_pathgroup *current_group = groups[group_idx];
+		printf("********group#%d, len = %d******\n", current_group->id, current_group->len);
 		printf("contains following paths: ");
-		for (int i = 0; i < cur->len; i++)
+		for (int i = 0; i < current_group->len; i++)
 		{
-			printf("(%d)", cur->arr[i]->id);
-			if (i < cur->len - 1)
+			printf("(%d)", current_group->arr[i]->id);
+			if (i < current_group->len - 1)
 				printf(" ");
 		}
 		printf("\n");
 		printf("uses following rooms: ");
-		for (int i = 0; i < (int)(MASKSIZE * 8); i++)
-		{
-			if (check_bitmask_idx(&cur->rooms_used, i))
-			{
-			printf("(%d)", i);
-			if (i < (int)MASKSIZE - 1)
-					printf(" ");
-			}
-		}
+		print_bitmask(&current_group->room_mask);
 		printf("\n");
 		group_idx++;
 	}

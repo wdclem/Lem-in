@@ -13,6 +13,47 @@
 #include "lemin.h"
 #include "libft.h"
 
+static inline int check_bitmask_idx(t_bitmask *mask, int idx)
+{
+	return (*mask[idx / (sizeof(long) * 8)] & (1 << (idx % (sizeof(long) * 8))));
+}
+
+void print_bitmask(t_bitmask *mask)
+{
+	for (int i = 0; i < (int)(MASKSIZE * sizeof(long) * 8); i++)
+	{
+		if (check_bitmask_idx(mask, i))
+		{
+			printf("PAGE:%lu, ENTRY:%lu (%d)\n", i / (sizeof(long) * 8), i % (sizeof(long) * 8), i);
+		}
+	}
+	printf("\n");
+}
+
+static inline void set_bitmask_idx(t_bitmask *mask, int idx)
+{
+	//printf("before bitmask set\n");
+//	print_bitmask(mask);
+	//printf("*SET PAGE:%lu, ENTRY:%lu (%d)\n", idx / (sizeof(long) * 8), idx % (sizeof(long) * 8), idx);
+	*mask[idx / (sizeof(long) * 8)] |= (1 << (idx % (sizeof(long) * 8)));
+//	printf("after bitmask set\n");
+//	print_bitmask(mask);
+}
+
+void add_room_to_path(t_path **path, t_room *room, int index)
+{
+	t_room	**ptr;
+
+	if (index > (*path)->len)
+		return ;
+	ptr = (*path)->arr + index;
+	*ptr = room;
+//	printf("adding room %s (%d) to path %d\n", (*ptr)->id, (*ptr)->number, (*path)->id);
+	set_bitmask_idx(&(*path)->room_mask, room->number);
+//	printf("bitmask after adding this room:\n");
+	//print_bitmask(&(*path)->room_mask);
+}
+
 static int	reserve_path(t_path **path, int len)
 {
 	t_room	**new_arr;
@@ -22,7 +63,7 @@ static int	reserve_path(t_path **path, int len)
 		return (0);
 	(*path)->arr = new_arr;
 	(*path)->len = len;
-	printf("reserved path with len of %d\n", (*path)->len);
+//	printf("reserved path with len of %d\n", (*path)->len);
 	return (len);
 }
 

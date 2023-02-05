@@ -61,7 +61,10 @@ int	main(int argc, char **argv)
 		print_input(&info);
 	printf("content 1\n");
 	write(1, "\n", 1);
-	solve(&info);
-	//test_ant_move();
+	//solve(&info);
+	static t_info test_info;
+	t_pathgroup **groups = get_pathgroups(&test_info);
+	if (groups)
+		printf("found groups :)\n");
 	return (0);
 }

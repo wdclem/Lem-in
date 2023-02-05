@@ -89,7 +89,7 @@ typedef struct s_path
 	int			id;
 	t_room		**arr;
 	int			len;
-	t_bitmask	rooms_used;
+	t_bitmask	room_mask;
 	t_bitmask	groups;
 	int			group_count;
 	int			ants_in;
@@ -101,8 +101,9 @@ typedef struct s_pathcontainer
 	int			len;
 	int			alloced;
 	int			id;
-	t_bitmask	rooms_used;
-	int			capacity;
+	t_bitmask	room_mask;
+	int			ants_in;
+	int			total_path_len;
 } t_pathgroup;
 
 typedef	struct	s_ant
@@ -139,13 +140,15 @@ void	clear_queue(t_queue **q);
 void	close_queue(t_queue **q);
 
 /* GROUPING */
-void	find_groups_for_path(t_path *path, t_pathgroup **groups);
+void		find_groups_for_path(t_path *path, t_pathgroup **groups);
+t_pathgroup	**get_pathgroups(t_info *info);
 
 /* PRINT OUTUPUT */
 int	move_ants(t_info *info, t_path **path);
 void test_ant_move(void);
 
 t_path	*open_path(int len);
-void	set_path_step(t_path **path, t_link* link, int index);
+void 	add_room_to_path(t_path **path, t_room *room, int index);
 void	close_path(t_path **path);
+
 #endif

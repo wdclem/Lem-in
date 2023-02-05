@@ -33,8 +33,8 @@ static void add_bitmask(t_bitmask *src, t_bitmask *dst)
 static void	add_path_to_group(t_path *path, t_pathgroup *group)
 {
 	set_bitmask_idx(&path->groups, group->id);
-	add_bitmask(&path->rooms_used, &group->rooms_used);
-	group->capacity += path->len;
+	add_bitmask(&path->room_mask, &group->room_mask);
+	group->ants_in += path->len;
 	path->group_count += 1;
 }
 
@@ -75,7 +75,7 @@ void find_groups_for_path(t_path *path, t_pathgroup **groups)
 	group_idx = 0;
 	while (groups[group_idx] != NULL)
 	{
-		if (!maskcmp(&groups[group_idx]->rooms_used, &path->rooms_used))
+		if (!maskcmp(&groups[group_idx]->room_mask, &path->room_mask))
 		{
 			add_path_to_group(path, groups[group_idx]);
 		}
