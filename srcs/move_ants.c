@@ -6,14 +6,14 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 09:43:23 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/04 15:28:29 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/05 12:41:27 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+#define ANTCOUNT 20
 
 /*
-}
 */
 t_path	*choose_path(t_path **path)
 {
@@ -151,17 +151,20 @@ int	move_ant(t_info *info, t_ant *ant)
 	return (0);
 }
 
-int move_ants2(t_info *info, t_ant *ants)
+int move_ants2(t_info *info, t_ant *ants, )
 {
 	int	ant_idx;
 	int ants_arrived;
 
 	ant_idx = 0;
 	ants_arrived = 0;
+	info->ants = ANTCOUNT;
 	while (ants_arrived < info->ants)
 	{
 		while (ant_idx < info->ants)
 		{
+//			if (ants[ant_idx].room == info->start)
+//				ants[ant_idx].path = choose_path(path);
 			if (ants[ant_idx].room == info->end)
 			{
 				ant_idx += 1;
@@ -182,10 +185,9 @@ int move_ants2(t_info *info, t_ant *ants)
 
 void test_ant_move(void)
 {
-#define ANTCOUNT 10
 	t_path sample_path;
 	t_ant *ants;
-	char	*names[3] = {"first", "second", "third"};
+	char	*names[4] = {"first", "second", "third", "fourth"};
 	t_info info = {
 		0,
 		0,
@@ -198,16 +200,16 @@ void test_ant_move(void)
 		NULL,
 	};
 	
-	sample_path.arr = (t_room **)calloc(3, sizeof(t_room *));
-	for (int room_idx = 0; room_idx < 3; room_idx++)
+	sample_path.arr = (t_room **)calloc(4, sizeof(t_room *));
+	for (int room_idx = 0; room_idx < 4; room_idx++)
 	{
 		sample_path.arr[room_idx] = (t_room *)calloc(1, sizeof(t_room));
 		sample_path.arr[room_idx]->id = names[room_idx];
 		sample_path.arr[room_idx]->free = 1;
 	}
-	sample_path.len = 3;
+	sample_path.len = 4;
 	info.start = sample_path.arr[0];
-	info.end = sample_path.arr[2];
+	info.end = sample_path.arr[3];
 	ants = (t_ant *)calloc(ANTCOUNT, sizeof(t_ant));
 	for (int ant_idx = 0; ant_idx < ANTCOUNT; ant_idx++)
 	{
