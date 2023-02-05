@@ -14,10 +14,8 @@
 
 static inline void set_bitmask_idx(t_bitmask *mask, int idx)
 {
-	*(long *)mask[idx / sizeof(long)] |= 1 << (long)idx % sizeof(long);
+	*(long *)mask[idx / (sizeof(long))] |= 1 << (long)idx % sizeof(long);
 }
-
-
 
 static void add_bitmask(t_bitmask *src, t_bitmask *dst)
 {
