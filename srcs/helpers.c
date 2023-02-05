@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/04 11:00:23 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/04 14:37:16 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_room	*make_room(t_info *info, char *key, int x, int y)
 	room->y = y;
 	room->visited = 0;
 	room->valid = 0;
-	room->free = 0;
+	room->free = 1;
 	room->link_head = NULL;
 	room->next = NULL;
 	return (room);

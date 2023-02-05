@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 09:43:23 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/03 17:31:30 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/04 15:28:29 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,17 +122,20 @@ t_room *get_next_room(t_ant *ant)
 	t_room	**copy;
 
 	copy = &ant->path->arr[ant->path_idx + 1];
-	if ((*copy)->free == 0)
+//	printf("copy free == %d\n", (*copy)->free);
+	if ((*copy)->free == 1)
 		return(*copy);
 	return (0);
 }
 
-void move_ant(t_ant *ant)
+int	move_ant(t_info *info, t_ant *ant)
 {
 	t_room	*next;
 
 	next = get_next_room(ant);
-	if (next->free == 0)
+//	if (next)
+//		printf("next == %s\n", next->id);
+	if (next)
 	{
 		printf("L%d-%s", ant->id, next->id);
 		ant->room->free = 1;
@@ -140,6 +143,12 @@ void move_ant(t_ant *ant)
 		ant->room->free = 0;
 		ant->path_idx += 1;
 	}
+	if (next == info->end)
+	{
+		ant->room->free = 1;
+		return (1);
+	}
+	return (0);
 }
 
 int move_ants2(t_info *info, t_ant *ants)
@@ -158,16 +167,15 @@ int move_ants2(t_info *info, t_ant *ants)
 				ant_idx += 1;
 				continue ;
 			}
-			move_ant(&ants[ant_idx]);
-
-			if (ants[ant_idx].room == info->end)
-				ants_arrived += 1;
+			ants_arrived += move_ant(info, &ants[ant_idx]);
+//			if (ants[ant_idx].room == info->end)
+//				ants_arrived += 1;
 			ant_idx += 1;
 			if (ant_idx < info->ants)
 				printf(" ");
 		}
 		printf("\n");
-		ant_idx = 0;
+		ant_idx = ants_arrived;
 	}
 	return (1);
 }
@@ -195,6 +203,7 @@ void test_ant_move(void)
 	{
 		sample_path.arr[room_idx] = (t_room *)calloc(1, sizeof(t_room));
 		sample_path.arr[room_idx]->id = names[room_idx];
+		sample_path.arr[room_idx]->free = 1;
 	}
 	sample_path.len = 3;
 	info.start = sample_path.arr[0];
