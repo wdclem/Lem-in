@@ -6,7 +6,7 @@
 #    By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/12 14:24:10 by ccariou           #+#    #+#              #
-#    Updated: 2023/01/21 10:28:06 by ccariou          ###   ########.fr        #
+#    Updated: 2023/02/05 16:06:13 by teppo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LFT 	= -L ./libft/ -lft
 # SOURCES FILES 
 SRC_DIR = ./srcs/
 SRCS 	= main.c ants.c map.c rooms.c helpers.c init.c links.c solve.c queue.c path.c \
-		  move_ants.c grouping.c test_groups.c
+		  move_ants.c grouping.c test_groups.c bittricks.c
 
 INC 	= -I./include
 INC_LFT = -I./libft/includes 

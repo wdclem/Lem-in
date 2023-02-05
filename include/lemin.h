@@ -19,10 +19,11 @@
 # define ERROR 1
 # define ANTS_MAX 2147483647
 # define HT_CAP 2056 // hash table capacity 
-# define MAX_ROOMS 2056
+# define MAX_ROOMS 1024 
 # define MAX_PATH 1024
 # define MAX_GROUPS 256
-# define MASKSIZE (MAX_ROOMS / (sizeof(long) * 8))
+# define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
+# define PAGE_SIZE (sizeof(unsigned int) * 8)
 
 typedef struct s_room
 {
@@ -67,7 +68,11 @@ typedef struct s_hasht
 	t_room	**room;
 }			t_hasht;
 
-typedef long t_bitmask[MASKSIZE];
+typedef struct s_bitmask
+{
+	unsigned int bits[MAX_PAGES];
+	int last_page;
+} t_bitmask;
 
 typedef struct s_queueitem
 {
@@ -144,11 +149,19 @@ void		find_groups_for_path(t_path *path, t_pathgroup **groups);
 t_pathgroup	**get_pathgroups(t_info *info);
 
 /* PRINT OUTUPUT */
-int	move_ants(t_info *info, t_path **path);
-void test_ant_move(void);
+int		move_ants(t_info *info, t_path **path);
+void	test_ant_move(void);
 
 t_path	*open_path(int len);
 void 	add_room_to_path(t_path **path, t_room *room, int index);
 void	close_path(t_path **path);
+
+/* BITMASK */
+
+int check_bitmask_idx(t_bitmask *mask, int idx);
+void print_bitmask(t_bitmask *mask);
+void set_bitmask_idx(t_bitmask *mask, int idx);
+void add_bitmask(t_bitmask *src, t_bitmask *dst);
+int maskcmp(t_bitmask *left, t_bitmask *right);
 
 #endif

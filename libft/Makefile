@@ -34,7 +34,7 @@ SRC = ft_putchar.c ft_putchar_fd.c ft_putstr_fd.c ft_putstr.c ft_strlen.c \
 	  ft_strtrim.c ft_itoa.c \
 	  ft_lstadd.c ft_lstdelone.c ft_lstdel.c ft_lstiter.c ft_lstnew.c ft_lstmap.c\
 	  ft_freearray.c ft_maketab.c ft_makearray.c \
-	  get_next_line.c ft_dintarr.c \
+	  get_next_line.c ft_dintarr.c ft_max.c \
 
 #FT_PRINTF SOURCES
 PF_DIR = ./printf_srcs/

@@ -79,6 +79,11 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
+int		ft_max(int a, int b);
+int		ft_min(int a, int b);
+size_t	ft_smax(size_t a, size_t b);
+size_t	ft_smin(size_t a, size_t b);
+
 /*
  * Bonus functions
 */

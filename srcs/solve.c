@@ -11,24 +11,7 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
-const int masksize = MASKSIZE;
-
-static inline int check_bitmask_idx(t_bitmask *mask, int idx)
-{
-	return (*mask[idx / (sizeof(long) * 8)] & (1 << (idx % (sizeof(long) * 8))));
-}
-
-static void print_bitmask(t_bitmask *mask)
-{
-	for (int i = 0; i < (int)(MASKSIZE * sizeof(long) * 8); i++)
-	{
-		if (check_bitmask_idx(mask, i))
-		{
-			printf("PAGE:%lu, ENTRY:%lu (%d)\n", i / (sizeof(long) * 8), i % (sizeof(long) * 8), i);
-		}
-	}
-	printf("\n");
-}
+const unsigned int page_size = PAGE_SIZE;
 
 static t_path *find_path(t_queueitem *start)
 {
@@ -42,23 +25,13 @@ static t_path *find_path(t_queueitem *start)
 		return (NULL);
 	path_idx = start->steps - 1;
 	current_item = start;
-	while (path_idx > 0)
+	while (path_idx >= 0)
 	{
 		add_room_to_path(&new_path, current_item->room, path_idx);
 		current_item = current_item->previous;
 		path_idx -= 1;
 	}
 	new_path->id = path_count++;
-	for (int i = 0; i < (int)(MASKSIZE * sizeof(long) * 8); i++)
-	{
-		if (check_bitmask_idx(&new_path->room_mask, i))
-		{
-			printf("(%d)", i);
-			if (i < (int)(MASKSIZE * sizeof(long) * 8) - 1)
-					printf(" ");
-		}
-	}
-	printf("\n");
 	return (new_path);
 }
 
@@ -142,9 +115,8 @@ int	solve(t_info *info)
 			info->total_paths += 1;
 		}
 		printf("********path#%d len:%d******\n", next_path->id, next_path->len);
-		printf("uses following rooms: ");
+		printf("uses following rooms:\n");
 		print_bitmask(&next_path->room_mask);
-		printf("\n");
 		int i = 0;
 		while (i < next_path->len)
 		{
@@ -153,7 +125,7 @@ int	solve(t_info *info)
 				printf("->");
 			i++;
 		}
-		printf("]\n");
+		printf("\n");
 		round++;
 	}
 	int group_idx = 0;
@@ -169,7 +141,7 @@ int	solve(t_info *info)
 				printf(" ");
 		}
 		printf("\n");
-		printf("uses following rooms: ");
+		printf("uses following rooms:\n");
 		print_bitmask(&current_group->room_mask);
 		printf("\n");
 		group_idx++;
