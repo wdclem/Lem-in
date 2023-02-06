@@ -80,6 +80,7 @@ t_pathgroup **get_pathgroups(t_info *info)
 		printf("making group %d\n", group_idx);
 		t_pathgroup *new_group = make_group(rooms, groups[group_idx]);
 		new_group->id = group_idx;
+		new_group_arr[group_idx] = new_group;
 	}
 
 	return (new_group_arr);
