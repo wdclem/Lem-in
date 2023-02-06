@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:57:06 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/14 13:41:49 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/06 16:23:39 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	main(int argc, char **argv)
 	t_pathgroup **groups = get_pathgroups(&test_info);
 	if (groups)
 		printf("found groups :)\n");
-		
+
+	printf("group[0] == %d\n", (*groups)->id);//arr[0]->arr[0]->id);
+	move_ants2(&info, groups);
 	return (0);
 }

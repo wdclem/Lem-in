@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/04 11:00:47 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/05 16:19:18 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,8 @@ void		find_groups_for_path(t_path *path, t_pathgroup **groups);
 t_pathgroup	**get_pathgroups(t_info *info);
 
 /* PRINT OUTUPUT */
-int		move_ants(t_info *info, t_path **path);
-void	test_ant_move(void);
+int	move_ants2(t_info *info, t_pathgroup **path);
+void test_ant_move(void);
 
 t_path	*open_path(int len);
 void 	add_room_to_path(t_path **path, t_room *room, int index);

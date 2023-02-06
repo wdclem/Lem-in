@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 09:43:23 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/05 14:34:13 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/06 16:10:56 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*
 */
-t_path	*choose_path(t_path **path)
+t_path	*choose_path(t_pathgroup *path_group)
 {
 	t_path	*best_path;
 	int		path_idx;
@@ -25,13 +25,13 @@ t_path	*choose_path(t_path **path)
 	path_idx = 0;
 	i = 0;
 	j = 0;
-	while (path[path_idx])
+	while (path_group->arr[path_idx])
 	{
-		i = path[path_idx]->len + path[path_idx]->ants_in;
+		i = path_group->arr[path_idx]->len + path_group->arr[path_idx]->ants_in;
 		if (i > j)
 		{
 			j = i;
-			best_path = path[path_idx];
+			best_path = path_group->arr[path_idx];
 		}
 		path_idx++;
 	}
@@ -64,7 +64,6 @@ t_ant	**ants_array(t_info *info, t_ant **array)
 	while (i < info->ants)
 	{
 		array[i] = init_ant(info, &id);
-		printf("array[i] add \n");
 		i++;
 	}
 	printf("array created\n");
@@ -84,6 +83,7 @@ t_array	*assign_ant(t_ant **array, t_path **path)
 	return (array);
 }
 */
+/*
 int	move_ants(t_info *info, t_path **path)
 {
 	int	i;
@@ -116,7 +116,7 @@ int	move_ants(t_info *info, t_path **path)
 	}
 	return(0);
 }
-
+*/
 t_room *get_next_room(t_ant *ant)
 {
 	t_room	**copy;
@@ -152,11 +152,51 @@ int	move_ant(t_info *info, t_ant *ant)
 	return (0);
 }
 
-int move_ants2(t_info *info, t_ant *ants)
+t_pathgroup	*select_group(t_info *info, t_pathgroup **group)
 {
-	int	ant_idx;
-	int ants_arrived;
+	int			best;
+	int			path_idx;
+	int			group_idx;
+	double		turns;
+	t_pathgroup *best_group;
 
+	best = 0;
+	path_idx = 0;
+	group_idx = 0;
+	turns = 0;
+	printf("in select group\n");
+	printf("group[%d] == %s\n", group_idx, group[group_idx]->arr[path_idx]->arr[path_idx]->id);
+	while (group[group_idx])
+	{
+		turns = ((group[group_idx]->arr[path_idx]->len + info->ants) / group[group_idx]->len);
+		if (turns - (int)turns != 0)
+			turns += 1;
+		if (group_idx == 0)
+			best = turns;
+		if (turns < best)
+		{
+			best = turns;
+			best_group = group[group_idx];
+		}
+		group_idx++;
+		printf("group_id ++\n");
+	}
+	printf("best group selected\n");
+	return (best_group);
+}
+
+int move_ants2(t_info *info, t_pathgroup **path)
+{
+	int			ant_idx;
+	int 		ants_arrived;
+	t_pathgroup	*path_group;
+	t_ant		**ants;
+
+	ants = NULL;
+	ants = (t_ant **)malloc(sizeof(t_ant *) * info->ants);
+	ants = ants_array(info, ants);
+	printf("group[0] == %d\n", path[0]->id);//arr[0]->arr[0]->id);
+	path_group = select_group(info, path);
 	ant_idx = 0;
 	ants_arrived = 0;
 	info->ants = ANTCOUNT;
@@ -164,14 +204,14 @@ int move_ants2(t_info *info, t_ant *ants)
 	{
 		while (ant_idx < info->ants)
 		{
-//			if (ants[ant_idx].room == info->start)
-//				ants[ant_idx].path = choose_path(path);
-			if (ants[ant_idx].room == info->end)
+			if (ants[ant_idx]->room == info->start)
+				ants[ant_idx]->path = choose_path(path_group);
+			if (ants[ant_idx]->room == info->end)
 			{
 				ant_idx += 1;
 				continue ;
 			}
-			ants_arrived += move_ant(info, &ants[ant_idx]);
+			ants_arrived += move_ant(info, &(*ants)[ant_idx]);
 //			if (ants[ant_idx].room == info->end)
 //				ants_arrived += 1;
 			ant_idx += 1;
@@ -184,6 +224,7 @@ int move_ants2(t_info *info, t_ant *ants)
 	return (1);
 }
 
+/*
 void test_ant_move(void)
 {
 	t_path sample_path;
@@ -222,3 +263,4 @@ void test_ant_move(void)
 	if (move_ants2(&info, ants))
 		printf("Success :)\n");
 }
+*/
