@@ -100,7 +100,7 @@ int	save_rooms(t_info *info, t_hasht *table, int i)
 	printf("*********ROOMS********\n");
 	while (info->str[i] && !ft_strchr(info->str[i], '-'))
 	{
-		if (ft_strchr(info->str[i], 'L'))
+		if (info->str[i][0] == 'L')
 			return (ERROR);
 		else if (info->str[i][0] == '#')
 			i = check_comment(info, i);

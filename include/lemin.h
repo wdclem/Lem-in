@@ -18,10 +18,11 @@
 
 # define ERROR 1
 # define ANTS_MAX 2147483647
-# define HT_CAP 2056 // hash table capacity 
-# define MAX_ROOMS 1024 
-# define MAX_PATH 1024
-# define MAX_GROUPS 256
+# define HT_CAP 16384 // hash table capacity 
+# define MAX_ROOMS 16384 
+# define MAX_PATH 2048
+# define MAX_QUEUE 2048
+# define MAX_GROUPS 1024 
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
@@ -84,9 +85,8 @@ typedef struct s_queueitem
 
 typedef struct s_queue
 {
-	t_queueitem	*arr;
+	t_queueitem	arr[MAX_QUEUE];
 	int			len;
-	int			alloced;
 } t_queue;
 
 typedef struct s_path
@@ -138,7 +138,7 @@ t_room	*make_room(t_info *info, char *key, int x, int y);
 t_link	*new_link(t_room *from, t_room *link_to);
 
 /* DYNAMIC CONTAINERS */
-t_queue	*open_queue(t_room *start, int len);
+void	open_queue(t_queue *queue, t_room *start);
 int		reserve_space_in_queue(t_queue **q, int len);
 int		add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
 void	clear_queue(t_queue **q);

@@ -85,36 +85,29 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 
 int	solve(t_info *info)
 {	
-	t_queue		*queue;
-	t_path		**paths;
-	t_pathgroup **groups;
+	static t_queue		queue;
+	static t_pathgroup	groups[MAX_GROUPS];
 	t_path		*next_path;
 	int			round;
 
 	round = 1;
 	//#TODO should path container be dynamic?
-	paths = (t_path **)ft_memalloc(MAX_PATH * sizeof(t_path *));
-	groups = (t_pathgroup **)ft_memalloc(sizeof(t_pathgroup *) * \
-			MAX_GROUPS);
+
 	printf("********SOLVE******\n");
-	queue = open_queue(info->start, 1024);
-	if (!queue)
-		return (ERROR);
+	open_queue(&queue, info->start);
 	printf("ants = %d\n", info->ants);
 	while (info->total_paths < info->ants)
 	{
 		printf("\nROUND %d, total_paths = %d\n", round, info->total_paths);
-		next_path = bfs(queue, info);
+		next_path = bfs(&queue, info);
 		if (!next_path)
 		{
 			printf("All paths found!\n");
-			close_queue(&queue);
 			break ;
 		}
 		else
 		{
-			find_groups_for_path(next_path, groups);
-			paths[info->total_paths] = next_path;
+			find_groups_for_path(next_path, (t_pathgroup **)&groups);
 			info->total_paths += 1;
 		}
 		printf("********path#%d len:%d******\n", next_path->id, next_path->len);
@@ -132,9 +125,9 @@ int	solve(t_info *info)
 		round++;
 	}
 	int group_idx = 0;
-	while (groups[group_idx] != NULL)
+	while (groups[group_idx].len > 0)
 	{
-		t_pathgroup *current_group = groups[group_idx];
+		t_pathgroup *current_group = &groups[group_idx];
 		printf("********group#%d, len = %d******\n", current_group->id, current_group->len);
 		printf("contains following paths: ");
 		for (int i = 0; i < current_group->len; i++)
