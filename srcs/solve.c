@@ -71,7 +71,10 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 				if (!add_to_queue(&queue, current_link->link_to, current_item))
 					return (0);
 				if (current_link->link_to == info->end)
+				{
+					printf("queue len when path found: %d\n", queue->len);
 					return (find_path(current_item));
+				}
 			}
 			current_link = current_link->next;
 		}
@@ -94,7 +97,7 @@ int	solve(t_info *info)
 	groups = (t_pathgroup **)ft_memalloc(sizeof(t_pathgroup *) * \
 			MAX_GROUPS);
 	printf("********SOLVE******\n");
-	queue = open_queue(info->start, 80);
+	queue = open_queue(info->start, 1024);
 	if (!queue)
 		return (ERROR);
 	printf("ants = %d\n", info->ants);

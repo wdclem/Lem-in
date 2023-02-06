@@ -59,7 +59,7 @@ int	save_map(t_info *info)
 
 	line = NULL;
 	i = 0;
-	len = 5000;// Find a smarter way to put no limit to the file, dynamic ?
+	len = 50000;// Find a smarter way to put no limit to the file, dynamic ?
 	gnl_ret = 1;
 	info->str = (char **)malloc(sizeof(char *) * len + 1);
 	if (!info->str)
