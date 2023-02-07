@@ -165,7 +165,7 @@ int	move_ant(t_info *info, t_ant *ant)
 	return (0);
 }
 
-t_pathgroup	*select_group(t_info *info, t_pathgroup **group)
+t_pathgroup	*select_group(t_info *info, t_pathgroup *groups)
 {
 	int			best;
 //	int			path_idx;
@@ -179,33 +179,33 @@ t_pathgroup	*select_group(t_info *info, t_pathgroup **group)
 	turns = 0;
 	printf("in select group\n");
 	printf("info->start == %s, info->end == %s\n", info->start->id, info->end->id);
-	printf("group[%d] == %d\n", group_idx, group[group_idx]->id);
-	while (group[group_idx]->total_path_len != 0)
+	printf("group[%d] == %d\n", group_idx, (groups + group_idx)->id);
+	while (group_idx < info->total_groups)
 	{
 		//while (group[group_idx]->arr[path_idx]->len)
 		//turns = ((group[group_idx]->arr[path_idx]->len + info->ants) / group[group_idx]->len);
-		turns = ((group[group_idx]->total_path_len + info->ants) / group[group_idx]->len);
+		turns = (((groups + group_idx)->total_path_len + info->ants) / (groups + group_idx)->len);
 //		printf("group_path len == %d, ants == %d, turns == %f\n", group[group_idx]->total_path_len, info->ants, turns);
 		if (turns - (int)turns != 0)
 			turns += 1;
 		if (group_idx == 0)
 		{
 			best = turns;
-			best_group = group[group_idx];
+			best_group = groups + group_idx;
 		}
 		if (turns < best)
 		{
 			best = turns;
-			best_group = group[group_idx];
+			best_group = groups + group_idx;
 		}
 		group_idx++;
 	}
-	printf("turns == %f, group[%d] == %d\n", turns, group_idx, group[group_idx]->id);
+	printf("turns == %f, group[%d] == %d\n", turns, group_idx, (groups + group_idx)->id);
 	printf("best group selected, was %d\n", best_group->id);
 	return (best_group);
 }
 
-int move_ants2(t_info *info, t_pathgroup **path)
+int move_ants2(t_info *info)
 {
 	int			ant_idx;
 	int 		ants_arrived;
@@ -215,9 +215,7 @@ int move_ants2(t_info *info, t_pathgroup **path)
 	ants = NULL;
 	ants = (t_ant **)malloc(sizeof(t_ant *) * info->ants);
 	ants = ants_array(info, ants);
-	printf("group[0] == %d\n", path[0]->id);//arr[0]->arr[0]->id);
-	printf("info->ant == %d\n", info->ants);
-	path_group = select_group(info, path);
+	path_group = select_group(info, get_groups());
 	ant_idx = 0;
 	ants_arrived = 0;
 	while (ant_idx < info->ants)
@@ -229,6 +227,7 @@ int move_ants2(t_info *info, t_pathgroup **path)
 	}
 	while (ants_arrived < info->ants)
 	{
+		ant_idx = ants_arrived;
 		while (ant_idx < info->ants)
 		{
 			//printf("ants[%d]->path == %d\n", ant_idx, ants[ant_idx]->path->id);
@@ -245,8 +244,6 @@ int move_ants2(t_info *info, t_pathgroup **path)
 				printf(" ");
 		}
 		printf("\n");
-		ant_idx = ants_arrived;
-//		printf("ants_arrived == %d\n", ants_arrived);
 	}
 	return (1);
 }

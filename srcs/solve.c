@@ -91,10 +91,7 @@ int	solve(t_info *info)
 			break ;
 		}
 		else
-		{
-			find_groups_for_path(info, next_path, (t_pathgroup *)groups);
-			info->total_paths += 1;
-		}
+			find_groups_for_path(info, next_path, groups);
 		printf("********path#%d len:%d******\n", next_path->id, next_path->len);
 		printf("uses following rooms:\n");
 		print_bitmask(&next_path->room_mask);
@@ -113,7 +110,7 @@ int	solve(t_info *info)
 	printf("\n******GROUPS, total amount %d*******\n", info->total_groups);
 	while (group_idx < info->total_groups)
 	{
-		t_pathgroup *current_group = &groups[group_idx];
+		t_pathgroup *current_group = (groups + group_idx);
 		printf("\n********group#%d, len = %d******\n", current_group->id, current_group->len);
 		printf("contains following paths: ");
 		for (int i = 0; i < current_group->len; i++)
