@@ -22,36 +22,26 @@ static void	add_path_to_group(t_path *path, t_pathgroup *group)
 	path->group_count += 1;
 }
 
-t_pathgroup *new_group(t_path *path)
-{
-	t_pathgroup	*new_group;
-	t_path		**new_arr;
-
-	new_group = (t_pathgroup *)ft_memalloc(sizeof(t_pathgroup));
-	new_arr = (t_path **)ft_memalloc(sizeof(t_path) * MAX_PATH);
-	if (!(new_group && new_arr))
-		return (NULL);
-	new_group->arr = new_arr;
-	add_path_to_group(path, new_group);
-	return (new_group);
-}
-
-
-void find_groups_for_path(t_path *path, t_pathgroup **groups)
+void find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups)
 {
 	int	group_idx;
+	int	path_grouped;
 
 	group_idx = 0;
-	while (groups[group_idx] != NULL)
+	path_grouped = 0;
+	while (group_idx < info->total_groups)
 	{
-		if (!maskcmp(&groups[group_idx]->room_mask, &path->room_mask))
+		if (!maskcmp(&groups[group_idx].room_mask, &path->room_mask))
 		{
-			add_path_to_group(path, groups[group_idx]);
+			path_grouped = 1;
+			add_path_to_group(path, &groups[group_idx]);
 		}
 		group_idx++;
 	}
-	if (path->group_count == 0)
+	if (!path_grouped)
 	{
-		groups[group_idx] = new_group(path);
+		add_path_to_group(path, &groups[group_idx]);
+		groups[group_idx].id = group_idx;
+		info->total_groups += 1;
 	}
 }

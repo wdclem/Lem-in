@@ -81,37 +81,38 @@ int	unique_id(t_room *room, char **room_checker)
 	return (0);
 }
 
-int	validate_room(t_info *info, t_hasht *table, int i)
+int	room_is_valid(t_info *info, t_hasht *table, int i)
 {
 	char	**room_checker;
 
 	room_checker = ft_strsplit(info->str[i], ' ');
 	if (validate_room_input(room_checker) != 3)
-		return (ERROR);
+		return (0);
 	if (ft_atoi(room_checker[1]) < 0 || ft_atoi(room_checker[2]) < 0)
-		return (ERROR);
-	else
-		room_to_hasht(info, table, i, room_checker);
+		return (0);
+	room_to_hasht(info, table, i, room_checker);
 	return (1);
 }
 
-int	save_rooms(t_info *info, t_hasht *table, int i)
+int	save_rooms(t_info *info, t_hasht *table, int i, int *error)
 {
 	printf("*********ROOMS********\n");
-	while (info->str[i] && !ft_strchr(info->str[i], '-'))
+	while (i < info->total_strs && !ft_strchr(info->str[i], '-') && !(*error))
 	{
 		if (info->str[i][0] == 'L')
-			return (ERROR);
+			*error = 1;
 		else if (info->str[i][0] == '#')
-			i = check_comment(info, i);
-		if (ft_strchr(info->str[i], ' '))
+			check_comment_for_start_and_end(info, i);
+		else if (ft_strchr(info->str[i], ' '))
 		{
-			if (validate_room(info, table, i) == 1)
+			if (room_is_valid(info, table, i) == 1)
 				info->rooms += 1;
+			else
+				*error = 1;
 		}
 		i++;
 	}
-	if (!info->start && !info->end)
+	if (!info->start || !info->end || *error)
 		return (ERROR);
 	return (i);
 }

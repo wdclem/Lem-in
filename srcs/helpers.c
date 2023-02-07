@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
+#include <stdint.h>
 
 int	dj2b_hash(char *key)
 {
@@ -27,26 +28,22 @@ int	dj2b_hash(char *key)
 	return (hash);
 }
 
-int	check_comment(t_info *info, int i)
+int	check_comment_for_start_and_end(t_info *info, int i)
 {
-	while (info->str[i][0] == '#')
+	int	ret;
+
+	ret = 0;
+	if (ft_strequ(info->str[i], "##start"))
 	{
-		if (ft_strequ(info->str[i], "##start"))
-		{
-			info->s_check = 1;
-			i++;
-			return (i);
-		}
-		else if (ft_strequ(info->str[i], "##end"))
-		{
-			info->e_check = 1;
-			i++;
-			return (i);
-		}
-		else
-			i++;
+		info->s_check = 1;
+		ret = 1;
 	}
-	return (i);
+	else if (ft_strequ(info->str[i], "##end"))
+	{
+		info->e_check = 1;
+		ret = 1;
+	}
+	return (ret);
 }
 
 t_link	*new_link(t_room *from, t_room *link_to)

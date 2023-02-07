@@ -15,23 +15,24 @@
 static int	validate_info(t_info *info, t_hasht *table)
 {
 	int	i;
-	int	j;
+	int	error;
 
 	i = 0;
-	j = 0;
+	error = 0;
 	if (!info->str[i])
 		return (ERROR);
 	printf ("content 1\n");
-	i = save_ants(info, i);
+	while (save_ants(info, i, &error) == 0)
+		i++;
+	i++;
 	printf ("ants = %d\n", info->ants);
-	if (!info->str[i])
+	if (!info->str[i] || error)
 		return (ERROR);
-	i = save_rooms(info, table, i);
-	if (!info->str[i])
+	i = save_rooms(info, table, i, &error);
+	if (!info->str[i] || error)
 		return (ERROR);
-	i = save_links(info, table, i);
-	j++;
-	return (0);
+	i = save_links(info, table, i, &error);
+	return (error);
 }
 
 static void	print_input(t_info *info)
@@ -61,7 +62,8 @@ int	main(int argc, char **argv)
 		print_input(&info);
 	printf("content 1\n");
 	write(1, "\n", 1);
-//	solve(&info);
+	solve(&info);
+	return (0);
 	
 	static t_info test_info;
 	t_pathgroup **groups = get_pathgroups(&test_info);
