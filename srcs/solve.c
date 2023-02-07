@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:47:35 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/03 17:51:14 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:22:25 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_path *find_path(t_queueitem *start)
 	int 		path_idx;
 	static int	path_count;
 
-	new_path = open_path(start->steps);
+	new_path = open_path(start->steps, 0);
 	if (!new_path)
 		return (NULL);
 	path_idx = start->steps - 1;

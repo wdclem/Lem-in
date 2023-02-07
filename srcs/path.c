@@ -6,7 +6,7 @@
 /*   By: tpolonen <tpolonen@student.hive.fi>          +#+  +:+       +#+      */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 14:59:25 by tpolonen           #+#    #+#            */
-/*   Updated: 2023/01/16 18:30:07 by tpolonen         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:53:28 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void add_room_to_path(t_path **path, t_room *room, int index)
 	set_bitmask_idx(&((*path)->room_mask), room->number);
 }
 
-static int	reserve_path(t_path **path, int len)
+static int	reserve_path(t_path **path, int len, int *id)
 {
 	t_room	**new_arr;
 
@@ -32,17 +32,18 @@ static int	reserve_path(t_path **path, int len)
 		return (0);
 	(*path)->arr = new_arr;
 	(*path)->len = len;
+	(*path)->id = (*id)++;
 	return (len);
 }
 
-t_path	*open_path(int len)
+t_path	*open_path(int len, int *id)
 {
 	t_path		*new_path;
 
 	new_path = (t_path *)ft_memalloc(sizeof(t_path));
 	if (!new_path)
 		return (NULL);
-	if (!reserve_path(&new_path, len))
+	if (!reserve_path(&new_path, len, id))
 	{
 		ft_memdel((void **)new_path);
 		return (NULL);
