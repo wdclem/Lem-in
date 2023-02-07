@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/07 11:54:12 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/05 16:19:18 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@
 
 # define ERROR 1
 # define ANTS_MAX 2147483647
-# define HT_CAP 16384 // hash table capacity 
-# define MAX_ROOMS 16384 
-# define MAX_PATH 2048
-# define MAX_QUEUE 2048
-# define MAX_GROUPS 1024 
+# define HT_CAP 8192 // hash table capacity 
+# define MAX_ROOMS 8192
+# define MAX_GROUP_SIZE 128
+# define MAX_PATHS 512
+# define MAX_PATH_SIZE 1024
+# define MAX_QUEUE 8192
+# define MAX_GROUPS 256
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
@@ -55,11 +57,13 @@ typedef struct s_info
 {
 	int				total_links;	
 	int				total_paths;
+	int				total_groups;
 	int				ants;
 	int				rooms;
 	int				s_check;
 	int				e_check;
 	char			**str;
+	int				total_strs;
 	struct s_room	*start;
 	struct s_room	*end;
 }					t_info;
@@ -80,7 +84,7 @@ typedef struct s_queueitem
 	t_room				*room;
 	int					steps;
 	struct s_queueitem	*previous;
-	struct s_queueitem	*next;
+	t_bitmask			rooms_used;
 }						t_queueitem;
 
 typedef struct s_queue
@@ -92,7 +96,7 @@ typedef struct s_queue
 typedef struct s_path
 {
 	int			id;
-	t_room		**arr;
+	t_room		*arr[MAX_PATH_SIZE];
 	int			len;
 	t_bitmask	room_mask;
 	t_bitmask	groups;
@@ -102,7 +106,7 @@ typedef struct s_path
 
 typedef struct s_pathcontainer
 {
-	t_path		**arr;
+	t_path		*arr[MAX_GROUP_SIZE];
 	int			len;
 	int			alloced;
 	int			id;
@@ -124,13 +128,13 @@ int		solve(t_info *info);
 
 /* PARSING/VALIDATION */
 int		save_map(t_info *info);
-int		save_ants(t_info *info, int i);
-int		save_rooms(t_info *info, t_hasht *table, int i);
-int		save_links(t_info *info, t_hasht *table, int i);
+int		save_ants(t_info *info, int i, int *error);
+int		save_rooms(t_info *info, t_hasht *table, int i, int *error);
+int		save_links(t_info *info, t_hasht *table, int i, int *error);
 
 /* UTIL.C */
 t_hasht	*table_init(void);
-int		check_comment(t_info *info, int i);
+int		check_comment_for_start_and_end(t_info *info, int i);
 int		check_comment_link(t_info *info, t_hasht *table, int i);
 int		dj2b_hash(char *key);
 t_room	*pointer_to_room(t_hasht *table, char *id);
@@ -139,20 +143,17 @@ t_link	*new_link(t_room *from, t_room *link_to);
 
 /* DYNAMIC CONTAINERS */
 void	open_queue(t_queue *queue, t_room *start);
-int		reserve_space_in_queue(t_queue **q, int len);
-int		add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
-void	clear_queue(t_queue **q);
-void	close_queue(t_queue **q);
+void	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
 
 /* GROUPING */
-void		find_groups_for_path(t_path *path, t_pathgroup **groups);
+void find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups);
 t_pathgroup	**get_pathgroups(t_info *info);
 
 /* PRINT OUTUPUT */
 int	move_ants2(t_info *info, t_pathgroup **path);
 void test_ant_move(void);
 
-t_path	*open_path(int len, int *id);
+t_path	*open_path(t_info *info, int len);
 void 	add_room_to_path(t_path **path, t_room *room, int index);
 void	close_path(t_path **path);
 
@@ -163,5 +164,9 @@ void print_bitmask(t_bitmask *mask);
 void set_bitmask_idx(t_bitmask *mask, int idx);
 void add_bitmask(t_bitmask *src, t_bitmask *dst);
 int maskcmp(t_bitmask *left, t_bitmask *right);
+
+/* STORAGE */
+
+t_path *get_paths(void);
 
 #endif

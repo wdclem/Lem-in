@@ -44,6 +44,7 @@ void add_bitmask(t_bitmask *src, t_bitmask *dst)
 		dst->bits[page_idx] |= src->bits[page_idx];
 		page_idx += 1;
 	}
+	dst->last_page = ft_max(src->last_page, dst->last_page);
 }
 
 int maskcmp(t_bitmask *left, t_bitmask *right)

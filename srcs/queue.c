@@ -24,7 +24,7 @@ void	open_queue(t_queue *queue, t_room *start)
 	queue->len = 1;
 }
 
-int	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous)
+void	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous)
 {
 	t_queueitem *new_item;
 
@@ -32,14 +32,8 @@ int	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous)
 	new_item->room = room;
 	new_item->previous = previous;
 	new_item->steps = previous->steps + 1;
+	add_bitmask(&previous->rooms_used, &new_item->rooms_used);
 	(*q)->len += 1;
-	//printf("linking from %s to %s\n", previous->room->id, room->id);
-	//printf("%zu -> %d\n", previous - (*q)->arr, (*q)->len-1);
-	return (1);
-}
-
-void	clear_queue(t_queue **q)
-{
-	ft_bzero((*q)->arr + 1, (*q)->len * sizeof(t_queueitem) - 1);
-	(*q)->len = 1;
+	printf("linking from %s to %s\n", previous->room->id, room->id);
+	printf("%zu -> %d\n", previous - (*q)->arr, (*q)->len-1);
 }

@@ -87,26 +87,24 @@ int	check_link(t_info *info, t_hasht *table, int i)
 	return (0);
 }
 
-int	save_links(t_info *info, t_hasht *table, int i)
+int	save_links(t_info *info, t_hasht *table, int i, int *error)
 {
 	printf("****LINKS****\ninfo->str[%d] == %s\n", i, info->str[i]);
-	while (info->str[i] && (ft_strchr(info->str[i], '-') || info->str[i][0] == '#'))
+	while (i < info->total_strs && !(*error))
 	{
-		if (info->str[i][0] == '#')
-			i = check_comment(info, i);
-		if (info->str[i][0] != '#' && ft_strchr(info->str[i], '-'))
+		if (info->str[i][0] == '#' && check_comment_for_start_and_end(info, i))
+			*error = 1;
+		if (!(*error) && ft_strchr(info->str[i], '-'))
 		{
 			if (!check_link(info, table, i))
-			{
 				info->total_links += 1;
-				i++;
-			}
 			else
 				return (0); // No more room to read
 		}
+		i++;
 	}
 	printf("link count = %d\n", info->start->link_count);
 	printf("total link = %d\n", info->total_links);
-	return (0);
+	return (*error);
 	//FREE **LINK
 }

@@ -6,21 +6,21 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:47:35 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/07 12:22:25 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:51:14 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 const unsigned int page_size = PAGE_SIZE;
 
-static t_path *find_path(t_queueitem *start)
+static t_path *find_path(t_info *info, t_queueitem *start)
 {
 	t_queueitem *current_item;
 	t_path		*new_path;
 	int 		path_idx;
 	static int	path_count;
 
-	new_path = open_path(start->steps, 0);
+	new_path = open_path(info, start->steps);
 	if (!new_path)
 		return (NULL);
 	path_idx = start->steps - 1;
@@ -37,16 +37,7 @@ static t_path *find_path(t_queueitem *start)
 
 static int	can_add_to_queue(t_queueitem *current_item, t_room *link_to)
 {
-	t_queueitem	*seek;
-
-	seek = current_item;
-	while (seek)
-	{
-		if (seek->room == link_to)
-			return (0);
-		seek = seek->previous;
-	}
-	return (1);
+	return (!check_bitmask_idx(&current_item->rooms_used, link_to->number));
 }
 
 static t_path	*bfs(t_queue *queue, t_info *info)
@@ -60,22 +51,17 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 	{
 		current_item = &queue->arr[i++];
 		current_room = current_item->room;
+		set_bitmask_idx(&current_item->rooms_used, current_room->number);
 		current_link = current_room->link_head;
 		while (current_link != NULL)
 		{
-			if (can_add_to_queue(current_item, current_link->link_to))
+			if (current_link->link_to == info->end)
 			{
-				//TODO should there be more conditions to stop searching?
-				//currently we potentially iterate through every node in
-				//graph multiple times
-				if (!add_to_queue(&queue, current_link->link_to, current_item))
-					return (0);
-				if (current_link->link_to == info->end)
-				{
-					printf("queue len when path found: %d\n", queue->len);
-					return (find_path(current_item));
-				}
+				printf("queue len when path found: %d\n", queue->len);
+				return (find_path(info, current_item));
 			}
+			if (can_add_to_queue(current_item, current_link->link_to))
+				add_to_queue(&queue, current_link->link_to, current_item);
 			current_link = current_link->next;
 		}
 	}
@@ -107,7 +93,7 @@ int	solve(t_info *info)
 		}
 		else
 		{
-			find_groups_for_path(next_path, (t_pathgroup **)&groups);
+			find_groups_for_path(info, next_path, (t_pathgroup *)groups);
 			info->total_paths += 1;
 		}
 		printf("********path#%d len:%d******\n", next_path->id, next_path->len);
@@ -125,10 +111,11 @@ int	solve(t_info *info)
 		round++;
 	}
 	int group_idx = 0;
-	while (groups[group_idx].len > 0)
+	printf("\n******GROUPS, total amount %d*******\n", info->total_groups);
+	while (group_idx < info->total_groups)
 	{
 		t_pathgroup *current_group = &groups[group_idx];
-		printf("********group#%d, len = %d******\n", current_group->id, current_group->len);
+		printf("\n********group#%d, len = %d******\n", current_group->id, current_group->len);
 		printf("contains following paths: ");
 		for (int i = 0; i < current_group->len; i++)
 		{

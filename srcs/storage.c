@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ants.c                                             :+:      :+:    :+:   */
+/*   storage.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 12:43:53 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/14 13:39:01 by ccariou          ###   ########.fr       */
+/*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
+/*   Updated: 2023/02/05 16:19:18 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int	save_ants(t_info *info, int i, int *error)
+t_path *get_paths(void)
 {
-	if (info->str[i] && !ft_strchr(info->str[i], (int) ' '))
-	{
-		info->ants = ft_atoi(info->str[i]);
-		return (1);
-	}
-	if (info->ants <= 0 || info->ants > ANTS_MAX)
-	{
-		*error = 1;
-		return (-1);
-	}
-	else
-		return (0);
+	static t_path	paths_arr[MAX_PATHS];
+
+	return ((t_path *)paths_arr);
 }

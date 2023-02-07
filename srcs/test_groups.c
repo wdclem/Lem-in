@@ -30,7 +30,6 @@ t_pathgroup *make_group(t_room **rooms, int cur_group[10][10])
 		new_path_arr[path_idx] = new_path;
 		new_group->total_path_len += new_path->len;
 	}
-	new_group->arr = new_path_arr;
 	new_group->len = pathcount;
 	return (new_group);
 }

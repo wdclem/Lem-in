@@ -74,6 +74,7 @@ int	save_map(t_info *info)
 		info->str[i] = line;
 		i++;
 	}
+	info->total_strs = i;
 	return (0);
 }
 /*
