@@ -1,12 +1,12 @@
 # include "../include/lemin.h"
 
-t_path	*make_path(t_room **rooms, int cur_path[10])
+t_path	*make_path(t_room **rooms, int cur_path[10], int *id)
 {
 	int path_len = 0;
 	while (cur_path[path_len] >= 0) path_len++;
 	if (path_len <= 0)
 		return (NULL);
-	t_path *new_path = open_path(path_len);
+	t_path *new_path = open_path(path_len, id);
 	for (int room_idx = 0; room_idx < new_path->len; room_idx++)
 	{
 		add_room_to_path(&new_path, rooms[cur_path[room_idx]], room_idx);
@@ -17,6 +17,8 @@ t_path	*make_path(t_room **rooms, int cur_path[10])
 
 t_pathgroup *make_group(t_room **rooms, int cur_group[10][10])
 {
+	int	id = 0;
+
 	t_pathgroup *new_group = (t_pathgroup *)ft_memalloc(sizeof(t_pathgroup));
 	int pathcount = 0;
 	while (*cur_group[pathcount] >= 0) pathcount++;
@@ -24,9 +26,9 @@ t_pathgroup *make_group(t_room **rooms, int cur_group[10][10])
 	for (int path_idx = 0; path_idx < pathcount; path_idx++)
 	{
 		printf(" * making path %d\n", path_idx);
-		t_path *new_path = make_path(rooms, cur_group[path_idx]);
+		t_path *new_path = make_path(rooms, cur_group[path_idx], &id);
 		new_path_arr[path_idx] = new_path;
-		new_group->total_path_len = new_path->len;
+		new_group->total_path_len += new_path->len;
 	}
 	new_group->len = pathcount;
 	return (new_group);
@@ -67,6 +69,7 @@ t_pathgroup **get_pathgroups(t_info *info)
 		t_room *new_room = (t_room *)ft_memalloc(sizeof(t_room));
 		new_room->id = ft_strdup(names[room_idx]);
 		new_room->number = room_idx;
+		new_room->occupied = 1;
 		printf(" * making room %s\n", new_room->id);
 		rooms[room_idx] = new_room;
 	}
