@@ -150,7 +150,7 @@ void find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups);
 t_pathgroup	**get_pathgroups(t_info *info);
 
 /* PRINT OUTUPUT */
-int	move_ants2(t_info *info, t_pathgroup **path);
+int move_ants2(t_info *info);
 void test_ant_move(void);
 
 t_path	*open_path(t_info *info, int len);

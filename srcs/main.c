@@ -52,7 +52,6 @@ int	main(int argc, char **argv)
 {
 	t_info		info;
 	t_hasht		*table;
-	t_pathgroup	*groups;
 
 	ft_bzero(&info, sizeof(t_info));
 	table = table_init();
@@ -63,9 +62,8 @@ int	main(int argc, char **argv)
 		print_input(&info);
 	printf("content 1\n");
 	write(1, "\n", 1);
-	groups = get_groups();
 	if (solve(&info))
-		move_ants2(&info, &groups);
+		move_ants2(&info);
 	else
 		printf("bad map, no paths :(\n");
 	return (0);

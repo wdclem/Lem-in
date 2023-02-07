@@ -31,17 +31,17 @@ void find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups)
 	path_grouped = 0;
 	while (group_idx < info->total_groups)
 	{
-		if (!maskcmp(&groups[group_idx].room_mask, &path->room_mask))
+		if (!maskcmp(&(groups + group_idx)->room_mask, &path->room_mask))
 		{
 			path_grouped = 1;
-			add_path_to_group(path, &groups[group_idx]);
+			add_path_to_group(path, (groups + group_idx));
 		}
 		group_idx++;
 	}
 	if (!path_grouped)
 	{
-		add_path_to_group(path, &groups[group_idx]);
-		groups[group_idx].id = group_idx;
+		add_path_to_group(path, (groups + group_idx));
+		(groups + group_idx)->id = group_idx;
 		info->total_groups += 1;
 	}
 }
