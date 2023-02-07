@@ -50,8 +50,9 @@ static void	print_input(t_info *info)
 
 int	main(int argc, char **argv)
 {
-	t_info	info;
-	t_hasht	*table;
+	t_info		info;
+	t_hasht		*table;
+	t_pathgroup	*groups;
 
 	ft_bzero(&info, sizeof(t_info));
 	table = table_init();
@@ -62,14 +63,10 @@ int	main(int argc, char **argv)
 		print_input(&info);
 	printf("content 1\n");
 	write(1, "\n", 1);
-	solve(&info);
-	return (0);
-	
-	static t_info test_info;
-	t_pathgroup **groups = get_pathgroups(&test_info);
-	if (groups)
-		printf("found groups :)\n");
-	move_ants2(&info, groups);
-	
+	groups = get_groups();
+	if (solve(&info))
+		move_ants2(&info, &groups);
+	else
+		printf("bad map, no paths :(\n");
 	return (0);
 }

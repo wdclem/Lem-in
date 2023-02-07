@@ -2,6 +2,7 @@ target create lem-in
 settings set target.load-cwd-lldbinit true
 #settings set target.input-path ./test_maps/maps_margot/map4.txt 
 #settings set target.input-path ./test_maps/maps/42.txt 
-settings set target.input-path /home/teppo/hive/projects/lem-in/test_maps/eval_generator/bigsup9.txt
+#settings set target.input-path /home/teppo/hive/projects/lem-in/test_maps/eval_generator/bigsup9.txt
 #settings set target.input-path ./test_maps/maps/long_Chloe.txt
-#settings set target.input-path ./test_maps/tests_bengisu/lattice.txt
+settings set target.input-path ./test_maps/tests_bengisu/lattice.txt
+settings set target.input-path ./test_maps/eval_generator/ten5.txt

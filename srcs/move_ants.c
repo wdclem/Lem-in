@@ -6,12 +6,11 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 09:43:23 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/08 13:38:03 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:59:31 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
-#define ANTCOUNT 20
 
 /*
 */
@@ -130,26 +129,17 @@ int	move_ants(t_info *info, t_path **path)
 	return(0);
 }
 */
-t_room *get_next_room(t_info *info, t_ant *ant)
+t_room *get_next_room(t_ant *ant)
 {
-	t_room	**copy;
+	t_room	*copy;
 
-	//printf("next room == %s\n", ant->path->arr[ant->path_idx + 1]->id);
-	if (ant->path_idx == ant->path->len - 1)
-		return (info->end);
-	copy = &ant->path->arr[ant->path_idx];
-	/*
-	if ((*copy) == NULL)
-	{
-		printf("SAUCISSON\n");
-		return (info->end);
-	}
-	*/
+//	printf("next room == %s\n", ant->path->arr[ant->path_idx + 1]->id);
+	copy = ant->path->arr[ant->path_idx];
 //	printf("arr-> 
 	//if ((*copy)->occupied == 0)
 //	printf("copy free == %d\n", (*copy)->free);
-	if ((*copy)->occupied == 1)
-		return(*copy);
+	if (copy->occupied == 0)
+		return(copy);
 	return (0);
 }
 
@@ -157,22 +147,19 @@ int	move_ant(t_info *info, t_ant *ant)
 {
 	t_room	*next;
 
-	next = get_next_room(info, ant);
+	next = get_next_room(ant);
 //	if (next)
-	//	printf("next == %s\n", next->id);
-//	printf("CHORIZO\n");
-//	printf("next == %s\n", next->id);
 	if (next)
 	{
 		printf("L%d-%s", ant->id, next->id);
-		ant->room->occupied = 1;
-		ant->room = next;
 		ant->room->occupied = 0;
+		ant->room = next;
+		ant->room->occupied = 1;
 		ant->path_idx += 1;
 	}
 	if (next == info->end)
 	{
-		ant->room->occupied = 1;
+		ant->room->occupied = 0;
 		return (1);
 	}
 	return (0);
@@ -214,7 +201,7 @@ t_pathgroup	*select_group(t_info *info, t_pathgroup **group)
 		group_idx++;
 	}
 	printf("turns == %f, group[%d] == %d\n", turns, group_idx, group[group_idx]->id);
-	printf("best group selected\n");
+	printf("best group selected, was %d\n", best_group->id);
 	return (best_group);
 }
 
@@ -225,7 +212,6 @@ int move_ants2(t_info *info, t_pathgroup **path)
 	t_pathgroup	*path_group;
 	t_ant		**ants;
 
-	info->ants = 100;
 	ants = NULL;
 	ants = (t_ant **)malloc(sizeof(t_ant *) * info->ants);
 	ants = ants_array(info, ants);
@@ -234,40 +220,24 @@ int move_ants2(t_info *info, t_pathgroup **path)
 	path_group = select_group(info, path);
 	ant_idx = 0;
 	ants_arrived = 0;
-//	info->ants = ANTCOUNT;
+	while (ant_idx < info->ants)
+	{
+//			printf("ca casse ici\n");
+		ants[ant_idx]->path = choose_path(path_group);
+		printf("Path selected for ant %d: was %d\n", ants[ant_idx]->id, ants[ant_idx]->path->id);
+		ant_idx++;
+	}
 	while (ants_arrived < info->ants)
 	{
 		while (ant_idx < info->ants)
 		{
-//			printf("ca casse ici\n");
-			if (ants[ant_idx]->room == info->start && ants[ant_idx]->path == NULL)
-			{
-				ants[ant_idx]->path = choose_path(path_group);
-/*				int i = 0;
-				while (ants[ant_idx]->path->arr[i])
-				{
-					printf("path == %s\n", ants[ant_idx]->path->arr[i]->id);
-					i++;} */
-//				ants[ant_idx]->path_idx = ants[ant_idx]->path->id;
-//				printf("ants[ant_idx]->path_id = %d\n", ants[ant_idx]->path->id);
-//				printf("Path selected\n");
-/*				if(ants[2]->path)
-					return (0);*/
-			}
 			//printf("ants[%d]->path == %d\n", ant_idx, ants[ant_idx]->path->id);
-		//	printf("ant->room == %s\n", ants[ant_idx]->room->id);
-		//	printf("info->end == %s\n", info->end->id);
-		//	printf("info->start == %s\n", info->start->id);
 			if (ants[ant_idx]->room == info->end)
 			{
 				ant_idx += 1;
 				continue ;
 			}
-			ants_arrived += move_ant(info, &(*ants)[ant_idx]);
-		//	printf("ant_idx == %d\n", ant_idx);
-		//	printf("ant id == %d\n", ants[ant_idx]->id);
-		// ants_arrived += move_ant(info, &(*ants)[ant_idx]);
-		//	printf("ants_arrived == %d\n", ants_arrived);
+			ants_arrived += move_ant(info, ants[ant_idx]);
 //			if (ants[ant_idx].room == info->end)
 //				ants_arrived += 1;
 			ant_idx += 1;
