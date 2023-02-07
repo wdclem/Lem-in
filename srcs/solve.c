@@ -20,8 +20,9 @@ static t_path *find_path(t_info *info, t_queueitem *start)
 	int 		path_idx;
 	static int	path_count;
 
-	new_path = open_path(info, start->steps);
-	path_idx = start->steps - 1;
+	new_path = open_path(info, start->steps + 1);
+	path_idx = start->steps;
+	new_path->arr[path_idx--] = info->end;
 	current_item = start;
 	while (path_idx >= 0)
 	{
@@ -70,13 +71,13 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 int	solve(t_info *info)
 {	
 	static t_queue		queue;
-	static t_pathgroup	groups[MAX_GROUPS];
+	t_pathgroup	*groups;
 	t_path		*next_path;
 	int			round;
 
 	round = 1;
 	//#TODO should path container be dynamic?
-
+	groups = get_groups();
 	printf("********SOLVE******\n");
 	open_queue(&queue, info->start);
 	printf("ants = %d\n", info->ants);
@@ -117,7 +118,7 @@ int	solve(t_info *info)
 		printf("contains following paths: ");
 		for (int i = 0; i < current_group->len; i++)
 		{
-			printf("(%d)", current_group->arr[i]->id);
+			printf("(%d, len:%d)", current_group->arr[i]->id, current_group->arr[i]->len);
 			if (i < current_group->len - 1)
 				printf(" ");
 		}
@@ -127,5 +128,5 @@ int	solve(t_info *info)
 		group_idx++;
 	}
 	printf("teub a l'air\n");
-	return (1);
+	return (info->total_groups);
 }

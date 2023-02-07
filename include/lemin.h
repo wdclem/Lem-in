@@ -167,6 +167,7 @@ int maskcmp(t_bitmask *left, t_bitmask *right);
 
 /* STORAGE */
 
-t_path *get_paths(void);
+t_path		*get_paths(void);
+t_pathgroup *get_groups(void);
 
 #endif

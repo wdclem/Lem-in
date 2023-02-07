@@ -132,15 +132,15 @@ int	move_ants(t_info *info, t_path **path)
 */
 t_room *get_next_room(t_ant *ant)
 {
-	t_room	**copy;
+	t_room	*copy;
 
 //	printf("next room == %s\n", ant->path->arr[ant->path_idx + 1]->id);
-	copy = &ant->path->arr[ant->path_idx];
+	copy = ant->path->arr[ant->path_idx];
 //	printf("arr-> 
 	//if ((*copy)->occupied == 0)
 //	printf("copy free == %d\n", (*copy)->free);
-	if ((*copy)->occupied == 1)
-		return(*copy);
+	if (copy->occupied == 0)
+		return(copy);
 	return (0);
 }
 
@@ -150,18 +150,18 @@ int	move_ant(t_info *info, t_ant *ant)
 
 	next = get_next_room(ant);
 //	if (next)
-	printf("next == %s\n", next->id);
 	if (next)
 	{
+		printf("next == %s\n", next->id);
 		printf("L%d-%s", ant->id, next->id);
-		ant->room->occupied = 1;
-		ant->room = next;
 		ant->room->occupied = 0;
+		ant->room = next;
+		ant->room->occupied = 1;
 		ant->path_idx += 1;
 	}
 	if (next == info->end)
 	{
-		ant->room->occupied = 1;
+		ant->room->occupied = 0;
 		return (1);
 	}
 	return (0);
@@ -203,7 +203,7 @@ t_pathgroup	*select_group(t_info *info, t_pathgroup **group)
 		group_idx++;
 	}
 	printf("turns == %f, group[%d] == %d\n", turns, group_idx, group[group_idx]->id);
-	printf("best group selected\n");
+	printf("best group selected, was %d\n", best_group->id);
 	return (best_group);
 }
 
@@ -221,25 +221,25 @@ int move_ants2(t_info *info, t_pathgroup **path)
 	path_group = select_group(info, path);
 	ant_idx = 0;
 	ants_arrived = 0;
-	info->ants = ANTCOUNT;
+	while (ant_idx < info->ants)
+	{
+//			printf("ca casse ici\n");
+		ants[ant_idx]->path = choose_path(path_group);
+		printf("Path selected for ant %d: was %d\n", ants[ant_idx]->id, ants[ant_idx]->path->id);
+		ant_idx++;
+	}
 	while (ants_arrived < info->ants)
 	{
+		ant_idx = ants_arrived;
 		while (ant_idx < info->ants)
 		{
-//			printf("ca casse ici\n");
-			if (ants[ant_idx]->room == info->start && ants[ant_idx]->path == NULL)
-			{
-				ants[ant_idx]->path = choose_path(path_group);
-//				ants[ant_idx]->path_idx = ants[ant_idx]->path->id;
-				printf("Path selected\n");
-			}
 			//printf("ants[%d]->path == %d\n", ant_idx, ants[ant_idx]->path->id);
 			if (ants[ant_idx]->room == info->end)
 			{
 				ant_idx += 1;
 				continue ;
 			}
-			ants_arrived += move_ant(info, &(*ants)[ant_idx]);
+			ants_arrived += move_ant(info, ants[ant_idx]);
 //			if (ants[ant_idx].room == info->end)
 //				ants_arrived += 1;
 			ant_idx += 1;
@@ -247,7 +247,6 @@ int move_ants2(t_info *info, t_pathgroup **path)
 				printf(" ");
 		}
 		printf("\n");
-		ant_idx = ants_arrived;
 	}
 	return (1);
 }
