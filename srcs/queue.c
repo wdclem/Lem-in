@@ -34,6 +34,6 @@ void	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous)
 	new_item->steps = previous->steps + 1;
 	add_bitmask(&previous->rooms_used, &new_item->rooms_used);
 	(*q)->len += 1;
-	printf("linking from %s to %s\n", previous->room->id, room->id);
-	printf("%zu -> %d\n", previous - (*q)->arr, (*q)->len-1);
+	if ((*q)->len == MAX_QUEUE)
+		printf("Queue overflow :(\n");
 }

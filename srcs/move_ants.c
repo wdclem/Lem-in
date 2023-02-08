@@ -156,6 +156,7 @@ int	move_ant(t_info *info, t_ant *ant)
 		ant->room = next;
 		ant->room->occupied = 1;
 		ant->path_idx += 1;
+		printf(" ");
 	}
 	if (next == info->end)
 	{
@@ -240,8 +241,7 @@ int move_ants2(t_info *info)
 //			if (ants[ant_idx].room == info->end)
 //				ants_arrived += 1;
 			ant_idx += 1;
-			if (ant_idx < info->ants)
-				printf(" ");
+
 		}
 		printf("\n");
 	}

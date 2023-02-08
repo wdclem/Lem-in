@@ -43,18 +43,15 @@ t_room	*pointer_to_room(t_hasht *table, char *id)
 	if (!id)
 		return (NULL); // TODO cant return ERROR (int 1 ) sicne returning pointer so need to put error check in previous func
 	j = dj2b_hash(id);
-	room = table->room[j];
-	while (room)
+	while (ft_strcmp(table->room[j]->id, id))
 	{
-		if (ft_strcmp(id, room->id) == 0)
-		{
-			room->link_count += 1;
-			return (room);
-		}
-		else
-			room = room->next;
+		j++;
+		if (j >= HT_CAP)
+			j = 0;
 	}
-	return (NULL);
+	room = table->room[j];
+	room->link_count += 1;
+	return (room);
 }
 
 int	check_link(t_info *info, t_hasht *table, int i)

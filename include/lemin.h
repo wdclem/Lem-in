@@ -18,13 +18,13 @@
 
 # define ERROR 1
 # define ANTS_MAX 2147483647
-# define HT_CAP 8192 // hash table capacity 
+# define HT_CAP 65536 // hash table capacity 
 # define MAX_ROOMS 8192
 # define MAX_GROUP_SIZE 128
-# define MAX_PATHS 512
+# define MAX_PATHS 1024 
 # define MAX_PATH_SIZE 1024
-# define MAX_QUEUE 8192
-# define MAX_GROUPS 256
+# define MAX_QUEUE 131072
+# define MAX_GROUPS 512 
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
