@@ -21,6 +21,12 @@ static int	set_table(t_info *info, t_hasht *table, char *room_key, int x, int y)
 	t_room	*new_room;
 
 	i = dj2b_hash(room_key);
+	while (table->room[i])
+	{
+		i++;
+		if (i >= HT_CAP)
+			i = 0;
+	}
 	new_room = table->room[i];
 	if (!new_room)
 	{

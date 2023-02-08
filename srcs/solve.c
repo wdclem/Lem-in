@@ -56,7 +56,7 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 		{
 			if (current_link->link_to == info->end)
 			{
-				printf("queue len when path found: %d\n", queue->len);
+	//			printf("queue len when path found: %d\n", queue->len);
 				return (find_path(info, current_item));
 			}
 			if (can_add_to_queue(current_item, current_link->link_to))
@@ -92,7 +92,7 @@ int	solve(t_info *info)
 		}
 		else
 			find_groups_for_path(info, next_path, groups);
-		printf("********path#%d len:%d******\n", next_path->id, next_path->len);
+/*		printf("********path#%d len:%d******\n", next_path->id, next_path->len);
 		printf("uses following rooms:\n");
 		print_bitmask(&next_path->room_mask);
 		int i = 0;
@@ -103,10 +103,12 @@ int	solve(t_info *info)
 				printf("->");
 			i++;
 		}
-		printf("\n");
+		printf("\n");*/
 		round++;
 	}
+	/*
 	int group_idx = 0;
+
 	printf("\n******GROUPS, total amount %d*******\n", info->total_groups);
 	while (group_idx < info->total_groups)
 	{
@@ -124,6 +126,7 @@ int	solve(t_info *info)
 		print_bitmask(&current_group->room_mask);
 		group_idx++;
 	}
-	printf("teub a l'air\n");
+	*/
+	printf("teub a l'air, groups %d\n", info->total_groups);
 	return (info->total_groups);
 }
