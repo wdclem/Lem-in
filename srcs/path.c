@@ -16,8 +16,7 @@ void	add_room_to_path(t_path **path, t_room *room, int index)
 {
 	t_room	**ptr;
 
-	if (index > (*path)->len)
-		return ;
+	printf("adding room %s to path %d\n", room->id, (*path)->id);
 	ptr = (*path)->arr + index;
 	*ptr = room;
 	set_bitmask_idx(&((*path)->room_mask), room->number);
