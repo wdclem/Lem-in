@@ -122,7 +122,6 @@ int	solve(t_info *info)
 		printf("\n");
 		printf("uses following rooms:\n");
 		print_bitmask(&current_group->room_mask);
-		printf("\n");
 		group_idx++;
 	}
 	printf("teub a l'air\n");
