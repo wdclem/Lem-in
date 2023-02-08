@@ -17,12 +17,12 @@
 # include <stdio.h> //TODO: TO BE REMOVE
 
 # define ERROR 1
-# define ANTS_MAX 2147483647
+# define ANTS_MAX 8192
 # define HT_CAP 65536 // hash table capacity 
 # define MAX_ROOMS 8192
-# define MAX_GROUP_SIZE 128
+# define MAX_GROUP_SIZE 256 
 # define MAX_PATHS 1024 
-# define MAX_PATH_SIZE 1024
+# define MAX_PATH_SIZE 2048
 # define MAX_QUEUE 131072
 # define MAX_GROUPS 512 
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
@@ -83,6 +83,7 @@ typedef struct s_queueitem
 {
 	t_room				*room;
 	int					steps;
+	int					times_used;
 	struct s_queueitem	*previous;
 	t_bitmask			rooms_used;
 }						t_queueitem;
@@ -90,7 +91,8 @@ typedef struct s_queueitem
 typedef struct s_queue
 {
 	t_queueitem	arr[MAX_QUEUE];
-	int			len;
+	int			top;
+	int			usage;
 } t_queue;
 
 typedef struct s_path
@@ -143,7 +145,8 @@ t_link	*new_link(t_room *from, t_room *link_to);
 
 /* DYNAMIC CONTAINERS */
 void	open_queue(t_queue *queue, t_room *start);
-void	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
+int		add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous);
+void	clear_dead_branch_from_queue(t_queue **queue, t_queueitem *dead_end);
 
 /* GROUPING */
 void find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups);

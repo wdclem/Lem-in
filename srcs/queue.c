@@ -21,19 +21,47 @@ void	open_queue(t_queue *queue, t_room *start)
 	first_item->room = start;
 	first_item->previous = NULL;
 	first_item->steps = 0;
-	queue->len = 1;
+	queue->usage++;
+	add_to_queue(&queue, start->link_head->link_to, first_item);
 }
 
-void	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous)
+void	clear_dead_branch_from_queue(t_queue **queue, t_queueitem *dead_end)
+{
+	t_queueitem *current;
+
+	current = dead_end;
+	printf("clearing branch, rooms & times_used: ");
+	while(current->steps > 1)
+	{
+		printf("(%s:%d) ", current->room->id, current->times_used);
+		current->times_used--;
+		(*queue)->usage--;
+		current = current->previous;
+	}
+}
+
+int	add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous)
 {
 	t_queueitem *new_item;
+	int			next_idx;
 
-	new_item = (*q)->arr + (*q)->len;
+	next_idx = (*queue)->top + 1;
+	while(((*queue)->arr + next_idx)->room)
+	{
+		next_idx++;
+		if (next_idx == MAX_QUEUE)
+		{
+			printf("loop de loop!\n");
+			next_idx = 0;
+		}
+	}
+	new_item = (*queue)->arr + next_idx;
 	new_item->room = room;
 	new_item->previous = previous;
 	new_item->steps = previous->steps + 1;
+	set_bitmask_idx(&new_item->rooms_used, room->number);
 	add_bitmask(&previous->rooms_used, &new_item->rooms_used);
-	(*q)->len += 1;
-	if ((*q)->len == MAX_QUEUE)
-		printf("Queue overflow :(\n");
+	(*queue)->top = next_idx; 
+	(*queue)->usage += 1;
+	return (1);
 }
