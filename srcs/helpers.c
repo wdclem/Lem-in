@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/04 14:37:16 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/09 14:09:03 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,46 @@ int	dj2b_hash(char *key)
 	return (hash);
 }
 
+static void	set_start_end(t_info *info, t_hasht *table, int i)
+{
+	if (info->s_check == 1)
+	{
+		info->start = table->room[i];
+		info->s_check = 0;
+	}
+	else if (info->e_check == 1)
+	{
+		info->end = table->room[i];
+		info->e_check = 0;
+	}
+}
+
+int	set_table(t_info *info, t_hasht *table, char *room_key)
+{
+	int		i;
+	t_room	*new_room;
+
+	i = dj2b_hash(room_key);
+	while (table->room[i])
+	{
+		i++;
+		if (i >= HT_CAP)
+			i = 0;
+	}
+	new_room = table->room[i];
+	if (!new_room)
+	{
+		table->room[i] = make_room(info, room_key);
+	}
+	set_start_end(info, table, i);
+	while (new_room != NULL)
+	{
+		if (!ft_strequ(room_key, new_room->id))
+			return (ERROR);
+	}
+	return (0);
+}
+
 int	check_comment_for_start_and_end(t_info *info, int i)
 {
 	int	ret;
@@ -44,37 +84,4 @@ int	check_comment_for_start_and_end(t_info *info, int i)
 		ret = 1;
 	}
 	return (ret);
-}
-
-t_link	*new_link(t_room *from, t_room *link_to)
-{
-	t_link	*link;
-
-	link = (t_link *)malloc(sizeof(t_link));
-	if (!link)
-		return (NULL);
-	link->from = from;
-	link->link_to = link_to;
-	link->flow = 0;
-	link->next = NULL;
-	return (link);
-}
-
-t_room	*make_room(t_info *info, char *key, int x, int y)
-{
-	t_room	*room;
-
-	room = (t_room *)malloc(sizeof(t_room));
-	if (!room)
-		return (NULL);
-	room->id = ft_strdup(key);
-	room->number = info->rooms;
-	room->x = x;
-	room->y = y;
-	room->visited = 0;
-	room->valid = 0;
-	room->occupied = 0;
-	room->link_head = NULL;
-	room->next = NULL;
-	return (room);
 }

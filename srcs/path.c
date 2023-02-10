@@ -6,13 +6,13 @@
 /*   By: tpolonen <tpolonen@student.hive.fi>          +#+  +:+       +#+      */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 14:59:25 by tpolonen           #+#    #+#            */
-/*   Updated: 2023/01/16 18:30:07 by tpolonen         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:17:31 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void add_room_to_path(t_path **path, t_room *room, int index)
+void	add_room_to_path(t_path **path, t_room *room, int index)
 {
 	t_room	**ptr;
 

@@ -6,7 +6,7 @@
 /*   By: tpolonen <tpolonen@student.hive.fi>          +#+  +:+       +#+      */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 14:59:25 by tpolonen           #+#    #+#            */
-/*   Updated: 2023/01/16 18:30:07 by tpolonen         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:17:51 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	open_queue(t_queue *queue, t_room *start)
 
 void	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous)
 {
-	t_queueitem *new_item;
+	t_queueitem	*new_item;
 
 	new_item = (*q)->arr + (*q)->len;
 	new_item->room = room;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   solve.c                                            :+:      :+:    :+:   */
+/*   grouping.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:47:35 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/03 17:51:14 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/09 12:03:25 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	add_path_to_group(t_path *path, t_pathgroup *group)
 	path->group_count += 1;
 }
 
-void find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups)
+void	find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups)
 {
 	int	group_idx;
 	int	path_grouped;

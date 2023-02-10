@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:57:06 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/06 16:23:39 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/09 13:58:30 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	validate_info(t_info *info, t_hasht *table)
 	if (!info->str[i] || error)
 		return (ERROR);
 	i = save_links(info, table, i, &error);
-	return (error);
+	return (0);
 }
 
 static void	print_input(t_info *info)
@@ -46,6 +46,7 @@ static void	print_input(t_info *info)
 		write(1, "\n", 1);
 		i++;
 	}
+	ft_freearray((void **)info->str, i);
 }
 
 int	main(int argc, char **argv)

@@ -6,49 +6,11 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 15:15:13 by ccariou           #+#    #+#             */
-/*   Updated: 2023/01/14 14:12:14 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/09 12:01:31 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
-
-/*
- * Logic is to check if the line have the needed requirements.
- * They can all have comment and command, first one should be only number
- * room should have space between numbers
- * link should be - with numbers
- * nothing after
- * can probably make a isnum function for the numbers
- */
-/*
-int	validate_map(t_info *info)
-{
-	int		i;
-
-	i = 0;
-	while (info->str[i][0] == '#' || (info->str[i] >= '0' && info->str[i] <= '9'))
-	{
-		valid_ants(info);
-		i++;
-	}
-	while (info->str[i][0] == '#' || ft_strchr(info->str[i], ' '))
-	{
-		i = valid_room(info);
-		info->room += 1;
-		i++;
-	}
-	while (info->str[i][0] == '#' || ft_strchr(info-str[i], '-'))
-	{
-		i = valid_link(info, i);
-		info->link += 1;
-		i++;
-	}
-	if (input[i])
-		return (1); // AKA ERROR SHould not have anything after the links 
-	else
-		return (0);
-}
-*/
 
 int	save_map(t_info *info)
 {
@@ -59,7 +21,7 @@ int	save_map(t_info *info)
 
 	line = NULL;
 	i = 0;
-	len = 50000;// Find a smarter way to put no limit to the file, dynamic ?
+	len = 50000;
 	gnl_ret = 1;
 	info->str = (char **)malloc(sizeof(char *) * len + 1);
 	if (!info->str)
@@ -68,7 +30,7 @@ int	save_map(t_info *info)
 	{
 		gnl_ret = get_next_line(0, &line);
 		if (gnl_ret == 0)
-			break;
+			break ;
 		if (gnl_ret < 0)
 			return (ERROR);
 		info->str[i] = line;
@@ -77,29 +39,3 @@ int	save_map(t_info *info)
 	info->total_strs = i;
 	return (0);
 }
-/*
-int	valid_map(t_info *info)
-{
-	int	i;
-
-	i = 0;
-	while(info->str[i])
-	{
-		while((info->str[i][0] < '0' && info->str[i][0] > '9') || info->str[i][0] == '#')
-			i++;
-		while(ft_strchr(info->str[i], ' ') || info->str[i][0] == '#')
-		{
-			info->room += 1;
-			i++;
-		}
-		while(ft_strchr(info->str[i], '-') || info->str[i][0] == '#')
-		{
-			info->link += 1;
-			i++;
-		}
-		if (info->str[i] != NULL)
-		{
-			error_hub(info);
-			return (1);
-	}
-	*/

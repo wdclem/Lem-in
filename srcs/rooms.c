@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:34:27 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/04 11:00:09 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/09 14:10:06 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,51 +15,18 @@
 /* Create a new room in the HT
  * TODO check if coordinate needed/ t_coord ?
  */
-static int	set_table(t_info *info, t_hasht *table, char *room_key, int x, int y)
-{
-	int		i;
-	t_room	*new_room;
 
-	i = dj2b_hash(room_key);
-	while (table->room[i])
-	{
-		i++;
-		if (i >= HT_CAP)
-			i = 0;
-	}
-	new_room = table->room[i];
-	if (!new_room)
-	{
-		table->room[i] = make_room(info, room_key, x, y);
-	}
-	if (info->s_check == 1)
-	{
-		info->start = table->room[i];
-		info->s_check = 0;
-	}
-	else if (info->e_check == 1)
-	{
-		info->end = table->room[i];
-		info->e_check = 0;
-	}
-	while (new_room != NULL)
-	{
-		if (!ft_strequ(room_key, new_room->id))
-			return (ERROR);
-	}
-	return (0);
-}
-
-static int	room_to_hasht(t_info *info, t_hasht *table, int i, char **room_checker)
+static int	room_to_hasht(t_info *info, t_hasht *table, int i
+		, char **room_checker)
 {
 	int		j;
 
 	j = -1;
-	set_table(info, table, room_checker[0], ft_atoi(room_checker[1]), ft_atoi(room_checker[2]));
+	set_table(info, table, room_checker[0]);
 	while (room_checker[++j])
 		free(room_checker[j]);
 	free(room_checker);
-	return (ERROR);
+	room_checker = NULL;
 	return (i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/05 16:19:18 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/09 14:15:28 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,17 @@
 # define MAX_ROOMS 8192
 # define MAX_GROUP_SIZE 128
 # define MAX_PATHS 1024 
-# define MAX_PATH_SIZE 1024
-# define MAX_QUEUE 131072
+# define MAX_PATH_SIZE 2048 
+# define MAX_QUEUE 131072 
 # define MAX_GROUPS 512 
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
 typedef struct s_room
 {
-	//struct s_room	*links; Probably swap for a link struct list
 	int				link_count;
 	char			*id;
 	int				number;
-	int				x;
-	int				y;
 	int				visited;
 	int				valid;
 	int				occupied;
@@ -75,9 +72,9 @@ typedef struct s_hasht
 
 typedef struct s_bitmask
 {
-	unsigned int bits[MAX_PAGES];
-	int last_page;
-} t_bitmask;
+	unsigned int	bits[MAX_PAGES];
+	int				last_page;
+}					t_bitmask;
 
 typedef struct s_queueitem
 {
@@ -91,7 +88,7 @@ typedef struct s_queue
 {
 	t_queueitem	arr[MAX_QUEUE];
 	int			len;
-} t_queue;
+}				t_queue;
 
 typedef struct s_path
 {
@@ -102,7 +99,7 @@ typedef struct s_path
 	t_bitmask	groups;
 	int			group_count;
 	int			ants_in;
-} t_path;
+}				t_path;
 
 typedef struct s_pathcontainer
 {
@@ -113,9 +110,9 @@ typedef struct s_pathcontainer
 	t_bitmask	room_mask;
 	int			ants_in;
 	int			total_path_len;
-} t_pathgroup;
+}				t_pathgroup;
 
-typedef	struct	s_ant
+typedef struct s_ant
 {
 	int			id;
 	t_room		*room;
@@ -123,51 +120,57 @@ typedef	struct	s_ant
 	int			path_idx;
 }				t_ant;
 
-int		main(int argc, char **argv);
-int		solve(t_info *info);
+int			main(int argc, char **argv);
+int			solve(t_info *info);
 
 /* PARSING/VALIDATION */
-int		save_map(t_info *info);
-int		save_ants(t_info *info, int i, int *error);
-int		save_rooms(t_info *info, t_hasht *table, int i, int *error);
-int		save_links(t_info *info, t_hasht *table, int i, int *error);
+int			save_map(t_info *info);
+int			save_ants(t_info *info, int i, int *error);
+int			save_rooms(t_info *info, t_hasht *table, int i, int *error);
+int			save_links(t_info *info, t_hasht *table, int i, int *error);
 
 /* UTIL.C */
-t_hasht	*table_init(void);
-int		check_comment_for_start_and_end(t_info *info, int i);
-int		check_comment_link(t_info *info, t_hasht *table, int i);
-int		dj2b_hash(char *key);
-t_room	*pointer_to_room(t_hasht *table, char *id);
-t_room	*make_room(t_info *info, char *key, int x, int y);
-t_link	*new_link(t_room *from, t_room *link_to);
+int			set_table(t_info *info, t_hasht *table, char *room_key);
+int			check_comment_for_start_and_end(t_info *info, int i);
+int			check_comment_link(t_info *info, t_hasht *table, int i);
+int			dj2b_hash(char *key);
+t_room		*pointer_to_room(t_hasht *table, char *id);
+
+/* INIT.C */
+t_hasht		*table_init(void);
+t_room		*make_room(t_info *info, char *key);
+t_link		*new_link(t_room *from, t_room *link_to);
+t_ant		**ants_array(t_info *info, t_ant **array);
+t_ant		*init_ant(t_info *info, int *id);
 
 /* DYNAMIC CONTAINERS */
-void	open_queue(t_queue *queue, t_room *start);
-void	add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
+void		open_queue(t_queue *queue, t_room *start);
+void		add_to_queue(t_queue **q, t_room *room, t_queueitem *previous);
 
 /* GROUPING */
-void find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups);
+void		find_groups_for_path(t_info *info, t_path *path,
+				t_pathgroup *groups);
 t_pathgroup	**get_pathgroups(t_info *info);
 
 /* PRINT OUTUPUT */
-int move_ants2(t_info *info);
-void test_ant_move(void);
+int			move_ants2(t_info *info);
+void		test_ant_move(void);
 
-t_path	*open_path(t_info *info, int len);
-void 	add_room_to_path(t_path **path, t_room *room, int index);
-void	close_path(t_path **path);
+t_path		*open_path(t_info *info, int len);
+void		add_room_to_path(t_path **path, t_room *room, int index);
+void		close_path(t_path **path);
 
 /* BITMASK */
 
-int check_bitmask_idx(t_bitmask *mask, int idx);
-void print_bitmask(t_bitmask *mask);
-void set_bitmask_idx(t_bitmask *mask, int idx);
-void add_bitmask(t_bitmask *src, t_bitmask *dst);
-int maskcmp(t_bitmask *left, t_bitmask *right);
+int			check_bitmask_idx(t_bitmask *mask, int idx);
+void		print_bitmask(t_bitmask *mask);
+void		set_bitmask_idx(t_bitmask *mask, int idx);
+void		add_bitmask(t_bitmask *src, t_bitmask *dst);
+int			maskcmp(t_bitmask *left, t_bitmask *right);
 
 /* STORAGE */
 
 t_path		*get_paths(void);
-t_pathgroup *get_groups(void);
+t_pathgroup	*get_groups(void);
 
 #endif
