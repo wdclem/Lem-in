@@ -16,7 +16,7 @@ t_ant	*init_ant(t_info *info, int *id)
 {
 	t_ant	*ant;
 
-	ant = (t_ant *)malloc(sizeof(t_ant));
+	ant = (t_ant *)ft_memalloc(sizeof(t_ant));
 	ant->room = info->start;
 	ant->id = (*id)++;
 	return (ant);

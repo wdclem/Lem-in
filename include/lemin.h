@@ -87,8 +87,7 @@ typedef struct s_queueitem
 typedef struct s_queue
 {
 	t_queueitem		arr[MAX_QUEUE];
-	unsigned short	top;
-	unsigned short	head;
+	signed short	top;
 } t_queue;
 
 typedef struct s_path
@@ -148,7 +147,8 @@ void		open_queue(t_queue *queue, t_room *start);
 int			add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous);
 void		clear_dead_branch_from_queue(t_queueitem *dead_end);
 void		garbage_collect(t_queue *queue);
-int			next_available_index(t_queue *queue, int cur_idx, int in_use);
+int			next_available_index_to_write(t_queue *queue, int cur_idx);
+int			next_available_index_to_read(t_queue *queue, int cur_idx);
 
 /* GROUPING */
 void		find_groups_for_path(t_info *info, t_path *path,

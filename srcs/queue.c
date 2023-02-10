@@ -18,6 +18,7 @@ void	open_queue(t_queue *queue, t_room *start)
 	t_link		*next_link;
 
 	next_link = start->link_head;
+	queue->top = -1;
 	while (next_link)
 	{
 		add_to_queue(&queue, next_link->link_to, NULL);
@@ -44,15 +45,19 @@ int	add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous)
 	t_queueitem *new_item;
 	int			next_idx;
 
-	next_idx = next_available_index(*queue, (*queue)->top, 0);
+	next_idx = next_available_index_to_write(*queue, (*queue)->top);
+	printf("%d\n", next_idx);
 	if (next_idx == -1)
 		return (0);
 	new_item = (*queue)->arr + next_idx;
 	new_item->room = room;
 	new_item->previous = previous;
-	new_item->steps = previous->steps + 1;
 	set_bitmask_idx(&new_item->rooms_used, room->number);
-	add_bitmask(&previous->rooms_used, &new_item->rooms_used);
+	if (previous)
+	{
+		new_item->steps = previous->steps + 1;
+		add_bitmask(&previous->rooms_used, &new_item->rooms_used);
+	}
 	(*queue)->top = next_idx; 
 	return (1);
 }
@@ -70,17 +75,42 @@ void	garbage_collect(t_queue *queue)
 	}
 }
 
-int		next_available_index(t_queue *queue, int cur_idx, int in_use)
+int		next_available_index_to_write(t_queue *queue, int cur_idx)
+{
+	int			next_idx;
+
+	next_idx = cur_idx;
+	while ((&queue->arr[next_idx])->room != NULL)
+	{
+		next_idx++;
+		if (next_idx >= MAX_QUEUE)
+		{
+			garbage_collect(queue);
+			printf("write: loop de loop!\n");
+			next_idx = 0;
+		}
+	}
+	if (next_idx == cur_idx)
+		return (-1);
+	return (next_idx);
+}
+
+int		next_available_index_to_read(t_queue *queue, int cur_idx)
 {
 	int			next_idx;
 
 	next_idx = cur_idx + 1;
-	while ((((queue->arr + next_idx)->room != 0) == in_use) && next_idx != cur_idx)
+	if (next_idx >= MAX_QUEUE)
 	{
-		if (next_idx == MAX_QUEUE)
+		printf("read: loop de loop1!\n");
+		next_idx = 0;
+	}
+	while ((&queue->arr[next_idx])->room == NULL && \
+			(&queue->arr[next_idx])->times_used == 0)
+	{
+		if (next_idx >= MAX_QUEUE)
 		{
-			garbage_collect(queue);
-			printf("loop de loop!\n");
+			printf("read: loop de loop2!\n");
 			next_idx = 0;
 		}
 		else

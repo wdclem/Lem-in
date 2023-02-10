@@ -20,7 +20,7 @@ static t_path *find_path(t_info *info, t_queueitem *start)
 	static int	path_count;
 
 	new_path = open_path(info, start->steps + 1);
-	path_idx = start->steps;
+	path_idx = start->steps + 1;
 	new_path->arr[path_idx--] = info->end;
 	new_path->id = path_count++;
 	current_item = start;
@@ -30,7 +30,7 @@ static t_path *find_path(t_info *info, t_queueitem *start)
 		current_item = current_item->previous;
 		path_idx -= 1;
 	}
-	clear_dead_branch_from_queue(start);
+	start->times_used = -1;
 	return (new_path);
 }
 
@@ -52,15 +52,18 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 		while (current_link != NULL)
 		{
 			if (current_link->link_to == info->end)
+			{
+				i = next_available_index_to_read(queue, i);
 				return (find_path(info, current_item));
+			}
 			if (can_add_to_queue(current_item, current_link->link_to))
-				current_item->times_used += add_to_queue(&queue, current_link->link_to, \
-						current_item);
+				current_item->times_used += add_to_queue(&queue, \
+						current_link->link_to, current_item);
 			current_link = current_link->next;
 		}
 		if (!current_item->times_used)
 			current_item->times_used = -1;
-		i = next_available_index(queue, i, 1);
+		i = next_available_index_to_read(queue, i);
 	}
 	return (0);
 }
