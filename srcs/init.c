@@ -49,7 +49,7 @@ t_hasht	*table_init(void)
 	table->room = (t_room **)malloc(sizeof(t_room *) * HT_CAP);
 	if (!table->room)
 		return (NULL);
-	ft_bzero(table->room, sizeof(HT_CAP));
+	ft_bzero(table->room, HT_CAP);
 	return (table);
 }
 
@@ -62,7 +62,6 @@ t_link	*new_link(t_room *from, t_room *link_to)
 		return (NULL);
 	link->from = from;
 	link->link_to = link_to;
-	link->flow = 0;
 	link->next = NULL;
 	return (link);
 }
@@ -76,10 +75,8 @@ t_room	*make_room(t_info *info, char *key)
 		return (NULL);
 	room->id = ft_strdup(key);
 	room->number = info->rooms;
-	room->visited = 0;
 	room->valid = 0;
 	room->occupied = 0;
 	room->link_head = NULL;
-	room->next = NULL;
 	return (room);
 }

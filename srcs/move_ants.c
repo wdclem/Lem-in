@@ -41,33 +41,6 @@ t_path	*choose_path(t_pathgroup *path_group)
 	return (best_path);
 }
 
-t_ant	*init_ant(t_info *info, int *id)
-{
-	t_ant *ant;
-
-	ant = (t_ant *)malloc(sizeof(t_ant));
-	ant->room = info->start;
-	ant->id = (*id)++;
-	return(ant);
-}
-
-t_ant	**ants_array(t_info *info, t_ant **array)
-{
-	int		i;
-	int		id;
-
-	i = 0;
-	id = 1;
-	printf("info->ants == %d\n", info->ants);
-	while (i < info->ants)
-	{
-		array[i] = init_ant(info, &id);
-		i++;
-	}
-	printf("array created\n");
-	return(array);
-}
-
 t_room *get_next_room(t_ant *ant)
 {
 	t_room	*copy;

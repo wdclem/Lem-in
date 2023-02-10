@@ -23,23 +23,21 @@
 # define MAX_GROUP_SIZE 256 
 # define MAX_PATHS 1024 
 # define MAX_PATH_SIZE 2048
-# define MAX_QUEUE 131072
+# define MAX_QUEUE 8192
 # define MAX_GROUPS 512 
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
 typedef struct s_room
 {
-	int				link_count;
+	unsigned short	link_count;
 	char			*id;
-	int				number;
-	int				x;
-	int				y;
-	int				visited;
-	int				valid;
-	int				occupied;
+	unsigned short	number;
+	unsigned short	x;
+	unsigned short	y;
+	char			valid;
+	char			occupied;
 	struct s_link	*link_head;
-	struct s_room	*next;
 	size_t			alloced;
 }					t_room;
 
@@ -47,7 +45,6 @@ typedef struct s_link
 {
 	t_room			*from;
 	t_room			*link_to;
-	int				flow;
 	struct s_link	*next;
 }					t_link;
 
@@ -75,45 +72,44 @@ typedef struct s_hasht
 typedef struct s_bitmask
 {
 	unsigned int	bits[MAX_PAGES];
-	int				last_page;
+	unsigned short	last_page;
 }					t_bitmask;
 
 typedef struct s_queueitem
 {
 	t_room				*room;
-	int					steps;
-	int					times_used;
+	unsigned short		steps;
+	signed short		times_used;
 	struct s_queueitem	*previous;
 	t_bitmask			rooms_used;
 }						t_queueitem;
 
 typedef struct s_queue
 {
-	t_queueitem	arr[MAX_QUEUE];
-	int			top;
-	int			usage;
+	t_queueitem		arr[MAX_QUEUE];
+	unsigned short	top;
+	unsigned short	head;
 } t_queue;
 
 typedef struct s_path
 {
-	int			id;
-	t_room		*arr[MAX_PATH_SIZE];
-	int			len;
-	t_bitmask	room_mask;
-	t_bitmask	groups;
-	int			group_count;
-	int			ants_in;
+	unsigned short	id;
+	t_room			*arr[MAX_PATH_SIZE];
+	unsigned short	len;
+	t_bitmask		room_mask;
+	t_bitmask		groups;
+	unsigned short	group_count;
+	unsigned short	ants_in;
 }				t_path;
 
-typedef struct s_pathcontainer
+typedef struct s_pathgroup
 {
-	t_path		*arr[MAX_GROUP_SIZE];
-	int			len;
-	int			alloced;
-	int			id;
-	t_bitmask	room_mask;
-	int			ants_in;
-	int			total_path_len;
+	t_path			*arr[MAX_GROUP_SIZE];
+	unsigned short	len;
+	unsigned short	id;
+	t_bitmask		room_mask;
+	unsigned short	ants_in;
+	unsigned short	total_path_len;
 }				t_pathgroup;
 
 typedef struct s_ant
@@ -147,10 +143,12 @@ t_link		*new_link(t_room *from, t_room *link_to);
 t_ant		**ants_array(t_info *info, t_ant **array);
 t_ant		*init_ant(t_info *info, int *id);
 
-/* DYNAMIC CONTAINERS */
-void	open_queue(t_queue *queue, t_room *start);
-int		add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous);
-void	clear_dead_branch_from_queue(t_queue **queue, t_queueitem *dead_end);
+/* QUEUE */
+void		open_queue(t_queue *queue, t_room *start);
+int			add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous);
+void		clear_dead_branch_from_queue(t_queueitem *dead_end);
+void		garbage_collect(t_queue *queue);
+int			next_available_index(t_queue *queue, int cur_idx, int in_use);
 
 /* GROUPING */
 void		find_groups_for_path(t_info *info, t_path *path,

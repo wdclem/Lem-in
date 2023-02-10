@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static t_path *find_path(t_info *info, t_queue **queue, t_queueitem *start)
+static t_path *find_path(t_info *info, t_queueitem *start)
 {
 	t_queueitem *current_item;
 	t_path		*new_path;
@@ -30,7 +30,7 @@ static t_path *find_path(t_info *info, t_queue **queue, t_queueitem *start)
 		current_item = current_item->previous;
 		path_idx -= 1;
 	}
-	clear_dead_branch_from_queue(queue, start);
+	clear_dead_branch_from_queue(start);
 	return (new_path);
 }
 
@@ -45,21 +45,22 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 	t_link		*current_link;
 	static int	i;
 
-	while (queue->usage > 1)
+	while (i >= 0)
 	{
-		current_item = &queue->arr[i++];
+		current_item = &queue->arr[i];
 		current_link = current_item->room->link_head;
 		while (current_link != NULL)
 		{
 			if (current_link->link_to == info->end)
-				return (find_path(info, &queue, current_item));
+				return (find_path(info, current_item));
 			if (can_add_to_queue(current_item, current_link->link_to))
 				current_item->times_used += add_to_queue(&queue, current_link->link_to, \
 						current_item);
 			current_link = current_link->next;
 		}
 		if (!current_item->times_used)
-			clear_dead_branch_from_queue(&queue, current_item);
+			current_item->times_used = -1;
+		i = next_available_index(queue, i, 1);
 	}
 	return (0);
 }

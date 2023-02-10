@@ -15,28 +15,27 @@
 
 void	open_queue(t_queue *queue, t_room *start)
 {
-	t_queueitem	*first_item;
+	t_link		*next_link;
 
-	first_item = queue->arr;
-	first_item->room = start;
-	first_item->previous = NULL;
-	first_item->steps = 0;
-	queue->usage++;
-	add_to_queue(&queue, start->link_head->link_to, first_item);
+	next_link = start->link_head;
+	while (next_link)
+	{
+		add_to_queue(&queue, next_link->link_to, NULL);
+		next_link = next_link->next;
+	}
 }
 
-void	clear_dead_branch_from_queue(t_queue **queue, t_queueitem *dead_end)
+void	clear_dead_branch_from_queue(t_queueitem *dead_end)
 {
-	t_queueitem *current;
+	t_queueitem *previous;
 
-	current = dead_end;
-	printf("clearing branch, rooms & times_used: ");
-	while(current->steps > 1)
+	previous = dead_end->previous;
+	ft_bzero((void *)dead_end, sizeof(t_queueitem));
+	if (previous)
 	{
-		printf("(%s:%d) ", current->room->id, current->times_used);
-		current->times_used--;
-		(*queue)->usage--;
-		current = current->previous;
+		previous->times_used--;
+		if (previous->times_used == 0)
+			clear_dead_branch_from_queue(previous);
 	}
 }
 
@@ -45,16 +44,9 @@ int	add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous)
 	t_queueitem *new_item;
 	int			next_idx;
 
-	next_idx = (*queue)->top + 1;
-	while(((*queue)->arr + next_idx)->room)
-	{
-		next_idx++;
-		if (next_idx == MAX_QUEUE)
-		{
-			printf("loop de loop!\n");
-			next_idx = 0;
-		}
-	}
+	next_idx = next_available_index(*queue, (*queue)->top, 0);
+	if (next_idx == -1)
+		return (0);
 	new_item = (*queue)->arr + next_idx;
 	new_item->room = room;
 	new_item->previous = previous;
@@ -62,6 +54,39 @@ int	add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous)
 	set_bitmask_idx(&new_item->rooms_used, room->number);
 	add_bitmask(&previous->rooms_used, &new_item->rooms_used);
 	(*queue)->top = next_idx; 
-	(*queue)->usage += 1;
 	return (1);
+}
+
+void	garbage_collect(t_queue *queue)
+{
+	int	queue_idx;
+
+	queue_idx = MAX_QUEUE - 1;
+	while (queue_idx >= 0)
+	{
+		if ((queue->arr + queue_idx)->times_used == -1)
+			clear_dead_branch_from_queue(&queue->arr[queue_idx]);
+		queue_idx--;
+	}
+}
+
+int		next_available_index(t_queue *queue, int cur_idx, int in_use)
+{
+	int			next_idx;
+
+	next_idx = cur_idx + 1;
+	while ((((queue->arr + next_idx)->room != 0) == in_use) && next_idx != cur_idx)
+	{
+		if (next_idx == MAX_QUEUE)
+		{
+			garbage_collect(queue);
+			printf("loop de loop!\n");
+			next_idx = 0;
+		}
+		else
+			next_idx++;
+	}
+	if (next_idx == cur_idx)
+		return (-1);
+	return (next_idx);
 }
