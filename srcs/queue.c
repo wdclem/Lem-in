@@ -89,9 +89,9 @@ int		next_available_index_to_write(t_queue *queue, int cur_idx)
 			printf("write: loop de loop!\n");
 			next_idx = 0;
 		}
+		if (next_idx == cur_idx)
+			return (-1);
 	}
-	if (next_idx == cur_idx)
-		return (-1);
 	return (next_idx);
 }
 
@@ -115,8 +115,8 @@ int		next_available_index_to_read(t_queue *queue, int cur_idx)
 		}
 		else
 			next_idx++;
+		if (next_idx == cur_idx)
+			return (-1);
 	}
-	if (next_idx == cur_idx)
-		return (-1);
 	return (next_idx);
 }

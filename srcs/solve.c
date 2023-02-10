@@ -54,6 +54,11 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 			if (current_link->link_to == info->end)
 			{
 				i = next_available_index_to_read(queue, i);
+				if (i >= MAX_QUEUE)
+				{
+					printf("bfs: loop de loop1!\n");
+					i = 0;
+				}
 				return (find_path(info, current_item));
 			}
 			if (can_add_to_queue(current_item, current_link->link_to))
@@ -64,6 +69,11 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 		if (!current_item->times_used)
 			current_item->times_used = -1;
 		i = next_available_index_to_read(queue, i);
+		if (i >= MAX_QUEUE)
+		{
+			printf("bfs: loop de loop2!\n");
+			i = 0;
+		}
 	}
 	return (0);
 }
