@@ -22,7 +22,7 @@ static void	add_path_to_group(t_path *path, t_pathgroup *group)
 	path->group_count += 1;
 }
 
-void	find_groups_for_path(t_info *info, t_path *path, t_pathgroup *groups)
+void	pathgroup_place_path(t_info *info, t_path *path, t_pathgroup *groups)
 {
 	int	group_idx;
 	int	path_grouped;

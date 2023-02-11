@@ -12,31 +12,14 @@
 
 #include "lemin.h"
 
-static t_path *find_path(t_info *info, t_queueitem *start)
+static int	can_add_to_queue(t_queue *queue, t_room *link_to)
 {
-	t_queueitem *current_item;
-	t_path		*new_path;
-	int 		path_idx;
-	static int	path_count;
+	int	ret;
 
-	new_path = open_path(info, start->steps + 1);
-	path_idx = start->steps + 1;
-	new_path->arr[path_idx--] = info->end;
-	new_path->id = path_count++;
-	current_item = start;
-	while (path_idx >= 0)
-	{
-		add_room_to_path(&new_path, current_item->room, path_idx);
-		current_item = current_item->previous;
-		path_idx -= 1;
-	}
-	start->times_used = -1;
-	return (new_path);
-}
-
-static int	can_add_to_queue(t_queueitem *current_item, t_room *link_to)
-{
-	return (!check_bitmask_idx(&current_item->rooms_used, link_to->number));
+	ret = 1;
+	ret &= flow_allows_movement(link_to->number);
+	ret &= !check_bitmask_idx(&queue->rooms_used, link_to->number);
+	return (ret);
 }
 
 static t_path	*bfs(t_queue *queue, t_info *info)
@@ -45,34 +28,20 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 	t_link		*current_link;
 	static int	i;
 
-	while (i >= 0)
+	while (i >= 0 && i < queue->top)
 	{
-		current_item = &queue->arr[i];
+		current_item = &queue->arr[i++];
+		if (flow_forces_movement(queue, current_item))
+			continue ;
 		current_link = current_item->room->link_head;
 		while (current_link != NULL)
 		{
 			if (current_link->link_to == info->end)
-			{
-				i = next_available_index_to_read(queue, i);
-				if (i >= MAX_QUEUE)
-				{
-					printf("bfs: loop de loop1!\n");
-					i = 0;
-				}
-				return (find_path(info, current_item));
-			}
-			if (current_link->link_to != info->start && can_add_to_queue(current_item, current_link->link_to))
-				current_item->times_used += add_to_queue(&queue, \
-						current_link->link_to, current_item);
+				return (path_find_next(info, current_item));
+			if (current_link->link_to != info->start &&
+					can_add_to_queue(queue, current_link->link_to))
+				queue_add_item(&queue, current_link, current_item);
 			current_link = current_link->next;
-		}
-		if (!current_item->times_used)
-			current_item->times_used = -1;
-		i = next_available_index_to_read(queue, i);
-		if (i >= MAX_QUEUE)
-		{
-			printf("bfs: loop de loop2!\n");
-			i = 0;
 		}
 	}
 	return (0);
@@ -85,20 +54,14 @@ int	solve(t_info *info)
 	t_path		*next_path;
 
 	groups = get_groups();
-	printf("********SOLVE******\n");
-	open_queue(&queue, info->start);
-	printf("ants = %d\n", info->ants);
+	queue_open(&queue, info->start);
 	while (info->total_paths < info->ants * 2)
 	{
 		next_path = bfs(&queue, info);
 		if (!next_path)
-		{
-			printf("All paths found!\n");
 			break ;
-		}
 		else
-			find_groups_for_path(info, next_path, groups);
+			pathgroup_place_path(info, next_path, groups);
 	}
-	printf("teub a l'air, groups %d\n", info->total_groups);
 	return (info->total_groups);
 }

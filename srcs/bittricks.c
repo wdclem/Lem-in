@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 #include "lemin.h"
 
-int check_bitmask_idx(t_bitmask *mask, int idx)
+int check_bitmask_idx(t_roommask *mask, int idx)
 {
 	return (mask->bits[idx / PAGE_SIZE] & (1 << (idx % PAGE_SIZE)));
 }
 
-void print_bitmask(t_bitmask *mask)
+void print_bitmask(t_roommask *mask)
 {
 	for (int i = 0; i < (int)((mask->last_page + 1) * PAGE_SIZE); i++)
 	{
@@ -27,14 +27,14 @@ void print_bitmask(t_bitmask *mask)
 	}
 }
 
-void set_bitmask_idx(t_bitmask *mask, int idx)
+void set_bitmask_idx(t_roommask *mask, int idx)
 {
 	mask->bits[idx / PAGE_SIZE] |= (1 << (idx % PAGE_SIZE));
 	if (idx / (int)PAGE_SIZE > mask->last_page)
 		mask->last_page = idx / PAGE_SIZE;
 }
 
-void add_bitmask(t_bitmask *src, t_bitmask *dst)
+void add_bitmask(t_roommask *src, t_roommask *dst)
 {
 	int	page_idx;
 
@@ -47,7 +47,7 @@ void add_bitmask(t_bitmask *src, t_bitmask *dst)
 	dst->last_page = ft_max(src->last_page, dst->last_page);
 }
 
-int maskcmp(t_bitmask *left, t_bitmask *right)
+int maskcmp(t_roommask *left, t_roommask *right)
 {
 	int	page_idx;
 	int	last_page;

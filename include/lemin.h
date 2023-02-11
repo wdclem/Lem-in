@@ -23,9 +23,11 @@
 # define MAX_GROUP_SIZE 256 
 # define MAX_PATHS 1024 
 # define MAX_PATH_SIZE 2048
-# define MAX_QUEUE 16384
+# define MAX_QUEUE 8192
 # define MAX_GROUPS 512 
-# define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
+# define MAX_LINKS 256
+# define MAX_ROOM_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
+# define MAX_LINK_PAGES (MAX_LINKS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
 typedef struct s_room
@@ -69,46 +71,63 @@ typedef struct s_hasht
 	t_room	**room;
 }			t_hasht;
 
-typedef struct s_bitmask
+typedef struct s_roommask
 {
-	unsigned int	bits[MAX_PAGES];
+	unsigned int	bits[MAX_ROOM_PAGES];
 	unsigned short	last_page;
-}					t_bitmask;
+}					t_roommask;
+
+typedef struct s_linkmask
+{
+	unsigned int	bits[MAX_LINK_PAGES];
+	unsigned char	last_page;
+}					t_linkmask;
 
 typedef struct s_queueitem
 {
 	t_room				*room;
-	unsigned short		steps;
-	signed short		times_used;
 	struct s_queueitem	*previous;
-	t_bitmask			rooms_used;
+	unsigned short		steps;
 }						t_queueitem;
 
 typedef struct s_queue
 {
-	t_queueitem		arr[MAX_QUEUE];
-	signed short	top;
+	t_queueitem	arr[MAX_QUEUE];
+	int			top;
+	t_roommask	rooms_used;
 } t_queue;
+
+typedef	struct	s_flowitem
+{
+	t_linkmask	flow_in;
+	t_linkmask	flow_out;
+	t_linkmask	blocked;
+} t_flowitem;
+
+typedef struct	s_flowmap
+{
+	t_flowitem	arr[MAX_ROOMS];
+} t_flowmap;
 
 typedef struct s_path
 {
 	unsigned short	id;
-	t_room			*arr[MAX_PATH_SIZE];
 	unsigned short	len;
-	t_bitmask		room_mask;
-	t_bitmask		groups;
+	t_room			*arr[MAX_PATH_SIZE];
+	t_roommask		room_mask;
+	t_roommask		groups;
 	unsigned short	group_count;
 	unsigned short	ants_in;
 }				t_path;
 
 typedef struct s_pathgroup
 {
-	t_path			*arr[MAX_GROUP_SIZE];
-	unsigned short	len;
 	unsigned short	id;
-	t_bitmask		room_mask;
-	unsigned short	ants_in;
+	unsigned short	len;
+	t_path			*arr[MAX_GROUP_SIZE];
+	t_roommask		room_mask;
 	unsigned short	total_path_len;
+	unsigned short	ants_in;
 }				t_pathgroup;
 
 typedef struct s_ant
@@ -143,37 +162,40 @@ t_ant		**ants_array(t_info *info, t_ant **array);
 t_ant		*init_ant(t_info *info, int *id);
 
 /* QUEUE */
-void		open_queue(t_queue *queue, t_room *start);
-int			add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous);
-void		clear_dead_branch_from_queue(t_queueitem *dead_end);
-void		garbage_collect(t_queue *queue);
-int			next_available_index_to_write(t_queue *queue, int cur_idx);
-int			next_available_index_to_read(t_queue *queue, int cur_idx);
+void		queue_open(t_queue *queue, t_room *start);
+int			queue_add_item(t_queue **queue, t_link *room, t_queueitem *previous);
+void		queue_clear(t_queue **queue);
+
+/* FLOWMAP */
+void		flow_update_map(void);
+void		flow_update_room(int room_id, int in_link_id, int out_link_id);
+void		flow_block_link(int room_id, int link_id);
+int			flow_allows_movement(int room_id);
+int			flow_forces_movement(t_queue *queue, t_queueitem *current_item);
 
 /* GROUPING */
-void		find_groups_for_path(t_info *info, t_path *path,
+void		pathgroup_place_path(t_info *info, t_path *path,
 				t_pathgroup *groups);
-t_pathgroup	**get_pathgroups(t_info *info);
 
 /* PRINT OUTUPUT */
 int			move_ants2(t_info *info);
-void		test_ant_move(void);
 
-t_path		*open_path(t_info *info, int len);
-void		add_room_to_path(t_path **path, t_room *room, int index);
-void		close_path(t_path **path);
+/* PATHS */
+t_path		*path_open(t_info *info, int len);
+void		path_add_room(t_path **path, t_room *room, int index);
+t_path 		*path_find_next(t_info *info, t_queueitem *start);
 
 /* BITMASK */
-
-int			check_bitmask_idx(t_bitmask *mask, int idx);
-void		print_bitmask(t_bitmask *mask);
-void		set_bitmask_idx(t_bitmask *mask, int idx);
-void		add_bitmask(t_bitmask *src, t_bitmask *dst);
-int			maskcmp(t_bitmask *left, t_bitmask *right);
+int			check_bitmask_idx(t_roommask *mask, int idx);
+void		print_bitmask(t_roommask *mask);
+void		set_bitmask_idx(t_roommask *mask, int idx);
+void		add_bitmask(t_roommask *src, t_roommask *dst);
+int			maskcmp(t_roommask *left, t_roommask *right);
 
 /* STORAGE */
-
 t_path		*get_paths(void);
 t_pathgroup	*get_groups(void);
+t_queue		*get_queue(void);
+t_flowmap	*get_flowmap(void);
 
 #endif
