@@ -61,7 +61,7 @@ static t_path	*bfs(t_queue *queue, t_info *info)
 				}
 				return (find_path(info, current_item));
 			}
-			if (can_add_to_queue(current_item, current_link->link_to))
+			if (current_link->link_to != info->start && can_add_to_queue(current_item, current_link->link_to))
 				current_item->times_used += add_to_queue(&queue, \
 						current_link->link_to, current_item);
 			current_link = current_link->next;
@@ -88,7 +88,7 @@ int	solve(t_info *info)
 	printf("********SOLVE******\n");
 	open_queue(&queue, info->start);
 	printf("ants = %d\n", info->ants);
-	while (info->total_paths < info->ants)
+	while (info->total_paths < info->ants * 2)
 	{
 		next_path = bfs(&queue, info);
 		if (!next_path)

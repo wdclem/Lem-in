@@ -18,7 +18,6 @@ void	open_queue(t_queue *queue, t_room *start)
 	t_link		*next_link;
 
 	next_link = start->link_head;
-	queue->top = -1;
 	while (next_link)
 	{
 		add_to_queue(&queue, next_link->link_to, NULL);
