@@ -32,7 +32,7 @@ int	queue_add_item(t_queue **queue, t_room *room, t_queueitem *previous)
 	new_item = (*queue)->arr + (*queue)->top;
 	new_item->room = room;
 	new_item->previous = previous;
-	set_bitmask_idx(&(*queue)->rooms_used, room->number);
+	bitmask_set_idx(&(*queue)->rooms_used, room->number);
 	if (previous)
 		new_item->steps = previous->steps + 1;
 	(*queue)->top++;

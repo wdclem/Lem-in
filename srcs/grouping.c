@@ -14,8 +14,8 @@
 
 static void	add_path_to_group(t_path *path, t_pathgroup *group)
 {
-	set_bitmask_idx(&path->groups, group->id);
-	add_bitmask(&path->room_mask, &group->room_mask);
+	bitmask_set_idx(&path->groups, group->id);
+	bitmask_add(&path->room_mask, &group->room_mask);
 	group->arr[group->len] = path;
 	group->total_path_len += path->len;
 	group->len += 1;
@@ -31,7 +31,7 @@ void	pathgroup_place_path(t_info *info, t_path *path, t_pathgroup *groups)
 	path_grouped = 0;
 	while (group_idx < info->total_groups)
 	{
-		if (!maskcmp(&(groups + group_idx)->room_mask, &path->room_mask))
+		if (!bitmask_compare(&(groups + group_idx)->room_mask, &path->room_mask))
 		{
 			path_grouped = 1;
 			add_path_to_group(path, (groups + group_idx));

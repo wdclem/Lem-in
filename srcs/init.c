@@ -55,11 +55,13 @@ t_hasht	*table_init(void)
 
 t_link	*new_link(t_room *from, t_room *link_to)
 {
-	t_link	*link;
+	t_link					*link;
+	static unsigned short	number;
 
 	link = (t_link *)malloc(sizeof(t_link));
 	if (!link)
 		return (NULL);
+	link->number = number++;
 	link->from = from;
 	link->link_to = link_to;
 	link->next = NULL;
