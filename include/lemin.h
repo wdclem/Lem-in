@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/09 14:15:28 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/11 22:25:39 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "../libft/includes/libft.h"
 # include <stdio.h> //TODO: TO BE REMOVE
 
-# define ERROR 1
+# define ERROR -1
 # define ANTS_MAX 8192
 # define HT_CAP 65536 // hash table capacity 
 # define MAX_ROOMS 8192
@@ -170,6 +170,10 @@ void		print_bitmask(t_bitmask *mask);
 void		set_bitmask_idx(t_bitmask *mask, int idx);
 void		add_bitmask(t_bitmask *src, t_bitmask *dst);
 int			maskcmp(t_bitmask *left, t_bitmask *right);
+
+/* ERROR MANAGEMENT*/
+
+int	error_center(int error_code);
 
 /* STORAGE */
 

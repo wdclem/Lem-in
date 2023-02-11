@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/09 14:09:03 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/11 22:58:55 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,10 @@ int	dj2b_hash(char *key)
 
 static void	set_start_end(t_info *info, t_hasht *table, int i)
 {
-	if (info->s_check == 1)
-	{
+	if (info->s_check == 1 && !info->start)
 		info->start = table->room[i];
-		info->s_check = 0;
-	}
-	else if (info->e_check == 1)
-	{
+	else if (info->e_check == 1 && !info->end)
 		info->end = table->room[i];
-		info->e_check = 0;
-	}
 }
 
 int	set_table(t_info *info, t_hasht *table, char *room_key)
@@ -59,7 +53,8 @@ int	set_table(t_info *info, t_hasht *table, char *room_key)
 	{
 		table->room[i] = make_room(info, room_key);
 	}
-	set_start_end(info, table, i);
+	if (!info->start || !info->end)
+		set_start_end(info, table, i);
 	while (new_room != NULL)
 	{
 		if (!ft_strequ(room_key, new_room->id))
@@ -75,12 +70,16 @@ int	check_comment_for_start_and_end(t_info *info, int i)
 	ret = 0;
 	if (ft_strequ(info->str[i], "##start"))
 	{
-		info->s_check = 1;
+		if (ft_strequ(info->str[i + 1], "##end") || ft_strequ(info->str[i + 1], "##start"))
+			return (-1);
+		info->s_check += 1;
 		ret = 1;
 	}
 	else if (ft_strequ(info->str[i], "##end"))
 	{
-		info->e_check = 1;
+		if (ft_strequ(info->str[i + 1], "##end") || ft_strequ(info->str[i + 1], "##start"))
+			return (-1);
+		info->e_check += 1;
 		ret = 1;
 	}
 	return (ret);
