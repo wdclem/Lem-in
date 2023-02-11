@@ -25,3 +25,17 @@ t_pathgroup	*get_groups(void)
 
 	return ((t_pathgroup *)groups_arr);
 }
+
+t_info	*get_info(void)
+{
+	static t_info	info;
+
+	return (&info);
+}
+
+t_queue	*get_queue(void)
+{
+	static t_queue	queue;
+	
+	return (&queue);
+}

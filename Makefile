@@ -30,6 +30,10 @@ LIB		=	./libft/libft.a
 OBJ_DIR = ./object/
 OBJ 	= $(addprefix $(OBJ_DIR), $(SRCS:%.c=%.o))
 
+debug: LDFLAGS += -fsanitize=address -fsanitize=undefined \
+	-fno-sanitize-recover=all -fno-sanitize=null -fno-sanitize=alignment 
+debug: all
+
 all: $(NAME) 
 
 $(NAME): $(LIB) $(OBJ)

@@ -51,20 +51,20 @@ static void	print_input(t_info *info)
 
 int	main(int argc, char **argv)
 {
-	t_info		info;
+	t_info		*info;
 	t_hasht		*table;
 
-	ft_bzero(&info, sizeof(t_info));
+	info = get_info();
 	table = table_init();
 	if (argc < 1 || !argv)
 		return (ERROR);
-	save_map(&info);
-	if (!validate_info(&info, table))
-		print_input(&info);
+	save_map(info);
+	if (!validate_info(info, table))
+		print_input(info);
 	printf("content 1\n");
 	write(1, "\n", 1);
-	if (solve(&info))
-		move_ants2(&info);
+	if (solve(info))
+		move_ants2(info);
 	else
 		printf("bad map, no paths :(\n");
 	return (0);

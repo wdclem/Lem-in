@@ -11,7 +11,7 @@
 
 NAME = libft.a
 HEAD = libft.h
-FLAG =  -Werror -Wextra -Wall
+FLAG =  -g -Werror -Wextra -Wall
 OBJ_DIR = ./object/
 SRC_DIR = ./srcs/
 INC_DIR = ./includes/

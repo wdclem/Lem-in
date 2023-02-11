@@ -86,9 +86,12 @@ int	save_links(t_info *info, t_hasht *table, int i, int *error)
 	printf("****LINKS****\ninfo->str[%d] == %s\n", i, info->str[i]);
 	while (i < info->total_strs && !(*error))
 	{
-		if (info->str[i][0] == '#' && check_comment_for_start_and_end(info, i))
-			*error = 1;
-		if (!(*error) && ft_strchr(info->str[i], '-'))
+		if (info->str[i][0] == '#')
+		{
+			if (check_comment_for_start_and_end(info, i))
+				*error = 1;
+		}
+		else if (!(*error) && ft_strchr(info->str[i], '-'))
 		{
 			if (!check_link(info, table, i))
 				info->total_links += 1;
