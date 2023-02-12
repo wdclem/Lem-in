@@ -12,25 +12,39 @@
 
 #include "lemin.h"
 
-int			flow_allows_room_movement(t_flowmap *flowmap, t_room *room)
+static inline const char *flow_to_str(t_flowmask flow)
 {
-	int		free_links;
-	int		link_taken;
-	t_link	*current_link;
+	const char	*strs[] = {
+		"Open",
+		"A to B",
+		"B to A",
+		"",
+		"Blocked"
+	};
 
-	free_links = room->link_count;
-	link_taken = 0;
-	current_link = room->link_head;
-	while (current_link != NULL)
-	{
-		link_taken |= bitmask_check_idx(&flowmap->upstream,
-				current_link->number);
-		link_taken |= bitmask_check_idx(&flowmap->blocked,
-				current_link->number);
-		if (!link_taken)
-			bitmask_set_idx(&flowmap->open, current_link->number);
-		free_links -= link_taken;
-	}
-	return (free_links);
+	return (strs[(int)flow]);
 }
 
+static inline void	flowmap_debug_print(t_flowmap *flowmap, int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		printf("Link %d: %s\n", i, flow_to_str(flowmap->arr[i]));
+	}
+}
+
+void	flowmap_update_stable_map(t_flowmap *working, t_flowmap *stable);
+
+t_path	*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, \
+				t_info *info)
+{
+	(void)queue;
+	(void)flowmap;
+	t_flowmap *working_flowmap = get_working_flowmap();
+	t_flowmap *stable_flowmap = get_stable_flowmap();
+	printf("Working flowmap at this point in time:\n");
+	flowmap_debug_print(working_flowmap, info->total_links);
+	printf("Working flowmap at this point in time:\n");
+	flowmap_debug_print(stable_flowmap, info->total_links);
+	return (NULL);
+}

@@ -11,68 +11,80 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
-#include "libft.h"
 
-int	queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
-		t_link *link_to_follow, t_room *room_to_go)
+int	queue_can_add_room(t_queue *queue, t_flowmap *stable_flowmap, \
+		t_room *source, t_link *link_to_follow)
 {
-	t_flowmask	*current_flow;
-
-	current_flow = &flowmap->arr[link_to_follow->number];
-	if (room_to_go == link_to_follow->room_a)
-		*current_flow = A_TO_B;
-	else
-		*current_flow = B_TO_A;
-	bitmask_set_idx(&queue->rooms_used, room_to_go->number);
-	queue_add_item(&queue, link_to_follow, room_to_go);
-	return (0);
-}
-
-int	queue_can_add_item(t_queue *queue, t_flowmap *flowmap, t_room *source, t_link *link_to_follow)
-{
-	int	ret;
+	const t_flowmask	current_flow = \
+								stable_flowmap->arr[link_to_follow->number];
+	int					ret;
 
 	ret = bitmask_check_idx(&queue->rooms_used, source->number);
-	ret &= flowmap->arr[link_to_follow->number] != BLOCKED;
+	ret &= current_flow != BLOCKED;
+	ret &= link_to_follow->room_a == source && current_flow == A_TO_B;
+	ret &= link_to_follow->room_b == source && current_flow == B_TO_A;
 	return (ret);
 }
 
-int	queue_can_be_opened(t_queue *queue, t_flowmap *flowmap, t_room *start)
+void	queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
+		t_link *link_to_follow, t_queueitem *previous)
 {
-	t_link		*next_link;
-	t_room		*next_room;
-	t_flowmask	*next_flow;
+	t_flowmask	*current_flow;
+	t_room		*room_to_go;
 
-	next_link = start->link_head;
-	while (next_link)
+	current_flow = &flowmap->arr[link_to_follow->number];
+	if (previous->room == link_to_follow->room_a)
 	{
-		next_flow = &flowmap->arr[next_link->number];
-		if (*next_flow == BLOCKED)
-			continue;
-		if (start == next_link->room_a && *next_flow == B_TO_A)
-			continue;
-		if (*next_flow == A_TO_B
-		if (next_room == next_link->room_a && *next_flow == B_TO_A)
-			continue ;
-		if (next_room == next_link->room_b && *next_flow == B_TO_A)
-			continue;
+		*current_flow = A_TO_B;
+		room_to_go = link_to_follow->room_b;
 	}
-	return (queue->top > 0);
+	else
+	{
+		*current_flow = B_TO_A;
+		room_to_go = link_to_follow->room_a;
+	}
+	queue_add_item(&queue, room_to_go, previous);
 }
 
-int	queue_add_item(t_queue **queue, t_link *previous_link, t_room *next_room)
+void queue_add_item(t_queue **queue, t_room *next_room, \
+		t_queueitem *previous)
 {
 	t_queueitem *new_item;
 
 	new_item = (*queue)->arr + (*queue)->top;
 	new_item->room = next_room;
-	new_item->previous = previous_link;
+	new_item->previous = previous;
+	if (previous)
+		new_item->steps = previous->steps + 1;
+	bitmask_set_idx(&(*queue)->rooms_used, next_room->number);
 	(*queue)->top++;
-	return (1);
+}
+
+int	queue_can_be_opened(t_queue *queue, t_flowmap *stable_flowmap, t_room *start)
+{
+	const t_queueitem	startitem = {
+		start,
+		NULL,
+		0
+	};
+	t_flowmap			*working_flowmap;
+	t_link				*next_link;
+
+	next_link = start->link_head;
+	working_flowmap = get_working_flowmap();
+	while (next_link)
+	{
+		if (next_link->room_a == start && queue_can_add_room(queue, \
+					stable_flowmap, next_link->room_b, next_link))
+			queue_add_item_and_update_flow(queue, working_flowmap, \
+					next_link, (t_queueitem *)&startitem);
+	}
+	return (queue->top > 0);
 }
 
 void queue_clear(t_queue **queue)
 {
 	ft_bzero((void *)(*queue)->arr, sizeof(t_queueitem) * (*queue)->top);
+	bitmask_clear(&(*queue)->rooms_used);
 	(*queue)->top = 0;
 }

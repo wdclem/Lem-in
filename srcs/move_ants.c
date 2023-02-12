@@ -119,7 +119,7 @@ int	move_ants2(t_info *info)
 	ants = NULL;
 	ants = (t_ant **)malloc(sizeof(t_ant *) * info->ants);
 	ants = ants_array(info, ants);
-	path_group = select_group(info, get_groups());
+	path_group = select_group(info, get_groups_arr());
 	ant_idx = 0;
 	ants_arrived = 0;
 	while (ant_idx < info->ants)

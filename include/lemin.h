@@ -90,8 +90,9 @@ typedef struct	s_flowmap
 
 typedef struct s_queueitem
 {
-	t_room	*room;
-	t_link	*previous;
+	t_room				*room;
+	struct s_queueitem	*previous;
+	unsigned short		steps;
 }						t_queueitem;
 
 typedef struct s_queue
@@ -154,23 +155,23 @@ t_ant		**ants_array(t_info *info, t_ant **array);
 t_ant		*init_ant(t_info *info, int *id);
 
 /* QUEUE */
-int		queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
-			t_link *link_to_follow, t_room *room_to_go);
-int		queue_can_add_item(t_queue *queue, t_flowmap *flowmap, t_room *source, t_link *link_to_follow);
 int			queue_can_be_opened(t_queue *queue, t_flowmap *flowmap, \
-		t_room *start);
-int			queue_add_item(t_queue **queue, t_link *previous_link, t_room \
-		*next_room);
+				t_room *start);
+int			queue_can_add_room(t_queue *queue, t_flowmap *stable_flowmap, \
+				t_room *source, t_link *link_to_follow);
+void		queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
+				t_link *link_to_follow, t_queueitem *previous);
+void		queue_add_item(t_queue **queue, t_room *next_room, \
+				t_queueitem *previous);
 void		queue_clear(t_queue **queue);
 
 /* FLOWMAP */
-void		flowmap_discover_flow_to_sink(t_flowmap *flowmap, t_room *source);
 void		flowmap_update_stable_map(t_flowmap *working, t_flowmap *stable);
-void		flowmap_paths_exist(t_flowmap *flowmap, t_room *sink);
+t_path		*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, \
+				t_info *info);
 
 /* GROUPING */
-void		pathgroup_place_path(t_info *info, t_path *path,
-				t_pathgroup *groups);
+void		grouping_add_path_to_group(t_pathgroup *group, t_path *path);
 
 /* PRINT OUTUPUT */
 int			move_ants2(t_info *info);
@@ -186,12 +187,11 @@ void		bitmask_set_idx(t_bitmask *mask, int idx);
 void		bitmask_clear(t_bitmask *mask);
 
 /* ERROR MANAGEMENT*/
-
-int	error_center(int error_code);
+int			error_center(int error_code);
 
 /* STORAGE */
 t_path		*get_paths(void);
-t_pathgroup	*get_groups(void);
+t_pathgroup	*get_groups_arr(void);
 t_queue		*get_queue(void);
 t_flowmap	*get_working_flowmap(void);
 t_flowmap	*get_stable_flowmap(void);
