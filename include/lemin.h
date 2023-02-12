@@ -154,13 +154,19 @@ t_ant		**ants_array(t_info *info, t_ant **array);
 t_ant		*init_ant(t_info *info, int *id);
 
 /* QUEUE */
-void		queue_open(t_queue *queue, t_room *start);
+int		queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
+			t_link *link_to_follow, t_room *room_to_go);
+int		queue_can_add_item(t_queue *queue, t_flowmap *flowmap, t_room *source, t_link *link_to_follow);
+int			queue_can_be_opened(t_queue *queue, t_flowmap *flowmap, \
+		t_room *start);
 int			queue_add_item(t_queue **queue, t_link *previous_link, t_room \
 		*next_room);
 void		queue_clear(t_queue **queue);
 
 /* FLOWMAP */
-int			flow_allows_room_movement(t_flowmap *flowmap, t_room *room);
+void		flowmap_discover_flow_to_sink(t_flowmap *flowmap, t_room *source);
+void		flowmap_update_stable_map(t_flowmap *working, t_flowmap *stable);
+void		flowmap_paths_exist(t_flowmap *flowmap, t_room *sink);
 
 /* GROUPING */
 void		pathgroup_place_path(t_info *info, t_path *path,
@@ -177,9 +183,7 @@ t_path 		*path_find_next(t_info *info, t_queueitem *start);
 /* BITMASK */
 int			bitmask_check_idx(t_bitmask *mask, int idx);
 void		bitmask_set_idx(t_bitmask *mask, int idx);
-void		bitmask_add(t_bitmask *src, t_bitmask *dst);
-int			bitmask_compare(t_bitmask *left, t_bitmask *right);
-int			bitmask_in_use(t_bitmask *mask);
+void		bitmask_clear(t_bitmask *mask);
 
 /* ERROR MANAGEMENT*/
 
