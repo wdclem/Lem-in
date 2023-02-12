@@ -62,8 +62,8 @@ t_link	*new_link(t_room *from, t_room *link_to)
 	if (!link)
 		return (NULL);
 	link->number = number++;
-	link->room_a = from;
-	link->room_b = link_to;
+	link->from = from;
+	link->link_to = link_to;
 	link->next = NULL;
 	return (link);
 }

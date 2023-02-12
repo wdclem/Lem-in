@@ -19,16 +19,24 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 	t_pathgroup	*next_group;
 	t_path		*next_path;
 
-	queue_clear(&queue);
 	groups_arr = get_groups_arr();
 	next_group = groups_arr + info->total_groups;
+	queue_clear(&queue);
+	queue_add_item(&queue, info->end, NULL, NULL);
 	while (1)
 	{
 		next_path = flowmap_find_path(queue, stable_flowmap, info);
 		if (next_path == NULL)
 			break ;
+		else
+			printf("found path len:%d\n", next_path->len);
 		grouping_add_path_to_group(next_group, next_path);
 	}
+	t_flowmap *working_flowmap = get_working_flowmap();
+	printf("Findpath: working flowmap at this point in time:\n");
+	flowmap_debug_print(working_flowmap, info->total_links);
+	printf("Stable flowmap at this point in time:\n");
+	flowmap_debug_print(stable_flowmap, info->total_links);
 	return (next_group);
 }
 
@@ -46,15 +54,12 @@ static int	discover_flow_to_sink(t_queue *queue, t_flowmap *working_flowmap, \
 		current_link = current_item->room->link_head;
 		while (current_link != NULL)
 		{
-			next_room = current_link->room_a;
-			if (next_room == current_item->room)
-				next_room = current_link->room_b;
-			if (next_room == info->end)
-				return (1);
-			if (queue_can_add_room(queue, stable_flowmap, next_room, \
-						current_link))
+			next_room = current_link->link_to;
+			if (queue_can_add_room(queue, stable_flowmap, current_link))
 				queue_add_item_and_update_flow(queue, working_flowmap, \
 					current_link, current_item);
+			if (next_room == info->end)
+				return (1);
 			current_link = current_link->next;
 		}
 	}
@@ -71,7 +76,8 @@ static int	can_find_next_pathgroup(t_queue *queue, t_info *info)
 	stable_flowmap = get_stable_flowmap();
 	if (!discover_flow_to_sink(queue, working_flowmap, stable_flowmap, info))
 		return (0);
-	flowmap_update_stable_map(working_flowmap, stable_flowmap, info->total_links);
+	flowmap_update_stable_map(&queue->arr[queue->top - 1], working_flowmap, \
+			stable_flowmap, info->total_links);
 	next_group = find_paths_for_next_group(queue, stable_flowmap, info);
 	return (next_group->len > 0);
 }

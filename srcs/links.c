@@ -94,7 +94,7 @@ int	save_links(t_info *info, t_hasht *table, int i, int *error)
 		else if (!(*error) && ft_strchr(info->str[i], '-'))
 		{
 			if (!check_link(info, table, i))
-				info->total_links += 1;
+				info->total_links += 2;
 			else
 				return (0);
 		}

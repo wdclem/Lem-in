@@ -29,8 +29,9 @@
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
-# define A_TO_B 1
-# define B_TO_A 2
+# define OPEN 0
+# define UPSTREAM 1
+# define DOWNSTREAM 2
 # define BLOCKED 4
 
 typedef struct s_room
@@ -49,8 +50,8 @@ typedef struct s_room
 typedef struct s_link
 {
 	unsigned short	number;
-	t_room			*room_a;
-	t_room			*room_b;
+	t_room			*from;
+	t_room			*link_to;
 	struct s_link	*next;
 }					t_link;
 
@@ -91,7 +92,8 @@ typedef struct	s_flowmap
 typedef struct s_queueitem
 {
 	t_room				*room;
-	struct s_queueitem	*previous;
+	struct s_queueitem	*previous_item;
+	t_link				*link_used;
 	unsigned short		steps;
 }						t_queueitem;
 
@@ -158,18 +160,19 @@ t_ant		*init_ant(t_info *info, int *id);
 int			queue_can_be_opened(t_queue *queue, t_flowmap *flowmap, \
 				t_room *start);
 int			queue_can_add_room(t_queue *queue, t_flowmap *stable_flowmap, \
-				t_room *source, t_link *link_to_follow);
+				t_link *link_to_follow);
 void		queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
 				t_link *link_to_follow, t_queueitem *previous);
 void		queue_add_item(t_queue **queue, t_room *next_room, \
-				t_queueitem *previous);
+				t_link *link_used, t_queueitem *previous);
 void		queue_clear(t_queue **queue);
 
 /* FLOWMAP */
-void		flowmap_update_stable_map(t_flowmap *working, t_flowmap *stable, \
-				int total_links);
-t_path		*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, \
-				t_info *info);
+void		flowmap_debug_print(t_flowmap *flowmap, int count);
+void		flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
+				t_flowmap *stable, int total_links);
+t_path		*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, t_info *info);
+const		char *flow_to_str(t_flowmask flow);
 
 /* GROUPING */
 void		grouping_add_path_to_group(t_pathgroup *group, t_path *path);
@@ -180,7 +183,7 @@ int			move_ants2(t_info *info);
 /* PATHS */
 t_path		*path_open(t_info *info, int len);
 void		path_add_room(t_path **path, t_room *room, int index);
-t_path 		*path_find_next(t_info *info, t_queueitem *start);
+t_path 		*path_make_next(t_info *info, t_queueitem *start);
 
 /* BITMASK */
 int			bitmask_check_idx(t_bitmask *mask, int idx);
