@@ -19,10 +19,10 @@ int	queue_can_add_room(t_queue *queue, t_flowmap *stable_flowmap, \
 								stable_flowmap->arr[link_to_follow->number];
 	int					ret;
 
-	ret = bitmask_check_idx(&queue->rooms_used, source->number);
+	ret = !bitmask_check_idx(&queue->rooms_used, source->number);
 	ret &= current_flow != BLOCKED;
-	ret &= link_to_follow->room_a == source && current_flow == A_TO_B;
-	ret &= link_to_follow->room_b == source && current_flow == B_TO_A;
+	ret &= !(link_to_follow->room_a == source && current_flow == A_TO_B);
+	ret &= !(link_to_follow->room_b == source && current_flow == B_TO_A);
 	return (ret);
 }
 
@@ -72,12 +72,14 @@ int	queue_can_be_opened(t_queue *queue, t_flowmap *stable_flowmap, t_room *start
 
 	next_link = start->link_head;
 	working_flowmap = get_working_flowmap();
+	queue_clear(&queue);
 	while (next_link)
 	{
 		if (next_link->room_a == start && queue_can_add_room(queue, \
 					stable_flowmap, next_link->room_b, next_link))
 			queue_add_item_and_update_flow(queue, working_flowmap, \
 					next_link, (t_queueitem *)&startitem);
+		next_link = next_link->next;
 	}
 	return (queue->top > 0);
 }

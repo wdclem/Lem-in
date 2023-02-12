@@ -166,7 +166,8 @@ void		queue_add_item(t_queue **queue, t_room *next_room, \
 void		queue_clear(t_queue **queue);
 
 /* FLOWMAP */
-void		flowmap_update_stable_map(t_flowmap *working, t_flowmap *stable);
+void		flowmap_update_stable_map(t_flowmap *working, t_flowmap *stable, \
+				int total_links);
 t_path		*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, \
 				t_info *info);
 

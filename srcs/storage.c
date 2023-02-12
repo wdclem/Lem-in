@@ -32,3 +32,17 @@ t_queue	*get_queue(void)
 
 	return (&queue);
 }
+
+t_flowmap *get_stable_flowmap(void)
+{
+	static t_flowmap	stable_flowmap;
+
+	return (&stable_flowmap);
+}
+
+t_flowmap *get_working_flowmap(void)
+{
+	static t_flowmap	working_flowmap;
+
+	return (&working_flowmap);
+}

@@ -40,7 +40,6 @@ static int	discover_flow_to_sink(t_queue *queue, t_flowmap *working_flowmap, \
 	t_room		*next_room;
 	static int	i;
 	
-	queue_clear(&queue);
 	while (i < queue->top)
 	{
 		current_item = &queue->arr[i++];
@@ -52,11 +51,11 @@ static int	discover_flow_to_sink(t_queue *queue, t_flowmap *working_flowmap, \
 				next_room = current_link->room_b;
 			if (next_room == info->end)
 				return (1);
-			if (!queue_can_add_room(queue, stable_flowmap, next_room,	\
+			if (queue_can_add_room(queue, stable_flowmap, next_room, \
 						current_link))
-				continue ;
-			queue_add_item_and_update_flow(queue, working_flowmap, \
+				queue_add_item_and_update_flow(queue, working_flowmap, \
 					current_link, current_item);
+			current_link = current_link->next;
 		}
 	}
 	return (0);
@@ -72,7 +71,7 @@ static int	can_find_next_pathgroup(t_queue *queue, t_info *info)
 	stable_flowmap = get_stable_flowmap();
 	if (!discover_flow_to_sink(queue, working_flowmap, stable_flowmap, info))
 		return (0);
-	flowmap_update_stable_map(working_flowmap, stable_flowmap);
+	flowmap_update_stable_map(working_flowmap, stable_flowmap, info->total_links);
 	next_group = find_paths_for_next_group(queue, stable_flowmap, info);
 	return (next_group->len > 0);
 }

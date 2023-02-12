@@ -33,8 +33,14 @@ static inline void	flowmap_debug_print(t_flowmap *flowmap, int count)
 	}
 }
 
-void	flowmap_update_stable_map(t_flowmap *working, t_flowmap *stable);
-
+void	flowmap_update_stable_map(t_flowmap *working, t_flowmap *stable, \
+		int total_links)
+{
+	printf("Working flowmap at this point in time:\n");
+		flowmap_debug_print(working, total_links);
+	printf("Working flowmap at this point in time:\n");
+	flowmap_debug_print(stable, total_links);
+}
 t_path	*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, \
 				t_info *info)
 {

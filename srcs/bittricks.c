@@ -52,7 +52,8 @@ int bitmask_compare(t_bitmask *left, t_bitmask *right)
 	return (0);
 }
 
-int	bitmask_in_use(t_bitmask *mask)
+void	bitmask_clear(t_bitmask *mask)
 {
-	return (mask->last_page > 0 || mask->bits[0] != 0);
+	ft_bzero((void *)&mask->bits, sizeof(int) * mask->last_page);
+	mask->last_page = 0;
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   grouping.c                                         :+:      :+:    :+:   */
+	/*   grouping.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,4 +12,9 @@
 
 #include "lemin.h"
 
-
+void		grouping_add_path_to_group(t_pathgroup *group, t_path *path)
+{
+	(void)group;
+	(void)path;
+	printf("No groups yet :)\n");
+}
