@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ants.c                                             :+:      :+:    :+:   */
+/*   error_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 12:43:53 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/11 22:42:07 by ccariou          ###   ########.fr       */
+/*   Created: 2023/02/11 15:14:34 by ccariou           #+#    #+#             */
+/*   Updated: 2023/02/11 22:55:50 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int	save_ants(t_info *info, int i, int *error)
+int	error_center(int error_code)
 {
-	if (info->str[i] && !ft_strchr(info->str[i], (int) ' '))
-		info->ants = ft_atoi(info->str[i]);
-	if (info->ants <= 0 || info->ants > ANTS_MAX)
-	{
-		*error = 1;
-		error_center(2);
-		return (-1);
-	}
-		return (1);
+	if (error_code == 0)
+		ft_printf("usage ./lem-in < path/to/file\n");
+	else if (error_code == 1)
+		ft_printf("empty file\n");
+	else if (error_code == 2)
+		ft_printf("ants number incorrect\n");
+	else if (error_code == 3)
+		ft_printf("'L' in room name\n");
+	else if (error_code == 4)
+		ft_printf("start/end incorrect\n");
+	return (-1);
 }

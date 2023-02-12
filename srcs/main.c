@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:57:06 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/09 13:58:30 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/11 22:27:30 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ static int	validate_info(t_info *info, t_hasht *table)
 	if (!info->str[i])
 		return (ERROR);
 	printf ("content 1\n");
-	while (save_ants(info, i, &error) == 0)
-		i++;
-	i++;
-	printf ("ants = %d\n", info->ants);
-	if (!info->str[i] || error)
+	i = save_ants(info, i, &error);
+	if (i == -1)
 		return (ERROR);
+	printf ("ants = %d\n", info->ants);
 	i = save_rooms(info, table, i, &error);
-	if (!info->str[i] || error)
+	if (!info->str[i] || i == -1 || error)
 		return (ERROR);
 	i = save_links(info, table, i, &error);
-	return (0);
+	if (i == -1)
+		return (ERROR);
+	return (i);
 }
 
 static void	print_input(t_info *info)
@@ -56,11 +56,13 @@ int	main(int argc, char **argv)
 
 	ft_bzero(&info, sizeof(t_info));
 	table = table_init();
-	if (argc < 1 || !argv)
-		return (ERROR);
-	save_map(&info);
-	if (!validate_info(&info, table))
-		print_input(&info);
+	if (argc < 1 || argc > 2|| !argv)
+		return (error_center(0));
+	if (save_map(&info) == -1)
+		return (0);
+	if (validate_info(&info, table) == -1)
+		return (0);
+	print_input(&info);
 	printf("content 1\n");
 	write(1, "\n", 1);
 	if (solve(&info))

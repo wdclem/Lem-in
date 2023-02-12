@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:34:27 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/09 14:10:06 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/11 22:55:23 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,12 @@ int	save_rooms(t_info *info, t_hasht *table, int i, int *error)
 	while (i < info->total_strs && !ft_strchr(info->str[i], '-') && !(*error))
 	{
 		if (info->str[i][0] == 'L')
-			*error = 1;
+			return (error_center(3));
 		else if (info->str[i][0] == '#')
-			check_comment_for_start_and_end(info, i);
+		{
+		 	if (check_comment_for_start_and_end(info, i) == -1)
+				return (error_center(4));
+		}
 		else if (ft_strchr(info->str[i], ' '))
 		{
 			if (room_is_valid(info, table, i) == 1)
@@ -85,7 +88,7 @@ int	save_rooms(t_info *info, t_hasht *table, int i, int *error)
 		}
 		i++;
 	}
-	if (!info->start || !info->end || *error)
-		return (ERROR);
+	if (info->s_check != 1 || info->e_check != 1 || *error)
+		return (error_center(4));
 	return (i);
 }
