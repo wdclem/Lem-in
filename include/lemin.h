@@ -29,6 +29,10 @@
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
+# define A_TO_B 1
+# define B_TO_A 2
+# define BLOCKED 4
+
 typedef struct s_room
 {
 	unsigned short	link_count;
@@ -45,8 +49,8 @@ typedef struct s_room
 typedef struct s_link
 {
 	unsigned short	number;
-	t_room			*from;
-	t_room			*link_to;
+	t_room			*room_a;
+	t_room			*room_b;
 	struct s_link	*next;
 }					t_link;
 
@@ -77,19 +81,17 @@ typedef struct s_bitmask
 	unsigned int	bits[MAX_PAGES];
 }					t_bitmask;
 
+typedef char	t_flowmask;
+
 typedef struct	s_flowmap
 {
-	t_bitmask	upstream;
-	t_bitmask	downstream;
-	t_bitmask	open;
-	t_bitmask	blocked;
+	t_flowmask	arr[MAX_LINKS];
 } t_flowmap;
 
 typedef struct s_queueitem
 {
-	t_room				*room;
-	struct s_queueitem	*previous;
-	unsigned short		steps;
+	t_room	*room;
+	t_link	*previous;
 }						t_queueitem;
 
 typedef struct s_queue
@@ -153,8 +155,8 @@ t_ant		*init_ant(t_info *info, int *id);
 
 /* QUEUE */
 void		queue_open(t_queue *queue, t_room *start);
-int			queue_add_item(t_queue **queue, t_link *link, 
-		t_queueitem *previous);
+int			queue_add_item(t_queue **queue, t_link *previous_link, t_room \
+		*next_room);
 void		queue_clear(t_queue **queue);
 
 /* FLOWMAP */
@@ -183,6 +185,7 @@ int			bitmask_in_use(t_bitmask *mask);
 t_path		*get_paths(void);
 t_pathgroup	*get_groups(void);
 t_queue		*get_queue(void);
-t_flowmap	*get_flowmap(void);
+t_flowmap	*get_working_flowmap(void);
+t_flowmap	*get_stable_flowmap(void);
 
 #endif

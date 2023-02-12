@@ -16,25 +16,33 @@
 void	queue_open(t_queue *queue, t_room *start)
 {
 	t_link		*next_link;
+	t_room		*next_room;
+	t_flowmap	*flowmap;
 
 	next_link = start->link_head;
+	flowmap = get_working_flowmap();
 	while (next_link)
 	{
-		queue_add_item(&queue, next_link->link_to, NULL);
+		next_room = next_link->room_a;
+		flowmap->arr[next_link->number] = B_TO_A;
+		if (next_room == start)
+		{
+			next_room = next_link->room_b;
+			flowmap->arr[next_link->number] = A_TO_B;
+		}
+		queue_add_item(&queue, next_link, next_room);
 		next_link = next_link->next;
 	}
 }
 
-int	queue_add_item(t_queue **queue, t_room *room, t_queueitem *previous)
+int	queue_add_item(t_queue **queue, t_link *previous_link, t_room *next_room)
 {
 	t_queueitem *new_item;
 
 	new_item = (*queue)->arr + (*queue)->top;
-	new_item->room = room;
-	new_item->previous = previous;
-	bitmask_set_idx(&(*queue)->rooms_used, room->number);
-	if (previous)
-		new_item->steps = previous->steps + 1;
+	new_item->room = next_room;
+	new_item->previous = previous_link;
+	bitmask_set_idx(&(*queue)->rooms_used, next_room->number);
 	(*queue)->top++;
 	return (1);
 }

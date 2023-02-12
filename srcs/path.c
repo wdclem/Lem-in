@@ -46,7 +46,7 @@ t_path *path_find_next(t_info *info, t_queueitem *start)
 	current_item = start;
 	while (path_idx >= 0)
 	{
-		path_add_room(&new_path, current_item->room, path_idx);
+		path_add_room(&new_path, current_item->next_room, path_idx);
 		current_item = current_item->previous;
 		path_idx -= 1;
 	}
