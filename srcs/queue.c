@@ -6,7 +6,7 @@
 /*   By: tpolonen <tpolonen@student.hive.fi>          +#+  +:+       +#+      */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 14:59:25 by tpolonen           #+#    #+#            */
-/*   Updated: 2023/01/16 18:30:07 by tpolonen         ###   ########.fr       */
+/*   Updated: 2023/02/12 13:43:50 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous)
 	int			next_idx;
 
 	next_idx = next_available_index_to_write(*queue, (*queue)->top);
-	printf("%d\n", next_idx);
+//	printf("%d\n", next_idx);
 	if (next_idx == -1)
 		return (0);
 	new_item = (*queue)->arr + next_idx;

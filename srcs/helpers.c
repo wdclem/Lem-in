@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/11 22:58:55 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/12 14:32:12 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,18 @@ int	check_comment_for_start_and_end(t_info *info, int i)
 	ret = 0;
 	if (ft_strequ(info->str[i], "##start"))
 	{
-		if (ft_strequ(info->str[i + 1], "##end") || ft_strequ(info->str[i + 1], "##start"))
+		if (info->str[i + 1] && info->str[i + 1][0] == '#')
+			return (-1);
+		else if (info->str[i + 1] && info->str[i + 1][0] == 0)
 			return (-1);
 		info->s_check += 1;
 		ret = 1;
 	}
 	else if (ft_strequ(info->str[i], "##end"))
 	{
-		if (ft_strequ(info->str[i + 1], "##end") || ft_strequ(info->str[i + 1], "##start"))
+		if (info->str[i + 1] && info->str[i + 1][0] == '#')
+			return (-1);
+		else if (info->str[i + 1] && info->str[i + 1][0] == '0') 
 			return (-1);
 		info->e_check += 1;
 		ret = 1;

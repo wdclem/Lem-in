@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/11 22:25:39 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/12 13:44:10 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ int			solve(t_info *info);
 
 /* PARSING/VALIDATION */
 int			save_map(t_info *info);
-int			save_ants(t_info *info, int i, int *error);
-int			save_rooms(t_info *info, t_hasht *table, int i, int *error);
-int			save_links(t_info *info, t_hasht *table, int i, int *error);
+int			save_ants(t_info *info, int i);
+int			save_rooms(t_info *info, t_hasht *table, int i);
+int			save_links(t_info *info, t_hasht *table, int i);
 
 /* UTIL.C */
 int			set_table(t_info *info, t_hasht *table, char *room_key);

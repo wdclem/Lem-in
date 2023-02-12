@@ -1,37 +1,37 @@
-/comment_after_end
-/comment_after_start
-/comment_in_link
-/comment_in_room
-/empty_file
-/empty_line_after_ants
-/empty_line_between_rooms_and_links
-/empty_line_in_links
-/empty_line_in_rooms
-/end_after_end
-/end_after_start
-/invalid_ants
-/invalid_room_coordinate
-/invalid_room_in_link_0
-/invalid_room_in_link_1
-/invalid_room_in_link_2
-/invalid_room_name_0
-/link_after_end
-/link_after_start
-/link_among_rooms
-/missing_room_coordinate
-/my_test1
-/negative_ants
-/no_ants
-/no_end
-/no_links
-/no_path_from_start_to_end
-/no_rooms
-/no_start
-/room_among_links
-/room_starts_with_L
-/same_link_twice
-/same_room_twice
-/start_after_end
-/start_after_start
-/two_ends
-/two_starts
+/comment_after_end 			***DONE		
+/comment_after_start		***DONE	
+/comment_in_link				///TODO
+/comment_in_room			***DONE
+/empty_file					***DONE
+/empty_line_after_ants		***DONE
+/empty_line_between_rooms_and_links	***DONE
+/empty_line_in_links		***DONE
+/empty_line_in_rooms		***DONE
+/end_after_end				***DONE
+/end_after_start			***DONE
+/invalid_ants				***DONE
+/invalid_room_coordinate		///TODO
+/invalid_room_in_link_0			///TODO	
+/invalid_room_in_link_1			///TODO	
+/invalid_room_in_link_2			///TODO	
+/invalid_room_name_0		***DONE
+/link_after_end					///TODO
+/link_after_start				///TODO
+/link_among_rooms					>>>TO CHECK
+/missing_room_coordinate	***DONE
+/my_test1					??????????
+/negative_ants				***DONE
+/no_ants						///TODO
+/no_end						***DONE
+/no_links						///TODO
+/no_path_from_start_to_end		///TODO
+/no_rooms							>>>TOCHECK
+/no_start					***DONE
+/room_among_links				///TODO
+/room_starts_with_L			***DONE 
+/same_link_twice				////TODO	
+/same_room_twice				///TODO
+/start_after_end			***DONE
+/start_after_start			***DONE
+/two_ends					***DONE
+/two_starts 				***DONE

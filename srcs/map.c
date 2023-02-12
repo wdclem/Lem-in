@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 15:15:13 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/11 22:47:40 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/12 14:38:30 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ int	save_map(t_info *info)
 	{
 		gnl_ret = get_next_line(0, &line);
 		if (gnl_ret == 0)
+		{
+			if (i == 0)
+				return (error_center(1));
 			break ;
+		}
 		if (gnl_ret < 0)
 			return (error_center(1));
 		info->str[i] = line;

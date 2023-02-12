@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:19:43 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/09 12:08:31 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/12 14:43:57 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,25 +81,27 @@ int	check_link(t_info *info, t_hasht *table, int i)
 	return (0);
 }
 
-int	save_links(t_info *info, t_hasht *table, int i, int *error)
+int	save_links(t_info *info, t_hasht *table, int i)
 {
 	printf("****LINKS****\ninfo->str[%d] == %s\n", i, info->str[i]);
-	while (i < info->total_strs && !(*error))
+	while (i < info->total_strs)
 	{
+		if (info->str[i][0] == 0 || !ft_strchr(info->str[i], '-'))
+			return (error_center(6));
 		if (info->str[i][0] == '#')
 		{
-			if (check_comment_for_start_and_end(info, i))
-				*error = 1;
+			if (check_comment_for_start_and_end(info, i) == -1)
+				return (ERROR);
 		}
-		else if (!(*error) && ft_strchr(info->str[i], '-'))
+		else if (ft_strchr(info->str[i], '-'))
 		{
 			if (!check_link(info, table, i))
 				info->total_links += 1;
 			else
-				return (0);
+				return(error_center(6));
 		}
 		i++;
 	}	printf("link count = %d\n", info->start->link_count);
 	printf("total link = %d\n", info->total_links);
-	return (*error);
+	return (0);
 }
