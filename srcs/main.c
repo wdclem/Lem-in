@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:57:06 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/12 13:45:14 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 10:27:19 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static int	validate_info(t_info *info, t_hasht *table)
 	printf ("ants = %d\n", info->ants);
 	i = save_rooms(info, table, i);
 	if (!info->str[i] || i == -1)
-		return (ERROR);
+		return (error_center(4));
 	i = save_links(info, table, i);
 	if (i == -1)
-		return (ERROR);
+		return (error_center(5));
 	/*
 	while (info->str[i])
 		ft_isspace(info->str[i][0])

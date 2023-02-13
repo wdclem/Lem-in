@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/12 14:32:12 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 13:04:23 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,13 @@ int	set_table(t_info *info, t_hasht *table, char *room_key)
 	t_room	*new_room;
 
 	i = dj2b_hash(room_key);
+	//printf("table i == %d\n", i);
+	//if (unique_id(i, table, room_key) != 0)
+	//	return (ERROR);
 	while (table->room[i])
 	{
+		if (unique_id(i, table, room_key) != 0)
+			return (ERROR);
 		i++;
 		if (i >= HT_CAP)
 			i = 0;
@@ -52,6 +57,8 @@ int	set_table(t_info *info, t_hasht *table, char *room_key)
 	if (!new_room)
 	{
 		table->room[i] = make_room(info, room_key);
+		if (table->room[i] == NULL)
+			return	(ERROR);
 	}
 	if (!info->start || !info->end)
 		set_start_end(info, table, i);
@@ -70,7 +77,7 @@ int	check_comment_for_start_and_end(t_info *info, int i)
 	ret = 0;
 	if (ft_strequ(info->str[i], "##start"))
 	{
-		if (info->str[i + 1] && info->str[i + 1][0] == '#')
+		if ((info->str[i + 1] && info->str[i + 1][0] == '#') || (info->str[i + 1] && ft_strchr(info->str[i + 1], '-')))
 			return (-1);
 		else if (info->str[i + 1] && info->str[i + 1][0] == 0)
 			return (-1);
@@ -79,7 +86,7 @@ int	check_comment_for_start_and_end(t_info *info, int i)
 	}
 	else if (ft_strequ(info->str[i], "##end"))
 	{
-		if (info->str[i + 1] && info->str[i + 1][0] == '#')
+		if ((info->str[i + 1] && info->str[i + 1][0] == '#') || (info->str[i + 1] && ft_strchr(info->str[i + 1], '-')))
 			return (-1);
 		else if (info->str[i + 1] && info->str[i + 1][0] == '0') 
 			return (-1);

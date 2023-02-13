@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:14:34 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/12 14:36:58 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/12 16:58:23 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ int	error_center(int error_code)
 	else if (error_code == 3)
 		ft_printf("'L' in room name\n");
 	else if (error_code == 4)
-		ft_printf("start/end incorrect\n");
-	else if (error_code == 5)
 		ft_printf("room incorrect\n");
-	else if (error_code == 6)
+	else if (error_code == 5)
 		ft_printf("link incorrect\n");
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/12 13:44:10 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/12 18:45:21 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int			set_table(t_info *info, t_hasht *table, char *room_key);
 int			check_comment_for_start_and_end(t_info *info, int i);
 int			check_comment_link(t_info *info, t_hasht *table, int i);
 int			dj2b_hash(char *key);
+int			unique_id(int id, t_hasht *table, char *room_name);
 t_room		*pointer_to_room(t_hasht *table, char *id);
 
 /* INIT.C */
