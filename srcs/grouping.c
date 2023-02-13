@@ -14,7 +14,7 @@
 
 void		grouping_add_path_to_group(t_pathgroup *group, t_path *path)
 {
-	(void)group;
-	(void)path;
-	printf("No groups yet :)\n");
+	*(group->arr + group->len) = path;
+	group->len++;
+	group->total_path_len += path->len;
 }

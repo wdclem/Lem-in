@@ -52,7 +52,7 @@ void	queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
 		*flow_forward = BLOCKED;
 		*flow_backward = BLOCKED;
 	}
-	printf("Forward %12s Backward %12s\n", flow_to_str(*flow_forward), \
+	printf("Forward %12s Backward %12s\n\n", flow_to_str(*flow_forward), \
 			flow_to_str(*flow_backward));
 	room_to_go = link_to_follow->link_to;
 	queue_add_item(&queue, room_to_go, link_to_follow, previous);
@@ -76,24 +76,18 @@ void queue_add_item(t_queue **queue, t_room *next_room, \
 int	queue_can_be_opened(t_queue *queue, t_flowmap *stable_flowmap, \
 		t_room *start)
 {
-	const t_queueitem	startitem = {
-		start,
-		NULL,
-		NULL,
-		0
-	};
 	t_flowmap			*working_flowmap;
 	t_link				*next_link;
 
 	next_link = start->link_head;
 	working_flowmap = get_working_flowmap();
 	queue_clear(&queue);
-	bitmask_set_idx(&queue->rooms_used, start->number);
+	queue_add_item(&queue, start, NULL, NULL);
 	while (next_link)
 	{
 		if (queue_can_add_room(queue, stable_flowmap, next_link))
 			queue_add_item_and_update_flow(queue, working_flowmap, \
-					next_link, (t_queueitem *)&startitem);
+					next_link, (t_queueitem *)&queue->arr[0]);
 		next_link = next_link->next;
 	}
 	return (queue->top > 0);

@@ -18,19 +18,19 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 	t_pathgroup	*groups_arr;
 	t_pathgroup	*next_group;
 	t_path		*next_path;
+	int			i;
 
 	groups_arr = get_groups_arr();
 	next_group = groups_arr + info->total_groups;
+	next_group->id = info->total_groups++;
 	queue_clear(&queue);
 	queue_add_item(&queue, info->end, NULL, NULL);
-	while (1)
+	i = 0;
+	while (i < queue->top)
 	{
-		next_path = flowmap_find_path(queue, stable_flowmap, info);
-		if (next_path == NULL)
-			break ;
-		else
-			printf("found path len:%d\n", next_path->len);
-		grouping_add_path_to_group(next_group, next_path);
+		next_path = flowmap_find_path(queue, stable_flowmap, info, &i);
+		if (next_path)
+			grouping_add_path_to_group(next_group, next_path);
 	}
 	t_flowmap *working_flowmap = get_working_flowmap();
 	printf("Findpath: working flowmap at this point in time:\n");

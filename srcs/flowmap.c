@@ -52,7 +52,7 @@ void	flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 	t_queueitem	*seek;
 	int			pair_number;
 
-	printf("Update: working flowmap at this point in time:\n");
+	ft_printf("Update: working flowmap at this point in time:\n");
 		flowmap_debug_print(working, total_links);
 	seek = sink;
 	while (seek->steps > 0)
@@ -68,22 +68,21 @@ void	flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 		seek = seek->previous_item;
 	}
 	ft_bzero((void *)&working->arr, sizeof(t_flowmask) * total_links);
-	printf("Stable flowmap at this point in time:\n");
+	ft_printf("Stable flowmap at this point in time:\n");
 	flowmap_debug_print(stable, total_links);
+	ft_printf("\n");
 }
 
 t_path	*flowmap_find_path(t_queue *queue, t_flowmap *stable_flowmap, \
-		t_info *info)
+		t_info *info, int *i)
 {
 	t_queueitem	*current_item;
 	t_link		*current_link;
 	t_room		*next_room;
-	static int	i;
 	
-	bitmask_clear(&queue->rooms_used);
-	while (i < queue->top)
+	while (*i < queue->top)
 	{
-		current_item = &queue->arr[i++];
+		current_item = &queue->arr[(*i)++];
 		current_link = current_item->room->link_head;
 		while (current_link != NULL)
 		{

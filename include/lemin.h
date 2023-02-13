@@ -120,7 +120,6 @@ typedef struct s_pathgroup
 	unsigned short	id;
 	unsigned short	len;
 	t_path			*arr[MAX_GROUP_SIZE];
-	t_bitmask		room_mask;
 	unsigned short	total_path_len;
 	unsigned short	ants_in;
 }				t_pathgroup;
@@ -171,7 +170,8 @@ void		queue_clear(t_queue **queue);
 void		flowmap_debug_print(t_flowmap *flowmap, int count);
 void		flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 				t_flowmap *stable, int total_links);
-t_path		*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, t_info *info);
+t_path		*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, \
+				t_info *info, int *i);
 const		char *flow_to_str(t_flowmask flow);
 
 /* GROUPING */
