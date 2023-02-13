@@ -88,7 +88,7 @@ t_path	*flowmap_paths_remain(t_queue *queue, t_flowmap *stable_flowmap, \
 			next_room = current_link->link_to;
 			if (next_room == info->start)
 				return (path_make_next(info, current_item));
-			if (can_flow_towards(queue, stable_flowmap, next_room, \
+			if (queue_can_add_room(queue, stable_flowmap, \
 						current_link))
 			{
 				queue_add_item(&queue, next_room, current_link, current_item);
