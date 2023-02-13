@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:19:43 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 15:58:42 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 17:31:16 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	save_links(t_info *info, t_hasht *table, int i)
 	{
 		if(ft_strchr(info->str[i], '-') && info->str[i][0] == '#' && info->str[i][1] != '#')
 			i++;
-		if (info->str[i][0] == 0 || (!ft_strchr(info->str[i], '-') && info->str[i][0] != '#') || (ft_strchr(info->str[i], '-') && ft_strchr(info->str[i], '#')))
+		if (info->str[i][0] == 0 || (!ft_strchr(info->str[i], '-') && info->str[i][0] != '#') || (info->str[i][0] != '#' && ft_strchr(info->str[i], '#')))//(ft_strchr(info->str[i], '-') && ft_strchr(info->str[i], '#')))
 			return (ERROR);
 		if (info->str[i][0] == '#')
 		{

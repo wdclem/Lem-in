@@ -6,13 +6,13 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:14:34 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 16:36:25 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 17:12:58 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	free_before_exit(t_info *info, t_hasht *table
+//void	free_before_exit(t_info *info, t_hasht *table
 
 int	error_center(int error_code, t_hasht *table)
 {
@@ -28,6 +28,8 @@ int	error_center(int error_code, t_hasht *table)
 		ft_printf("room incorrect\n");
 	else if (error_code == 5)
 		ft_printf("link incorrect\n");
-	free_before_exit;
+	if (table)
+		free(table);
+//	free_before_exit;
 	return (-1);
 }

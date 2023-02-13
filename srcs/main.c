@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:57:06 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 16:14:51 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 17:11:27 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	validate_info(t_info *info, t_hasht *table)
 		return (ERROR);
 	i = save_ants(info, i);
 	if (i == -1)
-		return (ERROR);
+		return (error_center(2, table));
 	i = save_rooms(info, table, i);
 	if (!info->str[i] || i == -1)
 		return (error_center(4, table));
@@ -55,7 +55,7 @@ int	main(int argc, char **argv)
 	if (argc < 1 || argc > 2|| !argv)
 		return (error_center(0, table));
 	if (save_map(&info) == -1)
-		return (0);
+		return (error_center(1, table));
 	if (validate_info(&info, table) == -1)
 		return (0);
 	print_input(&info);
