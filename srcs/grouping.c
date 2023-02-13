@@ -14,7 +14,7 @@
 
 void		grouping_add_path_to_group(t_pathgroup *group, t_path *path)
 {
-	*(group->arr + group->len) = path;
-	group->len++;
+	group->arr[group->len] = path;
 	group->total_path_len += path->len;
+	group->len++;
 }
