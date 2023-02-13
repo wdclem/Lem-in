@@ -28,7 +28,7 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 	i = 0;
 	while (i < queue->top)
 	{
-		next_path = flowmap_find_path(queue, stable_flowmap, info, &i);
+		next_path = flowmap_paths_remain(queue, stable_flowmap, info, &i);
 		if (next_path)
 			grouping_add_path_to_group(next_group, next_path);
 	}
@@ -46,8 +46,9 @@ static int	discover_flow_to_sink(t_queue *queue, t_flowmap *working_flowmap, \
 	t_queueitem *current_item;
 	t_link		*current_link;
 	t_room		*next_room;
-	static int	i;
+	int			i;
 	
+	i = 1;
 	while (i < queue->top)
 	{
 		current_item = &queue->arr[i++];
@@ -56,10 +57,12 @@ static int	discover_flow_to_sink(t_queue *queue, t_flowmap *working_flowmap, \
 		{
 			next_room = current_link->link_to;
 			if (queue_can_add_room(queue, stable_flowmap, current_link))
+			{
 				queue_add_item_and_update_flow(queue, working_flowmap, \
 					current_link, current_item);
-			if (next_room == info->end)
-				return (1);
+				if (next_room == info->end)
+					return (1);
+			}
 			current_link = current_link->next;
 		}
 	}
@@ -89,7 +92,7 @@ int	solve(t_info *info)
 
 	queue = get_queue();
 	stable_flowmap = get_stable_flowmap();
-	while (queue_can_be_opened(queue, stable_flowmap, info->start))
+	while (queue_can_be_opened(queue, stable_flowmap, info))
 	{
 		if (!can_find_next_pathgroup(queue, info))
 			break ;

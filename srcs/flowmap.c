@@ -50,30 +50,29 @@ void	flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 			t_flowmap *stable, int total_links)
 {
 	t_queueitem	*seek;
+	int			link_number;
 	int			pair_number;
 
 	ft_printf("Update: working flowmap at this point in time:\n");
 		flowmap_debug_print(working, total_links);
 	seek = sink;
-	while (seek->steps > 0)
+	while (seek->previous_item != NULL)
 	{
-		if (seek->link_used->number % 2)
-			pair_number = seek->link_used->number - 1;
-		else
-			pair_number = seek->link_used->number + 1;
-		*(&stable->arr[seek->link_used->number]) = 
-			*(&working->arr[seek->link_used->number]);
+		link_number = seek->link_used->number;
+		pair_number = link_number + 
+			(link_number % 2 == 0) - (link_number % 2 == 1);
+		*(&stable->arr[link_number]) = 
+			*(&working->arr[link_number]);
 		*(&stable->arr[pair_number]) = 
 			*(&working->arr[pair_number]);
 		seek = seek->previous_item;
 	}
-	ft_bzero((void *)&working->arr, sizeof(t_flowmask) * total_links);
 	ft_printf("Stable flowmap at this point in time:\n");
 	flowmap_debug_print(stable, total_links);
 	ft_printf("\n");
 }
 
-t_path	*flowmap_find_path(t_queue *queue, t_flowmap *stable_flowmap, \
+t_path	*flowmap_paths_remain(t_queue *queue, t_flowmap *stable_flowmap, \
 		t_info *info, int *i)
 {
 	t_queueitem	*current_item;

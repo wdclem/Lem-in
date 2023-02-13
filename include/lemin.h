@@ -158,7 +158,7 @@ t_ant		*init_ant(t_info *info, int *id);
 
 /* QUEUE */
 int			queue_can_be_opened(t_queue *queue, t_flowmap *flowmap, \
-				t_room *start);
+				t_info *info);
 int			queue_can_add_room(t_queue *queue, t_flowmap *stable_flowmap, \
 				t_link *link_to_follow);
 void		queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
@@ -171,7 +171,7 @@ void		queue_clear(t_queue **queue);
 void		flowmap_debug_print(t_flowmap *flowmap, int count);
 void		flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 				t_flowmap *stable, int total_links);
-t_path		*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, \
+t_path		*flowmap_paths_remain(t_queue *queue, t_flowmap *flowmap, \
 				t_info *info, int *i);
 const		char *flow_to_str(t_flowmask flow);
 
