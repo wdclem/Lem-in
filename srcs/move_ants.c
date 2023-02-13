@@ -132,7 +132,7 @@ int	move_ants2(t_info *info)
 	}
 	while (ants_arrived < info->ants)
 	{
-		ant_idx = ants_arrived;
+		ant_idx = 0;
 		while (ant_idx < info->ants)
 		{
 			if (ants[ant_idx]->room == info->end)

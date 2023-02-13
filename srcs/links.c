@@ -67,8 +67,25 @@ int	link_room_exist(t_hasht *table, char *from, char *link_to)
 	hash_from  = dj2b_hash(from);
 	hash_to = dj2b_hash(link_to);
 	if (!table->room[hash_from] || !table->room[hash_to])
+	{
+		printf("linkroomexist1\n");
 		return (ERROR);
-	if (ft_strcmp(table->room[hash_from]->id, from) != 0 || ft_strcmp(table->room[hash_to]->id, link_to) != 0)
+	}
+	while (table->room[hash_from])
+	{
+		if (ft_strcmp(table->room[hash_from]->id, from) == 0)
+			break;
+		hash_from++;
+	}
+	if (!table->room[hash_from])
+		return (ERROR);
+	while (table->room[hash_to])
+	{
+		if (ft_strcmp(table->room[hash_to]->id, link_to) == 0)
+			break;
+		hash_to++;
+	}
+	if (!table->room[hash_to])
 		return (ERROR);
 	return (0);
 }	
@@ -85,20 +102,35 @@ int	check_link(t_info *info, t_hasht *table, int i)
 	link = ft_strsplit(info->str[i], '-');
 //	printf("link[0] == %s, link[1] == %s\n", link[0], link[1]);
 	if (!link)
+	{
+		printf("linkerror1:%d\n", i);
 		return (ERROR);
+	}
 	room_idx = dj2b_hash(link[0]);
 	j = 0;
 	while (link[j])
+	{
 		j++;
+	}
 	if (j != 2 || ft_strcmp(link[0], link[1]) == 0)
+	{
+		printf("linkerror2:%d\n", i);
 		return (ERROR);
+	}
 	if (link_room_exist(table, link[0], link[1]) != 0)
+	{
+		printf("%s - %s\n", link[0], link[1]);
+		printf("linkerror3:%d\n", i);
 		return (ERROR);
+	}
 	next_link = table->room[room_idx]->link_head;
 	while (next_link)
 	{
 		if (ft_strcmp(next_link->link_to->id, link[1]) == 0)
+		{
+			printf("linkerror4:%d\n", i);
 			return (ERROR);
+		}
 		else
 			next_link = next_link->next;
 	}
@@ -107,7 +139,10 @@ int	check_link(t_info *info, t_hasht *table, int i)
 		from = pointer_to_room(table, link[0]);
 		link_to = pointer_to_room(table, link[1]);
 		if (!from || !link_to)
+		{
+			printf("linkerror5:%d\n", i);
 			return (ERROR);
+		}
 		add_link(from, link_to);
 		add_link(link_to, from);
 	}

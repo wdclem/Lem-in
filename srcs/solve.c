@@ -31,12 +31,12 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 		next_path = flowmap_paths_remain(queue, stable_flowmap, info, &i);
 		if (next_path)
 		{
-			ft_printf("found path len %d\n", next_path->len);
+			printf("found path len %d\n", next_path->len);
 			grouping_add_path_to_group(next_group, next_path);
 		}
 		else
 		{
-			ft_printf("no path anymore :()\n", next_path->len);
+			printf("no path anymore :()\n");
 			break;
 		}
 	}
