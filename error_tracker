@@ -11,7 +11,7 @@
 /end_after_start			***DONE
 /invalid_ants				***DONE
 /invalid_room_coordinate		///TODO
-/invalid_room_in_link_0			///TODO	
+/invalid_room_in_link_0		***DONE OR NOT 	
 /invalid_room_in_link_1		***DONE	
 /invalid_room_in_link_2		***DONE	
 /invalid_room_name_0		***DONE

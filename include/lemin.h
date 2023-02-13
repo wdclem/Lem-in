@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/12 18:45:21 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 16:15:44 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ void		bitmask_set_idx(t_bitmask *mask, int idx);
 void		bitmask_clear(t_bitmask *mask);
 
 /* ERROR MANAGEMENT*/
-int			error_center(int error_code);
+int			error_center(int error_code, t_hasht *table);
 
 /* STORAGE */
 t_path		*get_paths(void);
