@@ -88,6 +88,8 @@ t_pathgroup	*select_group(t_info *info, t_pathgroup *groups)
 	printf("group[%d] == %d\n", group_idx, (groups + group_idx)->id);
 	while (group_idx < info->total_groups)
 	{
+		printf("Some group stats:\ngroup id: %d\ngroup len: %d\ngroup total_path_len: %d\n", 
+				(groups + group_idx)->id, (groups + group_idx)->len, (groups + group_idx)->total_path_len);
 		turns = (((groups + group_idx)->total_path_len + info->ants)
 				/ (groups + group_idx)->len);
 		if (turns - (int)turns != 0)

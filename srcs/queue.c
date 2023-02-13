@@ -54,7 +54,7 @@ void	queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
 		*workflow_forward = BLOCKED;
 		*workflow_backward = BLOCKED;
 	}
-	printf("Working: Forward %12s Backward %12s\n\n", flow_to_str(*workflow_forward), \
+	ft_printf("Working: Forward %12s Backward %12s\n\n", flow_to_str(*workflow_forward), \
 			flow_to_str(*workflow_backward));
 	room_to_go = link_to_follow->link_to;
 	queue_add_item(&queue, room_to_go, link_to_follow, previous);

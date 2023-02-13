@@ -21,8 +21,8 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 	int			i;
 
 	groups_arr = get_groups_arr();
-	next_group = groups_arr + info->total_groups;
-	next_group->id = info->total_groups++;
+	next_group = &groups_arr[info->total_groups];
+	next_group->id = info->total_groups;
 	queue_clear(&queue);
 	queue_add_item(&queue, info->end, NULL, NULL);
 	i = 0;
@@ -30,13 +30,18 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 	{
 		next_path = flowmap_paths_remain(queue, stable_flowmap, info, &i);
 		if (next_path)
+		{
+			ft_printf("found path len %d\n", next_path->len);
 			grouping_add_path_to_group(next_group, next_path);
+		}
+		else
+		{
+			ft_printf("no path anymore :()\n", next_path->len);
+			break;
+		}
 	}
-	t_flowmap *working_flowmap = get_working_flowmap();
-	printf("Findpath: working flowmap at this point in time:\n");
-	flowmap_debug_print(working_flowmap, info->total_links);
-	printf("Stable flowmap at this point in time:\n");
-	flowmap_debug_print(stable_flowmap, info->total_links);
+
+	info->total_groups += next_group->len > 0;
 	return (next_group);
 }
 
