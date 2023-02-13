@@ -20,13 +20,19 @@
 # define ANTS_MAX 8192
 # define HT_CAP 65536 // hash table capacity 
 # define MAX_ROOMS 8192
-# define MAX_GROUP_SIZE 256 
+# define MAX_LINKS 8192
+# define MAX_QUEUE 8192
 # define MAX_PATHS 1024 
 # define MAX_PATH_SIZE 2048
-# define MAX_QUEUE 16384
 # define MAX_GROUPS 512 
+# define MAX_GROUP_SIZE 256 
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
+
+# define OPEN 0
+# define UPSTREAM 1
+# define DOWNSTREAM 2
+# define BLOCKED 4
 
 typedef struct s_room
 {
@@ -43,6 +49,7 @@ typedef struct s_room
 
 typedef struct s_link
 {
+	unsigned short	number;
 	t_room			*from;
 	t_room			*link_to;
 	struct s_link	*next;
@@ -71,30 +78,37 @@ typedef struct s_hasht
 
 typedef struct s_bitmask
 {
-	unsigned int	bits[MAX_PAGES];
 	unsigned short	last_page;
+	unsigned int	bits[MAX_PAGES];
 }					t_bitmask;
+
+typedef char	t_flowmask;
+
+typedef struct	s_flowmap
+{
+	t_flowmask	arr[MAX_LINKS];
+} t_flowmap;
 
 typedef struct s_queueitem
 {
 	t_room				*room;
+	struct s_queueitem	*previous_item;
+	t_link				*link_used;
 	unsigned short		steps;
-	signed short		times_used;
-	struct s_queueitem	*previous;
-	t_bitmask			rooms_used;
 }						t_queueitem;
 
 typedef struct s_queue
 {
-	t_queueitem		arr[MAX_QUEUE];
-	signed short	top;
+	t_queueitem	arr[MAX_QUEUE];
+	int			top;
+	t_bitmask	rooms_used;
 } t_queue;
 
 typedef struct s_path
 {
 	unsigned short	id;
-	t_room			*arr[MAX_PATH_SIZE];
 	unsigned short	len;
+	t_room			*arr[MAX_PATH_SIZE];
 	t_bitmask		room_mask;
 	t_bitmask		groups;
 	unsigned short	group_count;
@@ -103,12 +117,11 @@ typedef struct s_path
 
 typedef struct s_pathgroup
 {
-	t_path			*arr[MAX_GROUP_SIZE];
-	unsigned short	len;
 	unsigned short	id;
-	t_bitmask		room_mask;
-	unsigned short	ants_in;
+	unsigned short	len;
+	t_path			*arr[MAX_GROUP_SIZE];
 	unsigned short	total_path_len;
+	unsigned short	ants_in;
 }				t_pathgroup;
 
 typedef struct s_ant
@@ -144,41 +157,48 @@ t_ant		**ants_array(t_info *info, t_ant **array);
 t_ant		*init_ant(t_info *info, int *id);
 
 /* QUEUE */
-void		open_queue(t_queue *queue, t_room *start);
-int			add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous);
-void		clear_dead_branch_from_queue(t_queueitem *dead_end);
-void		garbage_collect(t_queue *queue);
-int			next_available_index_to_write(t_queue *queue, int cur_idx);
-int			next_available_index_to_read(t_queue *queue, int cur_idx);
+int			queue_can_be_opened(t_queue *queue, t_flowmap *flowmap, \
+				t_room *start);
+int			queue_can_add_room(t_queue *queue, t_flowmap *stable_flowmap, \
+				t_link *link_to_follow);
+void		queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
+				t_link *link_to_follow, t_queueitem *previous);
+void		queue_add_item(t_queue **queue, t_room *next_room, \
+				t_link *link_used, t_queueitem *previous);
+void		queue_clear(t_queue **queue);
+
+/* FLOWMAP */
+void		flowmap_debug_print(t_flowmap *flowmap, int count);
+void		flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
+				t_flowmap *stable, int total_links);
+t_path		*flowmap_find_path(t_queue *queue, t_flowmap *flowmap, \
+				t_info *info, int *i);
+const		char *flow_to_str(t_flowmask flow);
 
 /* GROUPING */
-void		find_groups_for_path(t_info *info, t_path *path,
-				t_pathgroup *groups);
-t_pathgroup	**get_pathgroups(t_info *info);
+void		grouping_add_path_to_group(t_pathgroup *group, t_path *path);
 
 /* PRINT OUTUPUT */
 int			move_ants2(t_info *info);
-void		test_ant_move(void);
 
-t_path		*open_path(t_info *info, int len);
-void		add_room_to_path(t_path **path, t_room *room, int index);
-void		close_path(t_path **path);
+/* PATHS */
+t_path		*path_open(t_info *info, int len);
+void		path_add_room(t_path **path, t_room *room, int index);
+t_path 		*path_make_next(t_info *info, t_queueitem *start);
 
 /* BITMASK */
-
-int			check_bitmask_idx(t_bitmask *mask, int idx);
-void		print_bitmask(t_bitmask *mask);
-void		set_bitmask_idx(t_bitmask *mask, int idx);
-void		add_bitmask(t_bitmask *src, t_bitmask *dst);
-int			maskcmp(t_bitmask *left, t_bitmask *right);
+int			bitmask_check_idx(t_bitmask *mask, int idx);
+void		bitmask_set_idx(t_bitmask *mask, int idx);
+void		bitmask_clear(t_bitmask *mask);
 
 /* ERROR MANAGEMENT*/
-
-int	error_center(int error_code);
+int			error_center(int error_code);
 
 /* STORAGE */
-
 t_path		*get_paths(void);
-t_pathgroup	*get_groups(void);
+t_pathgroup	*get_groups_arr(void);
+t_queue		*get_queue(void);
+t_flowmap	*get_working_flowmap(void);
+t_flowmap	*get_stable_flowmap(void);
 
 #endif

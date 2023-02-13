@@ -6,116 +6,96 @@
 /*   By: tpolonen <tpolonen@student.hive.fi>          +#+  +:+       +#+      */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 14:59:25 by tpolonen           #+#    #+#            */
-/*   Updated: 2023/02/12 13:43:50 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/01/16 18:30:07 by tpolonen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
-#include "libft.h"
 
-void	open_queue(t_queue *queue, t_room *start)
+int	queue_can_add_room(t_queue *queue, t_flowmap *stable_flowmap, \
+		t_link *link_to_follow)
 {
-	t_link		*next_link;
+	const t_flowmask	current_flow = \
+								stable_flowmap->arr[link_to_follow->number];
+	int					ret;
 
-	next_link = start->link_head;
-	while (next_link)
-	{
-		add_to_queue(&queue, next_link->link_to, NULL);
-		next_link = next_link->next;
-	}
+	ret = !bitmask_check_idx(&queue->rooms_used, link_to_follow->link_to->number);
+	ret &= current_flow == DOWNSTREAM || current_flow == OPEN;
+	return (ret);
 }
 
-void	clear_dead_branch_from_queue(t_queueitem *dead_end)
+void	queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
+		t_link *link_to_follow, t_queueitem *previous)
 {
-	t_queueitem *previous;
+	t_flowmask	*flow_forward;
+	t_flowmask	*flow_backward;
+	int			pair_number;
+	t_room		*room_to_go;
 
-	previous = dead_end->previous;
-	ft_bzero((void *)dead_end, sizeof(t_queueitem));
-	if (previous)
+	if (link_to_follow->number % 2)
+		pair_number = link_to_follow->number - 1;
+	else
+		pair_number = link_to_follow->number + 1;
+	flow_forward = &flowmap->arr[link_to_follow->number];
+	flow_backward = &flowmap->arr[pair_number];
+	printf("Exploring link %d/%d, from:%s link_to:%s\n", link_to_follow->number,
+			pair_number, link_to_follow->from->id, link_to_follow->link_to->id);
+	printf("Forward %12s Backward %12s ->\n", flow_to_str(*flow_forward), \
+			flow_to_str(*flow_backward));
+	if (*flow_forward == OPEN)
 	{
-		previous->times_used--;
-		if (previous->times_used == 0)
-			clear_dead_branch_from_queue(previous);
+		*flow_forward = UPSTREAM;
+		*flow_backward = DOWNSTREAM;
 	}
+	else
+	{
+		*flow_forward = BLOCKED;
+		*flow_backward = BLOCKED;
+	}
+	printf("Forward %12s Backward %12s\n\n", flow_to_str(*flow_forward), \
+			flow_to_str(*flow_backward));
+	room_to_go = link_to_follow->link_to;
+	queue_add_item(&queue, room_to_go, link_to_follow, previous);
 }
 
-int	add_to_queue(t_queue **queue, t_room *room, t_queueitem *previous)
+void queue_add_item(t_queue **queue, t_room *next_room, \
+		t_link *link_used, t_queueitem *previous)
 {
 	t_queueitem *new_item;
-	int			next_idx;
 
-	next_idx = next_available_index_to_write(*queue, (*queue)->top);
-//	printf("%d\n", next_idx);
-	if (next_idx == -1)
-		return (0);
-	new_item = (*queue)->arr + next_idx;
-	new_item->room = room;
-	new_item->previous = previous;
-	set_bitmask_idx(&new_item->rooms_used, room->number);
+	new_item = (*queue)->arr + (*queue)->top;
+	new_item->room = next_room;
+	new_item->previous_item = previous;
+	new_item->link_used = link_used;
 	if (previous)
-	{
 		new_item->steps = previous->steps + 1;
-		add_bitmask(&previous->rooms_used, &new_item->rooms_used);
-	}
-	(*queue)->top = next_idx; 
-	return (1);
+	bitmask_set_idx(&(*queue)->rooms_used, next_room->number);
+	(*queue)->top++;
 }
 
-void	garbage_collect(t_queue *queue)
+int	queue_can_be_opened(t_queue *queue, t_flowmap *stable_flowmap, \
+		t_room *start)
 {
-	int	queue_idx;
+	t_flowmap			*working_flowmap;
+	t_link				*next_link;
 
-	queue_idx = MAX_QUEUE - 1;
-	while (queue_idx >= 0)
+	next_link = start->link_head;
+	working_flowmap = get_working_flowmap();
+	queue_clear(&queue);
+	queue_add_item(&queue, start, NULL, NULL);
+	while (next_link)
 	{
-		if ((queue->arr + queue_idx)->times_used == -1)
-			clear_dead_branch_from_queue(&queue->arr[queue_idx]);
-		queue_idx--;
+		if (queue_can_add_room(queue, stable_flowmap, next_link))
+			queue_add_item_and_update_flow(queue, working_flowmap, \
+					next_link, (t_queueitem *)&queue->arr[0]);
+		next_link = next_link->next;
 	}
+	return (queue->top > 0);
 }
 
-int		next_available_index_to_write(t_queue *queue, int cur_idx)
+void queue_clear(t_queue **queue)
 {
-	int			next_idx;
-
-	next_idx = cur_idx;
-	while ((&queue->arr[next_idx])->room != NULL)
-	{
-		next_idx++;
-		if (next_idx >= MAX_QUEUE)
-		{
-			garbage_collect(queue);
-			printf("write: loop de loop!\n");
-			next_idx = 0;
-		}
-		if (next_idx == cur_idx)
-			return (-1);
-	}
-	return (next_idx);
-}
-
-int		next_available_index_to_read(t_queue *queue, int cur_idx)
-{
-	int			next_idx;
-
-	next_idx = cur_idx + 1;
-	if (next_idx >= MAX_QUEUE)
-	{
-		printf("read: loop de loop1!\n");
-		next_idx = 0;
-	}
-	while ((&queue->arr[next_idx])->room == NULL && \
-			(&queue->arr[next_idx])->times_used == 0)
-	{
-		if (next_idx >= MAX_QUEUE)
-		{
-			printf("read: loop de loop2!\n");
-			next_idx = 0;
-		}
-		else
-			next_idx++;
-		if (next_idx == cur_idx)
-			return (-1);
-	}
-	return (next_idx);
+	ft_bzero((void *)(*queue)->arr, sizeof(t_queueitem) * (*queue)->top);
+	bitmask_clear(&(*queue)->rooms_used);
+	(*queue)->top = 0;
 }

@@ -19,9 +19,30 @@ t_path	*get_paths(void)
 	return ((t_path *)paths_arr);
 }
 
-t_pathgroup	*get_groups(void)
+t_pathgroup	*get_groups_arr(void)
 {
 	static t_pathgroup	groups_arr[MAX_GROUPS];
 
 	return ((t_pathgroup *)groups_arr);
+}
+
+t_queue	*get_queue(void)
+{
+	static t_queue	queue;
+
+	return (&queue);
+}
+
+t_flowmap *get_stable_flowmap(void)
+{
+	static t_flowmap	stable_flowmap;
+
+	return (&stable_flowmap);
+}
+
+t_flowmap *get_working_flowmap(void)
+{
+	static t_flowmap	working_flowmap;
+
+	return (&working_flowmap);
 }
