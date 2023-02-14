@@ -6,13 +6,24 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:14:34 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 17:12:58 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 19:18:35 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-//void	free_before_exit(t_info *info, t_hasht *table
+/*void	free_before_exit(t_info *info, t_hasht *table)
+{
+	if (info->str)
+		ft_freearray((void **)info->str, i);
+	while(table->room[i])
+	{
+		free(table->room[i]->id);
+		i++;
+	}
+	if (table)
+		free(table);
+		*/
 
 int	error_center(int error_code, t_hasht *table)
 {
