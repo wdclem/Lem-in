@@ -30,33 +30,26 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 	{
 		next_path = flowmap_paths_remain(queue, stable_flowmap, info, &i);
 		if (next_path)
-		{
-			printf("found path len %d\n", next_path->len);
 			grouping_add_path_to_group(next_group, next_path);
-		}
-		else
-		{
-			printf("no path anymore :()\n");
-			break;
-		}
 	}
-
-	info->total_groups += next_group->len > 0;
+	t_flowmap *working_flowmap = get_working_flowmap();
+	dprintf(2, "Findpath: working flowmap at this point in time:\n");
+	flowmap_debug_print(working_flowmap, info->total_links);
+	dprintf(2, "Stable flowmap at this point in time:\n");
+	flowmap_debug_print(stable_flowmap, info->total_links);
 	return (next_group);
 }
 
 static int	discover_flow_to_sink(t_queue *queue, t_flowmap *working_flowmap, \
-		t_flowmap *stable_flowmap, t_info *info)
+		t_flowmap *stable_flowmap, t_info *info, int *i)
 {
 	t_queueitem *current_item;
 	t_link		*current_link;
 	t_room		*next_room;
-	int			i;
 	
-	i = 1;
-	while (i < queue->top)
+	while (*i < queue->top)
 	{
-		current_item = &queue->arr[i++];
+		current_item = &queue->arr[(*i)++];
 		current_link = current_item->room->link_head;
 		while (current_link != NULL)
 		{
@@ -74,33 +67,39 @@ static int	discover_flow_to_sink(t_queue *queue, t_flowmap *working_flowmap, \
 	return (0);
 }
 
-static int	can_find_next_pathgroup(t_queue *queue, t_info *info)
+static t_pathgroup	*get_next_pathgroup(t_queue *queue, t_info *info)
 {
 	t_pathgroup	*next_group;
 	t_flowmap	*working_flowmap;
 	t_flowmap	*stable_flowmap;
+	int			i;
 
 	working_flowmap = get_working_flowmap();
 	stable_flowmap = get_stable_flowmap();
-	if (!discover_flow_to_sink(queue, working_flowmap, stable_flowmap, info))
+	i = 0;
+	if (!discover_flow_to_sink(queue, working_flowmap, stable_flowmap, info, &i))
 		return (0);
 	flowmap_update_stable_map(&queue->arr[queue->top - 1], working_flowmap, \
 			stable_flowmap, info->total_links);
 	next_group = find_paths_for_next_group(queue, stable_flowmap, info);
-	return (next_group->len > 0);
+	bitmask_clear(&queue->path_rooms_used);
+	return (next_group);
 }
 
 int	solve(t_info *info)
 {	
 	t_queue		*queue;
 	t_flowmap	*stable_flowmap;
+	t_pathgroup	*next_group;	
 
 	queue = get_queue();
 	stable_flowmap = get_stable_flowmap();
 	while (queue_can_be_opened(queue, stable_flowmap, info))
 	{
-		if (!can_find_next_pathgroup(queue, info))
+		next_group = get_next_pathgroup(queue, info);
+		if (!next_group)
 			break ;
+	//	grouping_optimize_pathgroup(queue, info, next_group);
 	}
 	return (info->total_groups);
 }

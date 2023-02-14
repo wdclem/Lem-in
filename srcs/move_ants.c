@@ -58,12 +58,12 @@ int	move_ant(t_info *info, t_ant *ant)
 	next = get_next_room(ant);
 	if (next)
 	{
-		printf("L%d-%s", ant->id, next->id);
+		dprintf(2, "L%d-%s", ant->id, next->id);
 		ant->room->occupied = 0;
 		ant->room = next;
 		ant->room->occupied = 1;
 		ant->path_idx += 1;
-		printf(" ");
+		dprintf(2, " ");
 	}
 	if (next == info->end)
 	{
@@ -83,9 +83,9 @@ t_pathgroup	*select_group(t_info *info, t_pathgroup *groups)
 	best = 0;
 	group_idx = 0;
 	turns = 0;
-	printf("in select group\n");
-	printf("info->start == %s, info->end == %s\n", info->start->id, info->end->id);
-	printf("group[%d] == %d\n", group_idx, (groups + group_idx)->id);
+	dprintf(2, "in select group\n");
+	dprintf(2, "info->start == %s, info->end == %s\n", info->start->id, info->end->id);
+	dprintf(2, "group[%d] == %d\n", group_idx, (groups + group_idx)->id);
 	while (group_idx < info->total_groups)
 	{
 		printf("Some group stats:\ngroup id: %d\ngroup len: %d\ngroup total_path_len: %d\n", 
@@ -106,8 +106,8 @@ t_pathgroup	*select_group(t_info *info, t_pathgroup *groups)
 		}
 		group_idx++;
 	}
-	printf("turns == %f, group[%d] == %d\n", turns, group_idx, (groups + group_idx)->id);
-	printf("best group selected, was %d\n", best_group->id);
+	dprintf(2, "turns == %f, group[%d] == %d\n", turns, group_idx, (groups + group_idx)->id);
+	dprintf(2, "best group selected, was %d\n", best_group->id);
 	return (best_group);
 }
 
@@ -127,7 +127,7 @@ int	move_ants2(t_info *info)
 	while (ant_idx < info->ants)
 	{
 		ants[ant_idx]->path = choose_path(path_group);
-		printf("Path selected for ant %d: was %d\n", ants[ant_idx]->id, ants[ant_idx]->path->id);
+		dprintf(2, "Path selected for ant %d: was %d\n", ants[ant_idx]->id, ants[ant_idx]->path->id);
 		ant_idx++;
 	}
 	while (ants_arrived < info->ants)
@@ -143,7 +143,7 @@ int	move_ants2(t_info *info)
 			ants_arrived += move_ant(info, ants[ant_idx]);
 			ant_idx += 1;
 		}
-		printf("\n");
+		dprintf(2, "\n");
 	}
 	return (1);
 }

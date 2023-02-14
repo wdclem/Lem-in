@@ -29,13 +29,13 @@ t_ant	**ants_array(t_info *info, t_ant **array)
 
 	i = 0;
 	id = 1;
-	printf("info->ants == %d\n", info->ants);
+	dprintf(2, "info->ants == %d\n", info->ants);
 	while (i < info->ants)
 	{
 		array[i] = init_ant(info, &id);
 		i++;
 	}
-	printf("array created\n");
+	dprintf(2, "array created\n");
 	return (array);
 }
 

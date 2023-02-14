@@ -29,7 +29,7 @@ void	flowmap_debug_print(t_flowmap *flowmap, int count)
 {
 	for (int i = 0; i < count; i++)
 	{
-		ft_printf("Link %d: %s\n", i, flow_to_str(flowmap->arr[i]));
+		dprintf(2, "Link %d: %s\n", i, flow_to_str(flowmap->arr[i]));
 	}
 }
 
@@ -42,6 +42,7 @@ static int	can_flow_towards(t_queue *queue, t_flowmap *stable_flowmap, \
 	int					ret;
 
 	ret = !bitmask_check_idx(&queue->rooms_used, dst->number);
+	ret &= !bitmask_check_idx(&queue->path_rooms_used, dst->number);
 	ret &= current_flow == DOWNSTREAM;
 	return (ret);
 }
@@ -53,7 +54,7 @@ void	flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 	int			link_number;
 	int			pair_number;
 
-	ft_printf("Update: working flowmap at this point in time:\n");
+	dprintf(2, "Update: working flowmap at this point in time:\n");
 		flowmap_debug_print(working, total_links);
 	seek = sink;
 	while (seek->previous_item != NULL)
@@ -67,9 +68,9 @@ void	flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 			*(&working->arr[pair_number]);
 		seek = seek->previous_item;
 	}
-	ft_printf("Stable flowmap at this point in time:\n");
+	dprintf(2, "Stable flowmap at this point in time:\n");
 	flowmap_debug_print(stable, total_links);
-	ft_printf("\n");
+	dprintf(2, "\n");
 }
 
 t_path	*flowmap_paths_remain(t_queue *queue, t_flowmap *stable_flowmap, \

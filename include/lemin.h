@@ -102,6 +102,7 @@ typedef struct s_queue
 	t_queueitem	arr[MAX_QUEUE];
 	int			top;
 	t_bitmask	rooms_used;
+	t_bitmask	path_rooms_used;
 } t_queue;
 
 typedef struct s_path
@@ -111,7 +112,6 @@ typedef struct s_path
 	t_room			*arr[MAX_PATH_SIZE];
 	t_bitmask		room_mask;
 	t_bitmask		groups;
-	unsigned short	group_count;
 	unsigned short	ants_in;
 }				t_path;
 
@@ -177,6 +177,7 @@ const		char *flow_to_str(t_flowmask flow);
 
 /* GROUPING */
 void		grouping_add_path_to_group(t_pathgroup *group, t_path *path);
+void		grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *group);
 
 /* PRINT OUTUPUT */
 int			move_ants2(t_info *info);

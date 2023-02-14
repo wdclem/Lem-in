@@ -59,11 +59,11 @@ int	main(int argc, char **argv)
 	if (validate_info(&info, table) == -1)
 		return (0);
 	print_input(&info);
-	printf("content 1\n");
+	dprintf(2, "content 1\n");
 	write(1, "\n", 1);
 	if (solve(&info))
 		move_ants2(&info);
 	else
-		printf("bad map, no paths :(\n");
+		dprintf(2, "bad map, no paths :(\n");
 	return (0);
 }

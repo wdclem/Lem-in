@@ -23,7 +23,9 @@ static int	add_link(t_room *from, t_room *link_to)
 	if (link != NULL)
 	{
 		while (link->next != NULL)
+		{
 			link = link->next;
+		}
 		link->next = new_link(from, link_to);
 	}
 	else
@@ -35,14 +37,17 @@ static int	add_link(t_room *from, t_room *link_to)
 t_room	*pointer_to_room(t_hasht *table, char *id)
 {
 	t_room	*room;
-
 	int		j;
 
 	j = 0;
 	if (!id)
 		return (NULL);
 	j = dj2b_hash(id);
-	while (ft_strcmp(table->room[j]->id, id) != 0)
+/*	dprintf(2, "table id == %s, id == %s\n", table->room[j]->id, id);
+	if (!ft_strcmp(table->room[j]->id, id))
+		return (NULL);
+		*/
+	while (ft_strcmp(table->room[j]->id, id))
 	{
 		j++;
 		if (j >= HT_CAP)
@@ -62,30 +67,14 @@ int	link_room_exist(t_hasht *table, char *from, char *link_to)
 
 	hash_from = 0;
 	hash_to = 0;
-	if (!from || !link_to || !table)
+	if (!from || !link_to)
+		return (ERROR);
+	if (!table)
 		return (ERROR);
 	hash_from  = dj2b_hash(from);
 	hash_to = dj2b_hash(link_to);
-	if (!table->room[hash_from] || !table->room[hash_to])
-	{
-		printf("linkroomexist1\n");
-		return (ERROR);
-	}
-	while (table->room[hash_from])
-	{
-		if (ft_strcmp(table->room[hash_from]->id, from) == 0)
-			break;
-		hash_from++;
-	}
-	if (!table->room[hash_from])
-		return (ERROR);
-	while (table->room[hash_to])
-	{
-		if (ft_strcmp(table->room[hash_to]->id, link_to) == 0)
-			break;
-		hash_to++;
-	}
-	if (!table->room[hash_to])
+	dprintf(2, "table id[from] %d == %s, id == %s table id[to] %d == %s, id == %s\n", hash_from, table->room[hash_from]->id, from, hash_to, table->room[hash_to]->id, link_to);
+	if (ft_strcmp(table->room[hash_from]->id, from) != 0 || ft_strcmp(table->room[hash_to]->id, link_to) != 0)
 		return (ERROR);
 	return (0);
 }	
@@ -100,7 +89,7 @@ int	check_link(t_info *info, t_hasht *table, int i)
 	t_link	*next_link;
 
 	link = ft_strsplit(info->str[i], '-');
-//	printf("link[0] == %s, link[1] == %s\n", link[0], link[1]);
+	dprintf(2, "link[0] == %s, link[1] == %s\n", link[0], link[1]);
 	if (!link)
 	{
 		printf("linkerror1:%d\n", i);
@@ -151,12 +140,13 @@ int	check_link(t_info *info, t_hasht *table, int i)
 
 int	save_links(t_info *info, t_hasht *table, int i)
 {
+//	dprintf(2, "****LINKS****\ninfo->str[%d] == %s\n", i, info->str[i]);
 	while (i < info->total_strs && info->str[i]) //&& !ft_strchr(info->str[i], ' '))
 	{
 		if(ft_strchr(info->str[i], '-') && info->str[i][0] == '#' && info->str[i][1] != '#')
 			i++;
-		if (info->str[i][0] == 0 || (!ft_strchr(info->str[i], '-') && info->str[i][0] != '#') || (info->str[i][0] != '#' && ft_strchr(info->str[i], '#')))//(ft_strchr(info->str[i], '-') && ft_strchr(info->str[i], '#')))
-			return (ERROR);
+		if (info->str[i][0] == 0 || (!ft_strchr(info->str[i], '-') && info->str[i][0] != '#') || (ft_strchr(info->str[i], '-') && ft_strchr(info->str[i], '#')))
+			return (error_center(5));
 		if (info->str[i][0] == '#')
 		{
 			if (check_comment_for_start_and_end(info, i) == -1)
@@ -170,9 +160,9 @@ int	save_links(t_info *info, t_hasht *table, int i)
 				return(ERROR);
 		}
 		i++;
-	}	//printf("link count = %d\n", info->start->link_count);
+	}	dprintf(2, "link count = %d\n", info->start->link_count);
 	if (info->total_links == 0)
 		return(ERROR);
-//	printf("total link = %d\n", info->total_links);
+	dprintf(2, "total link = %d\n", info->total_links);
 	return (0);
 }
