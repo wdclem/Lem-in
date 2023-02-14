@@ -35,28 +35,33 @@ void	grouping_add_path_to_group(t_info *info, t_pathgroup *group, t_path *path)
 		group->len++;
 //	}
 }
-static t_path	*find_optimized_path(t_queue *queue, t_info *info, t_flowmap *stable_flowmap, t_flowmap *working_flowmap)
+static t_path	*find_optimized_path(t_queue *queue, t_info *info, t_path *current_path)
 {
+	t_flowmap	*stable_flowmap;
+	t_flowmap	*working_flowmap;
 	t_queueitem	*current_item;
 	t_link		*current_link;
 	int			i;
 
-	ft_bzero((void *)&working_flowmap->arr, \
-		sizeof(t_flowmask) * info->total_links);
-	i = 0;
+	stable_flowmap = get_stable_flowmap();
+	working_flowmap = get_working_flowmap();
+	queue_clear(&queue);
 	queue_add_item(&queue, info->end, NULL, NULL);
+	i = 0;
 	while (i < queue->top)
 	{
 		current_item = &queue->arr[i++];
 		current_link = current_item->room->link_head;
 		while (current_link != NULL)
 		{
-			if (stable_flowmap->arr[current_link->number] == OPEN)
+			if (current_link->link_to == info->start)
+				return (path_make_next(info, current_item));
+			if (bitmask_check_idx(&current_path->rooms_used, current_link->link_to->number) &&
+					(stable_flowmap->arr[current_link->number] == OPEN || \
+					working_flowmap->arr[current_link->number] == DOWNSTREAM))
 			{
-				queue_add_item_and_update_flow(queue, working_flowmap,
+				queue_add_item(&queue, current_link->link_to,
 						current_link, current_item);
-				if (current_link->link_to == info->start)
-					return (path_make_next(info, &queue->arr[queue->top - 1]));
 			}
 			current_link = current_link->next;
 		}
@@ -84,23 +89,20 @@ void	grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *grou
 {
 	t_path		*next_path;
 	t_path		*new_path;
-	t_flowmap	*working_flowmap;
-	t_flowmap	*stable_flowmap;
-	t_flowmap	stable_copy;
+
+//	t_flowmap	stable_copy;
 	int			path_idx;
 
 	path_idx = 0;
-	working_flowmap = get_working_flowmap();
-	stable_flowmap = get_stable_flowmap();
+
+	dprintf(2, "hello :)\n");
 	while (path_idx < group->len)
 	{
 		next_path = group->arr[path_idx];
-		ft_memcpy((void *)&stable_copy, stable_flowmap, sizeof(t_flowmap));
-		clear_path_from_stable_flowmap(info, next_path, stable_flowmap);
-		new_path = find_optimized_path(queue, info, stable_flowmap, working_flowmap);
-		if (new_path && new_path->len < next_path->len)
+//		ft_memcpy((void *)&stable_copy, stable_flowmap, sizeof(t_flowmap));
+		new_path = find_optimized_path(queue, info, next_path);
+		if (new_path)
 		{
-
 			dprintf(2, "optimized path was:\n");
 			for (int i = 0; i < new_path->len; i++)
 			{
@@ -108,11 +110,18 @@ void	grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *grou
 				if (i < new_path->len - 1)
 					dprintf(2, " -> ");
 			}
-			group->arr[path_idx] = new_path;
-			flowmap_update_stable_map(&queue->arr[queue->top - 1], working_flowmap, stable_flowmap, info->total_links);
+			dprintf(2, "\n");
 		}
-		else
-			ft_memcpy((void *)stable_flowmap, &stable_copy, sizeof(t_flowmap));
+		if (new_path && new_path->len < next_path->len)
+		{
+
+			dprintf(2, "AND IT WAS BETTER\n");
+
+			group->arr[path_idx] = new_path;
+			//flowmap_update_stable_map(&queue->arr[queue->top - 1], working_flowmap, stable_flowmap, info->total_links);
+		}
+//		else
+//			ft_memcpy((void *)stable_flowmap, &stable_copy, sizeof(t_flowmap));
 		path_idx++;
 	}
 }

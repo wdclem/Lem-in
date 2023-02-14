@@ -58,7 +58,7 @@ void	flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 	int			pair_number;
 
 	dprintf(2, "Update: working flowmap at this point in time:\n");
-		flowmap_debug_print(working, total_links);
+	flowmap_debug_print(working, total_links);
 	seek = sink;
 	while (seek->previous_item != NULL)
 	{
