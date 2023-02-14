@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 13:50:07 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 19:24:01 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	dj2b_hash(char *key)
 {
-	size_t			i;
+	int				i;
 	unsigned long	hash;
 
 	i = 0;
