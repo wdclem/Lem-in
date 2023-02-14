@@ -43,10 +43,10 @@ static int	can_flow_towards(t_queue *queue, t_flowmap *stable_flowmap, \
 								working_flowmap->arr[link_to_follow->number];
 	int					ret;
 
+	(void) working_flow;
 	ret = !bitmask_check_idx(&queue->rooms_used, link_to_follow->link_to->number);
 //	ret &= !bitmask_check_idx(&queue->path_rooms_used, link_to_follow->link_to->number);
 	ret &= stable_flow == DOWNSTREAM;
-	ret &= working_flow != BLOCKED;
 	return (ret);
 }
 
@@ -70,6 +70,11 @@ void	flowmap_update_stable_map(t_queueitem *sink, t_flowmap *working, \
 		{
 			*(&stable->arr[link_number]) = BLOCKED;
 			*(&stable->arr[pair_number]) = BLOCKED;
+		}
+		else
+		{
+			*(&stable->arr[link_number]) = working->arr[link_number];
+			*(&stable->arr[pair_number]) = working->arr[pair_number];
 		}
 		seek = seek->previous_item;
 	}
@@ -107,23 +112,23 @@ t_path	*flowmap_paths_remain(t_queue *queue, t_flowmap *stable_flowmap, \
 	return (NULL);
 }
 
-inline t_room	*find_previous_room(t_path *path, t_room *current_room)
+static inline t_room	*find_previous_room(t_path *path, t_room *current_room)
 {
 	int		path_idx;
 
 	path_idx = 0;
 	while (path_idx < path->len - 1)
 	{
-		if (path->arr[path_idx + 1] == current_room)
+		if (path->room_arr[path_idx + 1] == current_room)
 		{
-			return (path->arr[path_idx]);
+			return (path->room_arr[path_idx]);
 		}
 		path_idx++;
 	}
 	return (NULL);
 }
 
-inline t_link	*find_link_to_previous_room(t_room *previous_room, t_room *current_room)
+static inline t_link	*find_link_to_previous_room(t_room *previous_room, t_room *current_room)
 {
 	t_link	*forced_link;
 	
@@ -135,13 +140,15 @@ inline t_link	*find_link_to_previous_room(t_room *previous_room, t_room *current
 
 int	flowmap_forces_movement(t_queue *queue, t_info *info, t_queueitem *current_item)
 {
-	t_path	*path_arr;
-	t_path	*current_path;
-	t_link	*forced_link;
-	t_room	*previous_room_on_path;
+	t_path		*path_arr;
+	t_path		*current_path;
+	t_link		*forced_link;
+	t_room		*previous_room_on_path;
+	t_flowmap	*working_flowmap;
 
 	path_arr = get_path_arr();
 	current_path = path_arr;
+	working_flowmap = get_working_flowmap();
 	while (current_path < path_arr + info->total_paths)
 	{
 		if (bitmask_check_idx(&current_path->rooms_used, current_item->room->number))
@@ -150,7 +157,7 @@ int	flowmap_forces_movement(t_queue *queue, t_info *info, t_queueitem *current_i
 			if (!previous_room_on_path || previous_room_on_path == info->start)
 				return (1);
 			forced_link = find_link_to_previous_room(previous_room_on_path, current_item->room);
-			queue_add_item(&queue, previous_room_on_path, forced_link, current_item);
+			queue_add_item_and_update_flow(queue, working_flowmap, forced_link, current_item);
 			(&queue->arr[queue->top - 1])->was_forced_to_move = 1;
 			return (1);
 		}

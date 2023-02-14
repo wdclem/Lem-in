@@ -36,7 +36,7 @@ void bitmask_add(t_bitmask *src, t_bitmask *dst)
 	dst->last_page = ft_max(src->last_page, dst->last_page);
 }
 
-int bitmask_compare(t_bitmask *left, t_bitmask *right)
+int bitmask_are_equal(t_bitmask *left, t_bitmask *right)
 {
 	int	page_idx;
 	int	last_page;
@@ -45,11 +45,11 @@ int bitmask_compare(t_bitmask *left, t_bitmask *right)
 	last_page = ft_min(left->last_page, right->last_page);
 	while (page_idx <= last_page)
 	{
-		if (left->bits[page_idx] & right->bits[page_idx])
-			return (1);
+		if ((left->bits[page_idx] & right->bits[page_idx]) != left->bits[page_idx])
+			return (0);
 		page_idx++;
 	}
-	return (0);
+	return (1);
 }
 
 void	bitmask_clear(t_bitmask *mask)

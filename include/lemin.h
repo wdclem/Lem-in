@@ -110,7 +110,8 @@ typedef struct s_path
 {
 	unsigned short	id;
 	unsigned short	len;
-	t_room			*arr[MAX_PATH_SIZE];
+	t_room			*room_arr[MAX_PATH_SIZE];
+	t_link			*link_arr[MAX_PATH_SIZE];
 	t_bitmask		rooms_used;
 	unsigned short	ants_in;
 }				t_path;
@@ -186,7 +187,7 @@ int			move_ants2(t_info *info);
 
 /* PATHS */
 t_path		*path_open(t_info *info, int len);
-void		path_add_room(t_path **path, t_room *room, int index);
+void		path_add_room(t_path **path, t_room *room, t_link *link, int index);
 t_path 		*path_make_next(t_info *info, t_queueitem *start);
 
 /* BITMASK */
@@ -194,7 +195,7 @@ int			bitmask_check_idx(t_bitmask *mask, int idx);
 void		bitmask_set_idx(t_bitmask *mask, int idx);
 void		bitmask_clear(t_bitmask *mask);
 void 		bitmask_add(t_bitmask *src, t_bitmask *dst);
-int 		bitmask_compare(t_bitmask *left, t_bitmask *right);
+int 		bitmask_are_equal(t_bitmask *left, t_bitmask *right);
 
 /* ERROR MANAGEMENT*/
 int			error_center(int error_code, t_hasht *table);

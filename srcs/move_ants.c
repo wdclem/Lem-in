@@ -45,7 +45,7 @@ t_room *get_next_room(t_ant *ant)
 {
 	t_room	*copy;
 
-	copy = ant->path->arr[ant->path_idx];
+	copy = ant->path->room_arr[ant->path_idx];
 	if (copy->occupied == 0)
 		return (copy);
 	return (0);
@@ -58,12 +58,12 @@ int	move_ant(t_info *info, t_ant *ant)
 	next = get_next_room(ant);
 	if (next)
 	{
-		dprintf(2, "L%d-%s", ant->id, next->id);
+		ft_printf("L%d-%s", ant->id, next->id);
 		ant->room->occupied = 0;
 		ant->room = next;
 		ant->room->occupied = 1;
 		ant->path_idx += 1;
-		dprintf(2, " ");
+		ft_printf(" ");
 	}
 	if (next == info->end)
 	{
@@ -88,7 +88,7 @@ t_pathgroup	*select_group(t_info *info, t_pathgroup *groups)
 	dprintf(2, "group[%d] == %d\n", group_idx, (groups + group_idx)->id);
 	while (group_idx < info->total_groups)
 	{
-		printf("Some group stats:\ngroup id: %d\ngroup len: %d\ngroup total_path_len: %d\n", 
+		dprintf(2, "Some group stats:\ngroup id: %d\ngroup len: %d\ngroup total_path_len: %d\n", 
 				(groups + group_idx)->id, (groups + group_idx)->len, (groups + group_idx)->total_path_len);
 		turns = (((groups + group_idx)->total_path_len + info->ants)
 				/ (groups + group_idx)->len);
@@ -143,7 +143,7 @@ int	move_ants2(t_info *info)
 			ants_arrived += move_ant(info, ants[ant_idx]);
 			ant_idx += 1;
 		}
-		dprintf(2, "\n");
+		ft_printf("\n");
 	}
 	return (1);
 }

@@ -92,16 +92,20 @@ int	solve(t_info *info)
 	t_queue		*queue;
 	t_flowmap	*stable_flowmap;
 	t_pathgroup	*next_group;	
+	t_pathgroup	*previous_group;	
 
 	queue = get_queue();
 	stable_flowmap = get_stable_flowmap();
 	while (queue_can_be_opened(queue, stable_flowmap, info))
 	{
 		next_group = get_next_pathgroup(queue, info);
-		if (!next_group)
+		if (info->total_groups > 0 &&
+				bitmask_are_equal(&next_group->rooms_used,
+					&previous_group->rooms_used))
 			break ;
-		else
-			info->total_groups++;
+
+		previous_group = next_group;
+		info->total_groups++;
 	//	grouping_optimize_pathgroup(queue, info, next_group);
 	}
 	return (info->total_groups);
