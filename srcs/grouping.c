@@ -12,8 +12,9 @@
 
 #include "lemin.h"
 
-void	grouping_add_path_to_group(t_pathgroup *group, t_path *path)
+void	grouping_add_path_to_group(t_info *info, t_pathgroup *group, t_path *path)
 {
+	bitmask_clear_idx(&path->rooms_used, info->end->number);
 	for (int i = 0; i < path->len; i++)
 	{
 		dprintf(2, "%s", path->room_arr[i]->id);
@@ -21,7 +22,7 @@ void	grouping_add_path_to_group(t_pathgroup *group, t_path *path)
 			dprintf(2, " -> ");
 	}
 	dprintf(2, "\ntrying to add path id:%d len:%d to group:%dp:%p -- ", path->id, path->len, group->id, group);
-//	if (bitmask_compare(&group->rooms_used, &path->rooms_used))
+//	if (bitmasks_share_bits(&group->rooms_used, &path->rooms_used))
 //	{
 //		dprintf(2, "can't because rooms overlap :((((\n");
 //	}
@@ -63,7 +64,7 @@ static t_path	*find_optimized_path(t_queue *queue, t_info *info, t_flowmap *stab
 	return (NULL);
 }
 
-void	clear_path_from_stable_flowmap(t_path *path, t_flowmap *stable_flowmap)
+void	clear_path_from_stable_flowmap(t_info *info, t_path *path, t_flowmap *stable_flowmap)
 {
 	int	path_idx;
 
@@ -72,8 +73,11 @@ void	clear_path_from_stable_flowmap(t_path *path, t_flowmap *stable_flowmap)
 	{
 		stable_flowmap->arr[path->link_arr[path_idx]->number + \
 			(path->link_arr[path_idx]->number % 2 == 0) - (path->link_arr[path_idx]->number % 2 == 1)] = OPEN;
+		stable_flowmap->arr[path->link_arr[path_idx]->number] = OPEN;
 		path_idx++;
 	}
+	dprintf(2, "Clearpath: Stable path after clearing:\n");
+	flowmap_debug_print(stable_flowmap, info->total_links);
 }
 
 void	grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *group)
@@ -92,7 +96,7 @@ void	grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *grou
 	{
 		next_path = group->arr[path_idx];
 		ft_memcpy((void *)&stable_copy, stable_flowmap, sizeof(t_flowmap));
-		clear_path_from_stable_flowmap(next_path, stable_flowmap);
+		clear_path_from_stable_flowmap(info, next_path, stable_flowmap);
 		new_path = find_optimized_path(queue, info, stable_flowmap, working_flowmap);
 		if (new_path && new_path->len < next_path->len)
 		{

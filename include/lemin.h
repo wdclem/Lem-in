@@ -179,7 +179,7 @@ t_path		*flowmap_paths_remain(t_queue *queue, t_flowmap *flowmap, \
 int			flowmap_forces_movement(t_queue *queue, t_info *info, t_queueitem *current_item);
 
 /* GROUPING */
-void		grouping_add_path_to_group(t_pathgroup *group, t_path *path);
+void		grouping_add_path_to_group(t_info *info, t_pathgroup *group, t_path *path);
 void		grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *group);
 
 /* PRINT OUTUPUT */
@@ -195,7 +195,9 @@ int			bitmask_check_idx(t_bitmask *mask, int idx);
 void		bitmask_set_idx(t_bitmask *mask, int idx);
 void		bitmask_clear(t_bitmask *mask);
 void 		bitmask_add(t_bitmask *src, t_bitmask *dst);
-int 		bitmask_are_equal(t_bitmask *left, t_bitmask *right);
+int 		bitmasks_are_equal(t_bitmask *left, t_bitmask *right);
+int 		bitmasks_share_bits(t_bitmask *left, t_bitmask *right);
+void 		bitmask_clear_idx(t_bitmask *mask, int idx);
 
 /* ERROR MANAGEMENT*/
 int			error_center(int error_code, t_hasht *table);

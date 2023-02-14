@@ -30,7 +30,7 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 	{
 		next_path = flowmap_paths_remain(queue, stable_flowmap, info, &i);
 		if (next_path)
-			grouping_add_path_to_group(next_group, next_path);
+			grouping_add_path_to_group(info, next_group, next_path);
 	}
 	t_flowmap *working_flowmap = get_working_flowmap();
 	dprintf(2, "Findpath: working flowmap at this point in time:\n");
@@ -100,7 +100,7 @@ int	solve(t_info *info)
 	{
 		next_group = get_next_pathgroup(queue, info);
 		if (info->total_groups > 0 &&
-				bitmask_are_equal(&next_group->rooms_used,
+				bitmasks_are_equal(&next_group->rooms_used,
 					&previous_group->rooms_used))
 			break ;
 
