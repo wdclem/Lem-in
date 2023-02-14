@@ -14,10 +14,25 @@
 
 void	grouping_add_path_to_group(t_pathgroup *group, t_path *path)
 {
-	ft_printf("adding path id:%d len:%d to group:%dp:%p\n", path->id, path->len, group->id, group);
-	group->arr[group->len] = path;
-	group->total_path_len += path->len;
-	group->len++;
+	for (int i = 0; i < path->len; i++)
+	{
+		dprintf(2, "%s", path->arr[i]->id);
+		if (i < path->len - 1)
+			dprintf(2, " -> ");
+	}
+	dprintf(2, "\ntrying to add path id:%d len:%d to group:%dp:%p -- ", path->id, path->len, group->id, group);
+	if (bitmask_compare(&group->rooms_used, &path->rooms_used))
+	{
+		dprintf(2, "can't because rooms overlap :((((\n");
+	}
+	else
+	{
+		dprintf(2, "everything went better than expectation :)\n");
+		bitmask_add(&path->rooms_used, &group->rooms_used);
+		group->arr[group->len] = path;
+		group->total_path_len += path->len;
+		group->len++;
+	}
 }
 /*
 void	grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *group)

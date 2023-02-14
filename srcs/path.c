@@ -18,7 +18,7 @@ void	path_add_room(t_path **path, t_room *room, int index)
 
 	ptr = (*path)->arr + index;
 	*ptr = room;
-	bitmask_set_idx(&((*path)->room_mask), room->number);
+	bitmask_set_idx(&((*path)->rooms_used), room->number);
 }
 
 t_path	*path_open(t_info *info, int len)
@@ -26,7 +26,7 @@ t_path	*path_open(t_info *info, int len)
 	t_path		*path_arr;
 	t_path		*new_path;
 
-	path_arr = get_paths();
+	path_arr = get_path_arr();
 	new_path = (path_arr + info->total_paths++);
 	new_path->len = len;
 	return (new_path);

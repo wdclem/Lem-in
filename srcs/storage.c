@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-t_path	*get_paths(void)
+t_path	*get_path_arr(void)
 {
 	static t_path	paths_arr[MAX_PATHS];
 
