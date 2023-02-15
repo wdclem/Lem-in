@@ -15,12 +15,10 @@
 void	free_hashtable(t_hasht **table)
 {
 	int		i;
-	int		hits;
 	t_link	*seek;
 	t_link	*previous;
 
 	i = 0;
-	hits = 0;
 	while (i < HT_CAP)
 	{
 		if ((*table)->room[i])
@@ -34,11 +32,9 @@ void	free_hashtable(t_hasht **table)
 			}
 			free((*table)->room[i]->id);
 			free((*table)->room[i]);
-			hits++;
 		}
 		i++;
 	}
-	printf("freed %d things\n", hits);
 	free((*table)->room);
 	free(*table);
 }
@@ -65,6 +61,8 @@ int	error_center(t_info *info, int error_code, t_hasht **table)
 		ft_printf("room incorrect\n");
 	else if (error_code == 5)
 		ft_printf("link incorrect\n");
+	else if (error_code == 5)
+		ft_printf("table allocation failed, program stop\n");
 	if (table)
 		free(table);
 	free_before_exit(info, table);

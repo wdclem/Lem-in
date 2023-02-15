@@ -47,17 +47,13 @@ static void	print_input(t_info *info)
 
 int	main(int argc, char **argv)
 {
-	t_info		info;
-	t_hasht		*table;
-	t_pathgroup	*best_group;
+	static t_info	info;
+	t_hasht			*table;
+	t_pathgroup		*best_group;
 
-	ft_bzero(&info, sizeof(t_info));
 	table = table_init();
 	if (!table)
-	{
-		ft_printf("table allocation failed, program stop");
-		return (0);
-	}
+		return (error_center(&info, 5, &table));
 	if (argc < 1 || argc > 2 || !argv)
 		return (error_center(&info, 0, &table));
 	if (save_map(&info) == -1)
