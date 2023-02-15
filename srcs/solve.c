@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
+#include "structs.h"
 
 t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 		t_flowmap *stable_flowmap, t_info *info)
@@ -83,19 +84,17 @@ static t_pathgroup	*get_next_pathgroup(t_queue *queue, t_info *info)
 	return (next_group);
 }
 
-int	solve(t_info *info)
+t_pathgroup	*solve(t_info *info)
 {	
 	t_queue		*queue;
-	t_flowmap	*stable_flowmap;
 	t_pathgroup	*next_group;
 	t_pathgroup	*previous_group;
-	int			best_score;
+	double		best_score;
 
 	queue = get_queue();
-	stable_flowmap = get_stable_flowmap();
 	best_score = MAX_ROOMS;
 	previous_group = NULL;
-	while (queue_can_be_opened(queue, stable_flowmap, info))
+	while (queue_can_be_opened(queue, get_stable_flowmap(), info))
 	{
 		next_group = get_next_pathgroup(queue, info);
 		next_group->score = grouping_score_group(info, next_group);
@@ -107,5 +106,5 @@ int	solve(t_info *info)
 		previous_group = next_group;
 		info->total_groups++;
 	}
-	return (info->total_groups);
+	return (previous_group);
 }

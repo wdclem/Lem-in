@@ -106,7 +106,7 @@ typedef struct s_pathgroup
 	t_bitmask		rooms_used;
 	unsigned short	total_path_len;
 	unsigned short	ants_in;
-	unsigned short	score;
+	double			score;
 }				t_pathgroup;
 
 typedef struct s_ant

@@ -12,36 +12,42 @@
 
 #include "lemin.h"
 
-int	save_map(t_info *info)
+static int	can_read_map(t_info *info, int i)
 {
-	char	*line;
-	int		i;
-	int		len;
 	int		gnl_ret;
 
-	line = NULL;
-	i = -1;
-	len = 50000;
-	gnl_ret = 1;
-	info->str = (char **)malloc(sizeof(char *) * len + 1);
+	gnl_ret = get_next_line(0, &info->str[i]);
+	if (gnl_ret == 0)
+	{
+		if (i == 0)
+			return (ERROR);
+		return (gnl_ret);
+	}
+	if (gnl_ret < 0)
+		return (ERROR);
+	if (info->str[i] == NULL)
+		return (ERROR);
+	return (gnl_ret);
+}
+
+int	save_map(t_info *info)
+{
+	const int	len = 50000;
+	int			gnl_ret;
+	int			i;
+
+	info->str = (char **)ft_memalloc(sizeof(char *) * len + 1);
 	if (!info->str)
 		return (ERROR);
-	while (gnl_ret && i++ <= len - 1)
+	i = 0;
+	gnl_ret = 1;
+	while (gnl_ret > 0 && i <= len - 1)
 	{
-		gnl_ret = get_next_line(0, &line);
-		if (gnl_ret == 0)
-		{
-			if (i == 0)
-				return (ERROR);
-			break ;
-		}
-		if (gnl_ret < 0)
-			return (ERROR);
-		info->str[i] = line;
-		if (info->str[i] == NULL)
-			return (ERROR);
+		gnl_ret = can_read_map(info, i);
+		i++;
 	}
 	info->total_strs = i;
-	ft_strdel(&line);
+	if (gnl_ret < 0)
+		return (ERROR);
 	return (0);
 }

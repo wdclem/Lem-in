@@ -19,7 +19,7 @@
 # include <stdio.h>
 
 int			main(int argc, char **argv);
-int			solve(t_info *info);
+t_pathgroup	*solve(t_info *info);
 
 /* PARSING/VALIDATION */
 int			save_map(t_info *info);
@@ -69,7 +69,7 @@ void		grouping_optimize_pathgroup(t_queue *queue, t_info *info, \
 				t_pathgroup *group);
 
 /* PRINT OUTUPUT */
-int			move_ants2(t_info *info);
+int			move_ants(t_info *info, t_pathgroup *best_group);
 
 /* PATHS */
 t_path		*path_open(t_info *info, int len);

@@ -55,6 +55,7 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 	int		str_idx;
 
 	str_idx = 0;
+	room_checker = NULL;
 	room_checker = ft_strsplit(info->str[i], ' ');
 	if (!room_checker)
 		return(ERROR);

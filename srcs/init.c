@@ -29,13 +29,11 @@ t_ant	**ants_array(t_info *info, t_ant **array)
 
 	i = 0;
 	id = 1;
-	dprintf(2, "info->ants == %d\n", info->ants);
 	while (i < info->ants)
 	{
 		array[i] = init_ant(info, &id);
 		i++;
 	}
-	dprintf(2, "array created\n");
 	return (array);
 }
 
@@ -46,7 +44,7 @@ t_hasht	*table_init(void)
 	table = (t_hasht *)malloc(sizeof(t_hasht));
 	if (!table)
 		return (NULL);
-	table->room = (t_room **)malloc(sizeof(t_room *) * HT_CAP);
+	table->room = (t_room **)ft_memalloc(sizeof(t_room *) * HT_CAP);
 	if (!table->room)
 		return (NULL);
 	ft_bzero(table->room, HT_CAP);
@@ -58,7 +56,7 @@ t_link	*new_link(t_room *from, t_room *link_to)
 	t_link					*link;
 	static unsigned short	number;
 
-	link = (t_link *)malloc(sizeof(t_link));
+	link = (t_link *)ft_memalloc(sizeof(t_link));
 	if (!link)
 		return (NULL);
 	link->number = number++;
@@ -72,7 +70,7 @@ t_room	*make_room(t_info *info, char *key)
 {
 	t_room	*room;
 
-	room = (t_room *)malloc(sizeof(t_room));
+	room = (t_room *)ft_memalloc(sizeof(t_room));
 	if (!room)
 		return (NULL);
 	room->id = ft_strdup(key);

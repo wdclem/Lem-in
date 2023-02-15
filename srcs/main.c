@@ -49,6 +49,7 @@ int	main(int argc, char **argv)
 {
 	t_info		info;
 	t_hasht		*table;
+	t_pathgroup	*best_group;
 
 	ft_bzero(&info, sizeof(t_info));
 	table = table_init();
@@ -57,7 +58,7 @@ int	main(int argc, char **argv)
 		ft_printf("table allocation failed, program stop");
 		return (0);
 	}
-	if (argc < 1 || argc > 2|| !argv)
+	if (argc < 1 || argc > 2 || !argv)
 		return (error_center(0, table));
 	if (save_map(&info) == -1)
 		return (error_center(1, table));
@@ -65,13 +66,10 @@ int	main(int argc, char **argv)
 		return (0);
 	if (info.str)
 		print_input(&info);
-	dprintf(2, "content 1\n");
-	write(1, "\n", 1);
-//	if (solve(&info) == -1)
-//		move_ants2(&info);
-//	else
-//	{
-//		return(error_center(0, table);
-		dprintf(2, "bad map, no paths :(\n");
+	best_group = solve(&info);
+	if (best_group)
+		move_ants(&info, best_group);
+	else
+		return (error_center(0, table));
 	return (0);
 }

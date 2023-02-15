@@ -12,6 +12,19 @@
 
 #include "lemin.h"
 
+void	free_ants(t_ant	**ant_arr, int total_ants)
+{
+	int	ant_idx;
+
+	ant_idx = 0;
+	while (ant_idx < total_ants)
+	{
+		ft_memdel((void **)&ant_arr[ant_idx]);
+		ant_idx++;
+	}
+	free(ant_arr);
+}
+
 t_path	*choose_path(t_pathgroup *path_group)
 {
 	t_path	*best_path;
@@ -41,22 +54,12 @@ t_path	*choose_path(t_pathgroup *path_group)
 	return (best_path);
 }
 
-t_room *get_next_room(t_ant *ant)
-{
-	t_room	*copy;
-
-	copy = ant->path->room_arr[ant->path_idx];
-	if (copy->occupied == 0)
-		return (copy);
-	return (0);
-}
-
 int	move_ant(t_info *info, t_ant *ant)
 {
 	t_room	*next;
 
-	next = get_next_room(ant);
-	if (next)
+	next = ant->path->room_arr[ant->path_idx];
+	if (next->occupied == 0)
 	{
 		ft_printf("L%d-%s", ant->id, next->id);
 		ant->room->occupied = 0;
@@ -64,91 +67,57 @@ int	move_ant(t_info *info, t_ant *ant)
 		ant->room->occupied = 1;
 		ant->path_idx += 1;
 		ft_printf(" ");
-	}
-	if (next == info->end)
-	{
-		ant->room->occupied = 0;
-		return (1);
+		if (next == info->end)
+		{
+			ant->room->occupied = 0;
+			return (1);
+		}
 	}
 	return (0);
 }
 
-t_pathgroup	*select_group(t_info *info, t_pathgroup *groups)
+static void	step_ants(t_info *info, t_ant **ants, int *ants_arrived, int *lines)
 {
-	int			best;
-	int			group_idx;
-	double		turns;
-	t_pathgroup	*best_group;
+	int	ant_idx;
 
-	best = 0;
-	group_idx = 0;
-	turns = 0;
-	dprintf(2, "in select group\n");
-	dprintf(2, "info->start == %s, info->end == %s\n", info->start->id, info->end->id);
-	dprintf(2, "group[%d] == %d\n", group_idx, (groups + group_idx)->id);
-	while (group_idx < info->total_groups)
+	ant_idx = 0;
+	while (ant_idx < info->ants)
 	{
-		dprintf(2, "Some group stats:\ngroup id: %d\ngroup len: %d\ngroup total_path_len: %d\n", 
-				(groups + group_idx)->id, (groups + group_idx)->len, (groups + group_idx)->total_path_len);
-		turns = (((groups + group_idx)->total_path_len + info->ants)
-				/ (groups + group_idx)->len);
-		if (turns - (int)turns != 0)
-			turns += 1;
-		if (group_idx == 0)
+		if (ants[ant_idx]->room == info->end)
 		{
-			best = turns;
-			best_group = groups + group_idx;
+			ant_idx += 1;
+			continue ;
 		}
-		if (turns < best)
-		{
-			best = turns;
-			best_group = groups + group_idx;
-		}
-		group_idx++;
+		*ants_arrived += move_ant(info, ants[ant_idx]);
+		ant_idx += 1;
 	}
-	dprintf(2, "turns == %f, group[%d] == %d\n", turns, group_idx, (groups + group_idx)->id);
-	dprintf(2, "best group selected, was %d\n", best_group->id);
-	return (best_group);
+	(*lines)++;
+	ft_printf("\n");
 }
 
-int	move_ants2(t_info *info)
+int	move_ants(t_info *info, t_pathgroup *best_group)
 {
 	int			ant_idx;
 	int			ants_arrived;
-	t_pathgroup	*path_group;
 	t_ant		**ants;
 	int			lines;
 
-	ants = NULL;
-	ants = (t_ant **)malloc(sizeof(t_ant *) * info->ants);
+	ants = (t_ant **)ft_memalloc(sizeof(t_ant *) * info->ants);
 	ants = ants_array(info, ants);
-	path_group = select_group(info, get_groups_arr());
-	grouping_optimize_pathgroup(get_queue(), info, path_group);
+	grouping_optimize_pathgroup(get_queue(), info, best_group);
 	ant_idx = 0;
 	ants_arrived = 0;
 	while (ant_idx < info->ants)
 	{
-		ants[ant_idx]->path = choose_path(path_group);
-		dprintf(2, "Path selected for ant %d: was %d\n", ants[ant_idx]->id, ants[ant_idx]->path->id);
+		ants[ant_idx]->path = choose_path(best_group);
 		ant_idx++;
 	}
 	lines = 0;
 	while (ants_arrived < info->ants)
 	{
-		ant_idx = 0;
-		while (ant_idx < info->ants)
-		{
-			if (ants[ant_idx]->room == info->end)
-			{
-				ant_idx += 1;
-				continue ;
-			}
-			ants_arrived += move_ant(info, ants[ant_idx]);
-			ant_idx += 1;
-		}
-		lines++;
-		ft_printf("\n");
+		step_ants(info, ants, &ants_arrived, &lines);
 	}
-	printf("line count was %d\n", lines);
+	free_ants(ants, info->ants);
+	ft_printf("line count was %d\n", lines);
 	return (1);
 }
