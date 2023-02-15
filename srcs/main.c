@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:57:06 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 17:11:27 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:34:17 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,26 @@ int	main(int argc, char **argv)
 
 	ft_bzero(&info, sizeof(t_info));
 	table = table_init();
+	if (!table)
+	{
+		ft_printf("table allocation failed, program stop");
+		return (0);
+	}
 	if (argc < 1 || argc > 2|| !argv)
 		return (error_center(0, table));
 	if (save_map(&info) == -1)
 		return (error_center(1, table));
 	if (validate_info(&info, table) == -1)
 		return (0);
-	print_input(&info);
+	if (info.str)
+		print_input(&info);
 	dprintf(2, "content 1\n");
 	write(1, "\n", 1);
-	if (solve(&info))
-		move_ants2(&info);
-	else
+//	if (solve(&info) == -1)
+//		move_ants2(&info);
+//	else
+//	{
+//		return(error_center(0, table);
 		dprintf(2, "bad map, no paths :(\n");
 	return (0);
 }

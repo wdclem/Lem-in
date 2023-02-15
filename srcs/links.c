@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:19:43 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 17:31:16 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:07:06 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,48 @@ int	link_room_exist(t_hasht *table, char *from, char *link_to)
 {
 	int hash_from;
 	int hash_to;
+	int exist;
 
 	hash_from = 0;
 	hash_to = 0;
+	exist = 0;
 	if (!from || !link_to || !table)
 		return (ERROR);
 	hash_from  = dj2b_hash(from);
 	hash_to = dj2b_hash(link_to);
+	if (hash_from == HT_CAP)
+		hash_from = 0;
+	if (hash_to == HT_CAP)
+		hash_to = 0;
 	if (!table->room[hash_from] || !table->room[hash_to])
 		return (ERROR);
-	if (ft_strcmp(table->room[hash_from]->id, from) != 0 || ft_strcmp(table->room[hash_to]->id, link_to) != 0)
-		return (ERROR);
-	return (0);
+	if (ft_strcmp(table->room[hash_from]->id, from) != 0)
+	{
+		hash_from++;
+		while (table->room[hash_from] != NULL)
+		{
+			if (ft_strcmp(table->room[hash_from]->id, from) == 0)
+				return (0);
+			hash_from++;
+			if (hash_from == HT_CAP)
+				hash_from = 0;
+		}
+		exist = -1;
+	}
+	if (ft_strcmp(table->room[hash_to]->id, link_to) != 0)
+	{
+		hash_to++;
+		while (table->room[hash_to] != NULL)
+		{
+			if (ft_strcmp(table->room[hash_to]->id, link_to) == 0)
+				return (0);
+			hash_to++;
+			if (hash_to == HT_CAP)
+				hash_to = 0;
+		}
+		exist = -1;
+	}
+	return (exist);
 }	
 
 int	check_link(t_info *info, t_hasht *table, int i)
@@ -83,7 +113,7 @@ int	check_link(t_info *info, t_hasht *table, int i)
 	t_link	*next_link;
 
 	link = ft_strsplit(info->str[i], '-');
-//	printf("link[0] == %s, link[1] == %s\n", link[0], link[1]);
+	printf("link[0] == %s, link[1] == %s\n", link[0], link[1]);
 	if (!link)
 		return (ERROR);
 	room_idx = dj2b_hash(link[0]);
