@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:19:43 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/15 17:07:06 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/15 19:42:24 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	add_link(t_room *from, t_room *link_to)
 t_room	*pointer_to_room(t_hasht *table, char *id)
 {
 	t_room	*room;
-
 	int		j;
 
 	j = 0;
@@ -55,83 +54,31 @@ t_room	*pointer_to_room(t_hasht *table, char *id)
 	return (room);
 }
 
-int	link_room_exist(t_hasht *table, char *from, char *link_to)
+static int	check_link_amount(char **link)
 {
-	int hash_from;
-	int hash_to;
-	int exist;
+	int	room_idx;
 
-	hash_from = 0;
-	hash_to = 0;
-	exist = 0;
-	if (!from || !link_to || !table)
+	room_idx = 0;
+	while (link[room_idx])
+		room_idx++;
+	if (room_idx != 2 || ft_strcmp(link[0], link[1]) == 0)
 		return (ERROR);
-	hash_from  = dj2b_hash(from);
-	hash_to = dj2b_hash(link_to);
-	if (hash_from == HT_CAP)
-		hash_from = 0;
-	if (hash_to == HT_CAP)
-		hash_to = 0;
-	if (!table->room[hash_from] || !table->room[hash_to])
-		return (ERROR);
-	if (ft_strcmp(table->room[hash_from]->id, from) != 0)
-	{
-		hash_from++;
-		while (table->room[hash_from] != NULL)
-		{
-			if (ft_strcmp(table->room[hash_from]->id, from) == 0)
-				return (0);
-			hash_from++;
-			if (hash_from == HT_CAP)
-				hash_from = 0;
-		}
-		exist = -1;
-	}
-	if (ft_strcmp(table->room[hash_to]->id, link_to) != 0)
-	{
-		hash_to++;
-		while (table->room[hash_to] != NULL)
-		{
-			if (ft_strcmp(table->room[hash_to]->id, link_to) == 0)
-				return (0);
-			hash_to++;
-			if (hash_to == HT_CAP)
-				hash_to = 0;
-		}
-		exist = -1;
-	}
-	return (exist);
-}	
+	return (0);
+}
 
-int	check_link(t_info *info, t_hasht *table, int i)
+static int	check_link(t_info *info, t_hasht *table, int i)
 {
 	char	**link;
 	t_room	*from;
 	t_room	*link_to;
-	int		room_idx;
-	int		j;
-	t_link	*next_link;
 
 	link = ft_strsplit(info->str[i], '-');
-	printf("link[0] == %s, link[1] == %s\n", link[0], link[1]);
 	if (!link)
 		return (ERROR);
-	room_idx = dj2b_hash(link[0]);
-	j = 0;
-	while (link[j])
-		j++;
-	if (j != 2 || ft_strcmp(link[0], link[1]) == 0)
+	if (check_link_amount(link) == -1)
 		return (ERROR);
-//	if (link_room_exist(table, link[0], link[1]) != 0)
-//		return (ERROR);
-	next_link = table->room[room_idx]->link_head;
-	while (next_link)
-	{
-		if (ft_strcmp(next_link->link_to->id, link[1]) == 0)
-			return (ERROR);
-		else
-			next_link = next_link->next;
-	}
+	if (link_room_exist(table, link[0], link[1]) == -1)
+		return (ERROR);
 	if (link[0] && link[1])
 	{
 		from = pointer_to_room(table, link[0]);
@@ -141,16 +88,21 @@ int	check_link(t_info *info, t_hasht *table, int i)
 		add_link(from, link_to);
 		add_link(link_to, from);
 	}
+	ft_freearray((void **)link, 2);
 	return (0);
 }
 
 int	save_links(t_info *info, t_hasht *table, int i)
 {
-	while (i < info->total_strs && info->str[i]) //&& !ft_strchr(info->str[i], ' '))
+	while (i < info->total_strs && info->str[i])
 	{
-		if(ft_strchr(info->str[i], '-') && info->str[i][0] == '#' && info->str[i][1] != '#')
+		ft_printf("str == %s\n", info->str[i]);
+		if (ft_strchr(info->str[i], '-') && info->str[i][0] == '#' && \
+			info->str[i][1] != '#')
 			i++;
-		if (info->str[i][0] == 0 || (!ft_strchr(info->str[i], '-') && info->str[i][0] != '#') || (info->str[i][0] != '#' && ft_strchr(info->str[i], '#')))//(ft_strchr(info->str[i], '-') && ft_strchr(info->str[i], '#')))
+		if (info->str[i][0] == 0 || (!ft_strchr(info->str[i], '-') && \
+			info->str[i][0] != '#') || (info->str[i][0] != '#' && \
+			ft_strchr(info->str[i], '#')))
 			return (ERROR);
 		if (info->str[i][0] == '#')
 		{
@@ -162,12 +114,9 @@ int	save_links(t_info *info, t_hasht *table, int i)
 			if (!check_link(info, table, i))
 				info->total_links += 2;
 			else
-				return(ERROR);
+				return (ERROR);
 		}
 		i++;
-	}	//printf("link count = %d\n", info->start->link_count);
-	if (info->total_links == 0)
-		return(ERROR);
-//	printf("total link = %d\n", info->total_links);
+	}
 	return (0);
 }

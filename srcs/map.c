@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 15:15:13 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/15 17:33:47 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/15 19:47:58 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	save_map(t_info *info)
 	info->str = (char **)malloc(sizeof(char *) * len + 1);
 	if (!info->str)
 		return (ERROR);
-	while (gnl_ret && i++ <= len - 1)
+	while (gnl_ret && i++ < len)
 	{
 		gnl_ret = get_next_line(0, &line);
 		if (gnl_ret == 0)
@@ -42,6 +42,6 @@ int	save_map(t_info *info)
 			return (ERROR);
 	}
 	info->total_strs = i;
-	ft_strdel(&line);
+	free(line);
 	return (0);
 }

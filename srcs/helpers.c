@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:33:00 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 19:24:01 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:53:57 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ int	set_table(t_info *info, t_hasht *table, char *room_key)
 	t_room	*new_room;
 
 	i = dj2b_hash(room_key);
-	//dprintf(2, "table i == %d\n", i);
-	//if (unique_id(i, table, room_key) != 0)
-	//	return (ERROR);
 	while (table->room[i])
 	{
 		if (unique_id(i, table, room_key) != 0)

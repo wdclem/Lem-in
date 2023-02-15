@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:57:06 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/15 17:34:17 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/15 19:46:32 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	validate_info(t_info *info, t_hasht *table)
 	if (!info->str[i] || i == -1)
 		return (error_center(4, table));
 	i = save_links(info, table, i);
-	if (i == -1)
+	if (i == -1 || info->total_links <= 0)
 		return (error_center(5, table));
 	return (i);
 }
@@ -63,12 +63,11 @@ int	main(int argc, char **argv)
 		return (error_center(1, table));
 	if (validate_info(&info, table) == -1)
 		return (0);
-	if (info.str)
-		print_input(&info);
+	print_input(&info);
 	dprintf(2, "content 1\n");
 	write(1, "\n", 1);
-//	if (solve(&info) == -1)
-//		move_ants2(&info);
+	if (solve(&info) == -1)
+		move_ants2(&info);
 //	else
 //	{
 //		return(error_center(0, table);
