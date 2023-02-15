@@ -92,20 +92,19 @@ int	solve(t_info *info)
 	t_queue		*queue;
 	t_flowmap	*stable_flowmap;
 	t_pathgroup	*next_group;	
-	t_pathgroup	*previous_group;	
+	int			best_score;
 
 	queue = get_queue();
 	stable_flowmap = get_stable_flowmap();
+	best_score = MAX_ROOMS;
 	while (queue_can_be_opened(queue, stable_flowmap, info))
 	{
 		next_group = get_next_pathgroup(queue, info);
-		if (info->total_groups > 0 &&
-				bitmasks_are_equal(&next_group->rooms_used,
-					&previous_group->rooms_used))
+		next_group->score = grouping_score_group(info, next_group);
+		if (next_group->score > best_score)
 			break ;
-		previous_group = next_group;
+		best_score = next_group->score;
 		info->total_groups++;
-//		grouping_optimize_pathgroup(queue, info, next_group);
 	}
 	return (info->total_groups);
 }

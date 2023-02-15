@@ -11,6 +11,17 @@
 /* ************************************************************************** */
 #include "lemin.h"
 
+void bitmask_debug_print(t_bitmask *mask)
+{
+	for (int i = 0; i < (int)((mask->last_page + 1) * PAGE_SIZE); i++)
+	{
+		if (bitmask_check_idx(mask, i))
+		{
+			dprintf(2, "PAGE:%lu, ENTRY:%lu (%d) %p\n", i / PAGE_SIZE, i % PAGE_SIZE, i, mask + i);
+		}
+	}
+}
+
 int bitmask_check_idx(t_bitmask *mask, int idx)
 {
 	return (mask->bits[idx / PAGE_SIZE] & (1 << (idx % PAGE_SIZE)));

@@ -12,6 +12,19 @@
 
 #include "lemin.h"
 
+int		grouping_score_group(t_info *info, t_pathgroup *group)
+{
+	double		turns;
+
+	turns = 0;
+	dprintf(2, "Some group stats:\ngroup id: %d\ngroup len: %d\ngroup total_path_len: %d\n", 
+			group->id, group->len, group->total_path_len);
+	turns = (group->total_path_len + info->ants) / group->len;
+	if (turns - (int)turns != 0)
+		turns += 1;
+	return (turns);
+}
+
 void	grouping_add_path_to_group(t_info *info, t_pathgroup *group, t_path *path)
 {
 	bitmask_clear_idx(&path->rooms_used, info->end->number);
@@ -52,9 +65,9 @@ static t_path	*find_optimized_path(t_queue *queue, t_info *info, t_path *current
 		{
 			if (current_link->link_to == info->start)
 				return (path_make_next(info, current_item));
-			if (!bitmask_check_idx(&queue->rooms_used, current_item->room->number)
-					&& !bitmask_check_idx(&group->rooms_used, current_item->room->number)
-					&& current_link->link_to->distance >= current_item->room->distance)
+			if (!bitmask_check_idx(&queue->rooms_used, current_link->link_to->number)
+					&& !bitmask_check_idx(&group->rooms_used, current_link->link_to->number)
+					&& current_link->link_to->distance <= current_item->room->distance)
 			{
 				queue_add_item(&queue, current_link->link_to,
 						current_link, current_item);
@@ -93,8 +106,14 @@ void	grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *grou
 	dprintf(2, "hello :)\n");
 	while (path_idx < group->len)
 	{
+		dprintf(2, "Group mask before removing path:\n");
+		bitmask_debug_print(&group->rooms_used);
 		next_path = group->arr[path_idx];
+		dprintf(2, "Path mask:\n");
+		bitmask_debug_print(&next_path->rooms_used);
 		bitmask_remove(&next_path->rooms_used, &group->rooms_used);
+		dprintf(2, "Group mask after removing path:\n");
+		bitmask_debug_print(&group->rooms_used);
 		new_path = find_optimized_path(queue, info, next_path, group);
 		if (new_path)
 		{
