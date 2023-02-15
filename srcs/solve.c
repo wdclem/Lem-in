@@ -103,10 +103,9 @@ int	solve(t_info *info)
 				bitmasks_are_equal(&next_group->rooms_used,
 					&previous_group->rooms_used))
 			break ;
-
 		previous_group = next_group;
 		info->total_groups++;
-		grouping_optimize_pathgroup(queue, info, next_group);
+//		grouping_optimize_pathgroup(queue, info, next_group);
 	}
 	return (info->total_groups);
 }

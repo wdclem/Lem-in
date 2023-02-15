@@ -50,6 +50,10 @@ void	queue_add_item_and_update_flow(t_queue *queue, t_flowmap *flowmap,
 	dprintf(2, "Working: Forward %12s Backward %12s\n\n", flow_to_str(*workflow_forward), \
 			flow_to_str(*workflow_backward));
 	room_to_go = link_to_follow->link_to;
+	if (room_to_go->distance == 0)
+		room_to_go->distance = previous->steps + 1;
+	else
+		room_to_go->distance = ft_min(room_to_go->distance, previous->steps + 1);
 	queue_add_item(&queue, room_to_go, link_to_follow, previous);
 }
 
@@ -64,6 +68,7 @@ void queue_add_item(t_queue **queue, t_room *next_room, \
 	new_item->link_used = link_used;
 	if (previous)
 		new_item->steps = previous->steps + 1;
+
 	bitmask_set_idx(&(*queue)->rooms_used, next_room->number);
 	(*queue)->top++;
 }

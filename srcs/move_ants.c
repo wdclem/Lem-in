@@ -123,6 +123,7 @@ int	move_ants2(t_info *info)
 	ants = (t_ant **)malloc(sizeof(t_ant *) * info->ants);
 	ants = ants_array(info, ants);
 	path_group = select_group(info, get_groups_arr());
+	grouping_optimize_pathgroup(get_queue(), info, path_group);
 	ant_idx = 0;
 	ants_arrived = 0;
 	while (ant_idx < info->ants)
@@ -148,6 +149,6 @@ int	move_ants2(t_info *info)
 		lines++;
 		ft_printf("\n");
 	}
-	dprintf(2, "line count was %d\n", lines);
+	printf("line count was %d\n", lines);
 	return (1);
 }

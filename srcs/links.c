@@ -92,8 +92,8 @@ int	check_link(t_info *info, t_hasht *table, int i)
 		j++;
 	if (j != 2 || ft_strcmp(link[0], link[1]) == 0)
 		return (ERROR);
-	if (link_room_exist(table, link[0], link[1]) != 0)
-		return (ERROR);
+//	if (link_room_exist(table, link[0], link[1]) != 0)
+//		return (ERROR);
 	next_link = table->room[room_idx]->link_head;
 	while (next_link)
 	{

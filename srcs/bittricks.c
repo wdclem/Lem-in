@@ -26,8 +26,6 @@ void bitmask_set_idx(t_bitmask *mask, int idx)
 void bitmask_clear_idx(t_bitmask *mask, int idx)
 {
 	mask->bits[idx / PAGE_SIZE] &= ~(1 << (idx % PAGE_SIZE));
-	if (idx / (int)PAGE_SIZE > mask->last_page)
-		mask->last_page = idx / PAGE_SIZE;
 }
 
 void bitmask_add(t_bitmask *src, t_bitmask *dst)
@@ -41,6 +39,18 @@ void bitmask_add(t_bitmask *src, t_bitmask *dst)
 		page_idx += 1;
 	}
 	dst->last_page = ft_max(src->last_page, dst->last_page);
+}
+
+void bitmask_remove(t_bitmask *src, t_bitmask *dst)
+{
+	int	page_idx;
+
+	page_idx = 0;
+	while (page_idx <= src->last_page)
+	{
+		dst->bits[page_idx] &= ~(src->bits[page_idx]);
+		page_idx += 1;
+	}
 }
 
 int bitmasks_share_bits(t_bitmask *left, t_bitmask *right)
@@ -65,7 +75,7 @@ int bitmasks_are_equal(t_bitmask *left, t_bitmask *right)
 	int	last_page;
 
 	page_idx = 0;
-	last_page = ft_min(left->last_page, right->last_page);
+	last_page = ft_max(left->last_page, right->last_page);
 	while (page_idx <= last_page)
 	{
 		if ((left->bits[page_idx] & right->bits[page_idx]) != left->bits[page_idx])
