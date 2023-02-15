@@ -130,10 +130,10 @@ int		ft_printf(const char *str, ...);
  * Dynamic integer arrays
  */
 
-ssize_t		ft_dintarr_create(t_dintarr **darr, size_t size, const char *name);
-ssize_t		ft_dintarr_add(t_dintarr **darr, const int n);
-ssize_t		ft_dintarr_close(t_dintarr **src, int **dst);
-ssize_t		ft_dintarr_clear(t_dintarr **darr);
-ssize_t		ft_dintarr_copy(t_dintarr **src, t_dintarr **dst, size_t n);
+ssize_t	ft_dintarr_create(t_dintarr **darr, size_t size, const char *name);
+ssize_t	ft_dintarr_add(t_dintarr **darr, const int n);
+ssize_t	ft_dintarr_close(t_dintarr **src, int **dst);
+ssize_t	ft_dintarr_clear(t_dintarr **darr);
+ssize_t	ft_dintarr_copy(t_dintarr **src, t_dintarr **dst, size_t n);
 
 #endif

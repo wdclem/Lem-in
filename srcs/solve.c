@@ -32,41 +32,37 @@ t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 		if (next_path)
 			grouping_add_path_to_group(info, next_group, next_path);
 	}
-	t_flowmap *working_flowmap = get_working_flowmap();
-	dprintf(2, "Findpath: working flowmap at this point in time:\n");
-	flowmap_debug_print(working_flowmap, info->total_links);
-	dprintf(2, "Stable flowmap at this point in time:\n");
-	flowmap_debug_print(stable_flowmap, info->total_links);
 	return (next_group);
 }
 
-static int	discover_flow_to_sink(t_queue *queue, t_flowmap *working_flowmap, \
-		t_flowmap *stable_flowmap, t_info *info, int *i)
+static int	discover_flow_to_sink(t_queue *queue, t_flowmap *stable_flowmap, \
+		t_info *info, int *i)
 {
-	t_queueitem *current_item;
+	t_flowmap	*working_flowmap;
+	t_queueitem	*current_item;
 	t_link		*current_link;
-	t_room		*next_room;
-	
+
+	working_flowmap = get_working_flowmap();
 	while (*i < queue->top)
 	{
 		current_item = &queue->arr[(*i)++];
-		if (!current_item->was_forced_to_move && flowmap_forces_movement(queue, info, current_item))
+		if (!current_item->was_forced_to_move && \
+				flowmap_forces_movement(queue, info, current_item))
 			continue ;
 		current_link = current_item->room->link_head;
 		while (current_link != NULL)
 		{
-			next_room = current_link->link_to;
-			if (queue_can_add_room(queue, stable_flowmap, current_link))
+			if (queue_can_add_room(queue, stable_flowmap, current_link, OPEN))
 			{
 				queue_add_item_and_update_flow(queue, working_flowmap, \
 					current_link, current_item);
-				if (next_room == info->end)
-					return 1;
+				if (current_link->link_to == info->end)
+					return (1);
 			}
 			current_link = current_link->next;
 		}
 	}
-	return 0;
+	return (0);
 }
 
 static t_pathgroup	*get_next_pathgroup(t_queue *queue, t_info *info)
@@ -79,9 +75,9 @@ static t_pathgroup	*get_next_pathgroup(t_queue *queue, t_info *info)
 	working_flowmap = get_working_flowmap();
 	stable_flowmap = get_stable_flowmap();
 	i = 0;
-	if (discover_flow_to_sink(queue, working_flowmap, stable_flowmap, info, &i))
-		flowmap_update_stable_map(&queue->arr[queue->top - 1], working_flowmap, \
-				stable_flowmap, info->total_links);
+	if (discover_flow_to_sink(queue, stable_flowmap, info, &i))
+		flowmap_update_stable_map(&queue->arr[queue->top - 1], \
+				working_flowmap, stable_flowmap);
 	next_group = find_paths_for_next_group(queue, stable_flowmap, info);
 	bitmask_clear(&queue->path_rooms_used);
 	return (next_group);
@@ -91,19 +87,24 @@ int	solve(t_info *info)
 {	
 	t_queue		*queue;
 	t_flowmap	*stable_flowmap;
-	t_pathgroup	*next_group;	
+	t_pathgroup	*next_group;
+	t_pathgroup	*previous_group;
 	int			best_score;
 
 	queue = get_queue();
 	stable_flowmap = get_stable_flowmap();
 	best_score = MAX_ROOMS;
+	previous_group = NULL;
 	while (queue_can_be_opened(queue, stable_flowmap, info))
 	{
 		next_group = get_next_pathgroup(queue, info);
 		next_group->score = grouping_score_group(info, next_group);
-		if (next_group->score > best_score)
+		if (next_group->score > best_score || (previous_group && \
+				bitmasks_are_equal(&previous_group->rooms_used, \
+				&next_group->rooms_used)))
 			break ;
 		best_score = next_group->score;
+		previous_group = next_group;
 		info->total_groups++;
 	}
 	return (info->total_groups);

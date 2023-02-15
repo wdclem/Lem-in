@@ -1,48 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   storage.c                                          :+:      :+:    :+:   */
+/*   defines.h                                            :+:      :+:    :+: */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/09 12:19:57 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/13 16:15:44 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#ifndef DEFINES_H
+# define DEFINES_H
 
-t_path	*get_path_arr(void)
-{
-	static t_path	paths_arr[MAX_PATHS];
+# define ERROR -1
+# define ANTS_MAX 8192
+# define HT_CAP 65536
+# define MAX_ROOMS 8192 
+# define MAX_LINKS 18192
+# define MAX_QUEUE 12192
+# define MAX_PATHS 8192 
+# define MAX_PATH_SIZE 8192 
+# define MAX_GROUPS 2048 
+# define MAX_GROUP_SIZE 8192
+# define MAX_PAGES 2048
+# define PAGE_SIZE 32
 
-	return ((t_path *)paths_arr);
-}
+# define OPEN 0
+# define UPSTREAM 1
+# define DOWNSTREAM 2
+# define BLOCKED 4
 
-t_pathgroup	*get_groups_arr(void)
-{
-	static t_pathgroup	groups_arr[MAX_GROUPS];
-
-	return ((t_pathgroup *)groups_arr);
-}
-
-t_queue	*get_queue(void)
-{
-	static t_queue	queue;
-
-	return (&queue);
-}
-
-t_flowmap	*get_stable_flowmap(void)
-{
-	static t_flowmap	stable_flowmap;
-
-	return (&stable_flowmap);
-}
-
-t_flowmap	*get_working_flowmap(void)
-{
-	static t_flowmap	working_flowmap;
-
-	return (&working_flowmap);
-}
+#endif

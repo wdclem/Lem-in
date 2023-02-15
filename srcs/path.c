@@ -27,8 +27,8 @@ void	path_add_room(t_path **path, t_room *room, t_link *link, int index)
 
 t_path	*path_open(t_info *info, int len)
 {
-	t_path		*path_arr;
-	t_path		*new_path;
+	t_path	*path_arr;
+	t_path	*new_path;
 
 	path_arr = get_path_arr();
 	new_path = (path_arr + info->total_paths++);
@@ -36,11 +36,11 @@ t_path	*path_open(t_info *info, int len)
 	return (new_path);
 }
 
-t_path *path_make_next(t_info *info, t_queueitem *start)
+t_path	*path_make_next(t_info *info, t_queueitem *start)
 {
-	t_queueitem *current_item;
+	t_queueitem	*current_item;
 	t_path		*new_path;
-	int 		path_idx;
+	int			path_idx;
 	static int	path_count;
 
 	new_path = path_open(info, start->steps + 1);
