@@ -21,6 +21,7 @@ void	path_add_room(t_path **path, t_room *room, t_link *link, int index)
 	link_ptr = (*path)->link_arr + index;
 	*room_ptr = room;
 	*link_ptr = link;
+	room->distance = index;
 	bitmask_set_idx(&((*path)->rooms_used), room->number);
 }
 

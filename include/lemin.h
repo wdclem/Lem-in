@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/15 14:34:41 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:37:59 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 
 # define ERROR -1
 # define ANTS_MAX 8192
-# define HT_CAP 8000// hash table capacity 
-# define MAX_ROOMS 8192
+# define HT_CAP 65536 // hash table capacity 
+# define MAX_ROOMS 8192 
 # define MAX_LINKS 18192
-# define MAX_QUEUE 18192
-# define MAX_PATHS 1024 
-# define MAX_PATH_SIZE 9048
-# define MAX_GROUPS 1512 
-# define MAX_GROUP_SIZE 1256 
+# define MAX_QUEUE 12192
+# define MAX_PATHS 8192 
+# define MAX_PATH_SIZE 8192 
+# define MAX_GROUPS 2048 
+# define MAX_GROUP_SIZE 8192
 # define MAX_PAGES (MAX_ROOMS / (sizeof(unsigned int)))
 # define PAGE_SIZE (sizeof(unsigned int) * 8)
 
@@ -39,10 +39,9 @@ typedef struct s_room
 	unsigned short	link_count;
 	char			*id;
 	unsigned short	number;
-	unsigned short	x;
-	unsigned short	y;
-	char			valid;
-	char			occupied;
+	int				occupied;
+	int				valid;
+	int				distance;
 	struct s_link	*link_head;
 	size_t			alloced;
 }					t_room;
@@ -124,6 +123,7 @@ typedef struct s_pathgroup
 	t_bitmask		rooms_used;
 	unsigned short	total_path_len;
 	unsigned short	ants_in;
+	unsigned short	score;
 }				t_pathgroup;
 
 typedef struct s_ant
@@ -179,7 +179,8 @@ t_path		*flowmap_paths_remain(t_queue *queue, t_flowmap *flowmap, \
 int			flowmap_forces_movement(t_queue *queue, t_info *info, t_queueitem *current_item);
 
 /* GROUPING */
-void		grouping_add_path_to_group(t_pathgroup *group, t_path *path);
+int			grouping_score_group(t_info *info, t_pathgroup *group);
+void		grouping_add_path_to_group(t_info *info, t_pathgroup *group, t_path *path);
 void		grouping_optimize_pathgroup(t_queue *queue, t_info *info, t_pathgroup *group);
 
 /* PRINT OUTUPUT */
@@ -191,11 +192,15 @@ void		path_add_room(t_path **path, t_room *room, t_link *link, int index);
 t_path 		*path_make_next(t_info *info, t_queueitem *start);
 
 /* BITMASK */
+void 		bitmask_debug_print(t_bitmask *mask);
 int			bitmask_check_idx(t_bitmask *mask, int idx);
 void		bitmask_set_idx(t_bitmask *mask, int idx);
 void		bitmask_clear(t_bitmask *mask);
 void 		bitmask_add(t_bitmask *src, t_bitmask *dst);
-int 		bitmask_are_equal(t_bitmask *left, t_bitmask *right);
+void 		bitmask_remove(t_bitmask *src, t_bitmask *dst);
+int 		bitmasks_are_equal(t_bitmask *left, t_bitmask *right);
+int 		bitmasks_share_bits(t_bitmask *left, t_bitmask *right);
+void 		bitmask_clear_idx(t_bitmask *mask, int idx);
 
 /* ERROR MANAGEMENT*/
 int			error_center(int error_code, t_hasht *table);

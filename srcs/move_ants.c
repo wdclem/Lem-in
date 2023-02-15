@@ -117,11 +117,13 @@ int	move_ants2(t_info *info)
 	int			ants_arrived;
 	t_pathgroup	*path_group;
 	t_ant		**ants;
+	int			lines;
 
 	ants = NULL;
 	ants = (t_ant **)malloc(sizeof(t_ant *) * info->ants);
 	ants = ants_array(info, ants);
 	path_group = select_group(info, get_groups_arr());
+	grouping_optimize_pathgroup(get_queue(), info, path_group);
 	ant_idx = 0;
 	ants_arrived = 0;
 	while (ant_idx < info->ants)
@@ -130,6 +132,7 @@ int	move_ants2(t_info *info)
 		dprintf(2, "Path selected for ant %d: was %d\n", ants[ant_idx]->id, ants[ant_idx]->path->id);
 		ant_idx++;
 	}
+	lines = 0;
 	while (ants_arrived < info->ants)
 	{
 		ant_idx = 0;
@@ -143,7 +146,9 @@ int	move_ants2(t_info *info)
 			ants_arrived += move_ant(info, ants[ant_idx]);
 			ant_idx += 1;
 		}
+		lines++;
 		ft_printf("\n");
 	}
+	printf("line count was %d\n", lines);
 	return (1);
 }
