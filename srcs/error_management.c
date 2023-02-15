@@ -12,20 +12,46 @@
 
 #include "lemin.h"
 
-/*void	free_before_exit(t_info *info, t_hasht *table)
+void	free_hashtable(t_hasht **table)
 {
-	if (info->str)
-		ft_freearray((void **)info->str, i);
-	while(table->room[i])
+	int		i;
+	int		hits;
+	t_link	*seek;
+	t_link	*previous;
+
+	i = 0;
+	hits = 0;
+	while (i < HT_CAP)
 	{
-		free(table->room[i]->id);
+		if ((*table)->room[i])
+		{
+			seek = (*table)->room[i]->link_head;
+			while (seek)
+			{
+				previous = seek;
+				seek = seek->next;
+				free(previous);
+			}
+			free((*table)->room[i]->id);
+			free((*table)->room[i]);
+			hits++;
+		}
 		i++;
 	}
-	if (table)
-		free(table);
-		*/
+	printf("freed %d things\n", hits);
+	free((*table)->room);
+	free(*table);
+}
 
-int	error_center(int error_code, t_hasht *table)
+void	free_before_exit(t_info *info, t_hasht **table)
+{
+	if (info->str)
+		ft_freearray((void **)info->str, MAX_LINES);
+	if (table)
+		free_hashtable(table);
+}
+
+int	error_center(t_info *info, int error_code, t_hasht **table)
 {
 	if (error_code == 0)
 		ft_printf("usage ./lem-in < path/to/file\n");
@@ -41,6 +67,6 @@ int	error_center(int error_code, t_hasht *table)
 		ft_printf("link incorrect\n");
 	if (table)
 		free(table);
-//	free_before_exit;
+	free_before_exit(info, table);
 	return (-1);
 }

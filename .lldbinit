@@ -4,8 +4,8 @@ settings set target.load-cwd-lldbinit true
 #settings set target.input-path ./test_maps/maps/42.txt 
 #settings set target.input-path /home/teppo/hive/projects/lem-in/test_maps/eval_generator/bigsup9.txt
 #settings set target.input-path ./test_maps/augment_0.map
-settings set target.input-path ./test_maps/error_maps/no_path_from_start_to_end
-#settings set target.input-path ./test_maps//bi0.txt
+#settings set target.input-path ./test_maps/error_maps/no_path_from_start_to_end
+settings set target.input-path ./test_maps/eval_generator/bigsup9.txt
 #settings set target.input-path ./the_map.map
 #settings set target.input-path ./test_maps/augment_8.map
 #settings set target.input-path ./test_maps/tests_bengisu/lattice.txt

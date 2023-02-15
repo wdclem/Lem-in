@@ -16,15 +16,10 @@
  * TODO check if coordinate needed/ t_coord ?
  */
 
-static int	room_to_hasht(t_info *info, t_hasht *table
-		, char **room_checker)
+static int	room_to_hasht(t_info *info, t_hasht *table, char **room_checker)
 {
 	if (set_table(info, table, room_checker[0]) != 0)
 		return (ERROR);
-/*	while (room_checker[++j])
-		free(room_checker[j]);
-	free(room_checker);
-	room_checker = NULL;*/
 	return (0);
 }
 
@@ -39,13 +34,13 @@ int	validate_room_input(char **room_checker)
 		split++;
 	if (split != 3)
 		return (ERROR);
-	while (room_checker[1][str_idx++])
+	while (room_checker[1][++str_idx])
 	{
 		if (ft_isdigit(room_checker[1][str_idx]) != 1)
 			return (ERROR);
 	}
 	str_idx = -1;
-	while (room_checker[2][str_idx++])
+	while (room_checker[2][++str_idx])
 	{
 		if (ft_isdigit(room_checker[2][str_idx]) != 1)
 			return (ERROR);

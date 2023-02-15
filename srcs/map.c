@@ -32,7 +32,7 @@ static int	can_read_map(t_info *info, int i)
 
 int	save_map(t_info *info)
 {
-	const int	len = 50000;
+	const int	len = MAX_LINES;
 	int			gnl_ret;
 	int			i;
 

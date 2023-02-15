@@ -24,7 +24,7 @@ int	save_ants(t_info *info, int i)
 			if (!ft_isdigit(info->str[i][error_index]))
 				return (ERROR);
 			else
-				error_index++;	
+				error_index++;
 		}
 	}
 	info->ants = ft_atoi(info->str[i]);

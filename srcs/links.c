@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
-/*
-** add link to the link list of the room
-*/
 
 static int	add_link(t_room *from, t_room *link_to)
 {
@@ -31,7 +28,6 @@ static int	add_link(t_room *from, t_room *link_to)
 	return (0);
 }
 
-/* return pointer to room if room exists */
 t_room	*pointer_to_room(t_hasht *table, char *id)
 {
 	t_room	*room;

@@ -24,6 +24,7 @@
 # define MAX_GROUPS 2048 
 # define MAX_GROUP_SIZE 8192
 # define MAX_PAGES 2048
+# define MAX_LINES 15000
 # define PAGE_SIZE 32
 
 # define OPEN 0

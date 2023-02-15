@@ -14,12 +14,12 @@
 
 int	bitmask_check_idx(t_bitmask *mask, int idx)
 {
-	return (mask->bits[idx / PAGE_SIZE] & (1 << (idx % PAGE_SIZE)));
+	return (mask->bits[idx / PAGE_SIZE] & (1LU << (idx % PAGE_SIZE)));
 }
 
 void	bitmask_set_idx(t_bitmask *mask, int idx)
 {
-	mask->bits[idx / PAGE_SIZE] |= (1 << (idx % PAGE_SIZE));
+	mask->bits[idx / PAGE_SIZE] |= (1LU << (idx % PAGE_SIZE));
 	if (idx / (int)PAGE_SIZE > mask->last_page)
 		mask->last_page = idx / PAGE_SIZE;
 }

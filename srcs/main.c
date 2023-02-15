@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static int	validate_info(t_info *info, t_hasht *table)
+static int	validate_info(t_info *info, t_hasht **table)
 {
 	int	i;
 
@@ -21,13 +21,13 @@ static int	validate_info(t_info *info, t_hasht *table)
 		return (ERROR);
 	i = save_ants(info, i);
 	if (i == -1)
-		return (error_center(2, table));
-	i = save_rooms(info, table, i);
+		return (error_center(info, 2, table));
+	i = save_rooms(info, *table, i);
 	if (!info->str[i] || i == -1)
-		return (error_center(4, table));
-	i = save_links(info, table, i);
+		return (error_center(info, 4, table));
+	i = save_links(info, *table, i);
 	if (i == -1 || info->total_links <= 0)
-		return (error_center(5, table));
+		return (error_center(info, 5, table));
 	return (i);
 }
 
@@ -59,10 +59,10 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	if (argc < 1 || argc > 2 || !argv)
-		return (error_center(0, table));
+		return (error_center(&info, 0, &table));
 	if (save_map(&info) == -1)
-		return (error_center(1, table));
-	if (validate_info(&info, table) == -1)
+		return (error_center(&info, 1, &table));
+	if (validate_info(&info, &table) == -1)
 		return (0);
 	if (info.str)
 		print_input(&info);
@@ -70,6 +70,7 @@ int	main(int argc, char **argv)
 	if (best_group)
 		move_ants(&info, best_group);
 	else
-		return (error_center(0, table));
+		return (error_center(&info, 0, &table));
+	free_hashtable(&table);
 	return (0);
 }

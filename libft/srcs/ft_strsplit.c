@@ -40,40 +40,41 @@ static int	free_str_tab(char ***tab, int count)
 	return (0);
 }
 
-static int	cut_word(char const *s, char c, char **tab, int i)
+static int	cut_word(char const *string, char delimiter, char **tab, int i)
 {
 	char const	*stop;
 	char		*word;
 
-	stop = ft_strchr(s, c);
+	stop = ft_strchr(string, delimiter);
 	if (stop == NULL)
-		stop = s + ft_strlen(s);
-	word = ft_strsub(s, 0, (size_t)(stop - s));
+		stop = string + ft_strlen(string);
+	word = ft_strsub(string, 0, (size_t)(stop - string));
 	if (!word)
 		return (free_str_tab(&tab, i));
 	tab[i] = word;
 	return (1);
 }
 
-char	**ft_strsplit(char const *s, char c)
+char	**ft_strsplit(char const *string, char delimiter)
 {
 	int		i;
 	char	**words;
 
-	words = (char **) malloc(sizeof(char *) * (count_words(s, c) + 1));
+	words = (char **) malloc(sizeof(char *) * \
+			(count_words(string, delimiter) + 1));
 	if (!words)
 		return (NULL);
 	i = 0;
-	while (s != NULL && *s)
+	while (string != NULL && *string)
 	{
-		while (*s == c && *s)
-			s++;
-		if (*s)
+		while (*string == delimiter && *string)
+			string++;
+		if (*string)
 		{
-			if (!cut_word(s, c, words, i))
+			if (!cut_word(string, delimiter, words, i))
 				return (NULL);
 			i++;
-			s = ft_strchr(s, c);
+			string = ft_strchr(string, delimiter);
 		}
 	}
 	words[i] = NULL;
