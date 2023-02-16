@@ -76,7 +76,7 @@ int	error_center(t_info *info, int error_code, t_hasht *table)
 		ft_printf("room incorrect\n");
 	else if (error_code == 5)
 		ft_printf("link incorrect\n");
-	else if (error_code == 5)
+	else if (error_code == 6)
 		ft_printf("table allocation failed, program stop\n");
 	free_before_exit(info, table);
 	return (-1);

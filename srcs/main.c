@@ -54,7 +54,7 @@ int	main(int argc, char **argv)
 
 	table = table_init();
 	if (!table)
-		return (error_center(&info, 5, table));
+		return (error_center(&info, 6, table));
 	if (argc < 1 || argc > 2 || !argv)
 		return (error_center(&info, 0, table));
 	if (save_map(&info) == -1)

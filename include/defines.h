@@ -16,7 +16,7 @@
 # define ERROR -1
 # define ANTS_MAX 8192
 # define HT_CAP 65536
-# define MAX_ROOMS 8192 
+# define MAX_ROOMS 10192 
 # define MAX_LINKS 18192
 # define MAX_QUEUE 13192
 # define MAX_PATHS 8192 
@@ -24,7 +24,7 @@
 # define MAX_GROUPS 2048 
 # define MAX_GROUP_SIZE 8192
 # define MAX_PAGES 2048
-# define MAX_LINES 10000
+# define MAX_LINES 15000
 # define PAGE_SIZE 32
 
 # define OPEN 0
