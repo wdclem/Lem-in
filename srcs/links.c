@@ -71,15 +71,15 @@ static int	check_link(t_info *info, t_hasht *table, int i)
 	if (!link)
 		return (ERROR);
 	if (check_link_amount(link, &count) == -1)
-		return (ERROR);
+		return (free_str_split(link, count, ERROR));
 	if (link_room_exist(table, link[0], link[1]) == -1)
-		return (ERROR);
+		return (free_str_split(link, count, ERROR));
 	if (link[0] && link[1])
 	{
 		from = pointer_to_room(table, link[0]);
 		link_to = pointer_to_room(table, link[1]);
 		if (!from || !link_to)
-			return (ERROR);
+			return (free_str_split(link, count, ERROR));
 		add_link(from, link_to);
 		add_link(link_to, from);
 	}
