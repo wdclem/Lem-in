@@ -68,6 +68,7 @@ int	move_ant(t_info *info, t_ant *ant)
 		ant->room = next;
 		ant->room->occupied = 1;
 		ant->path_idx += 1;
+		ft_printf(" ");
 		if (next == info->end)
 		{
 			ant->room->occupied = 0;
@@ -91,8 +92,6 @@ static void	step_ants(t_info *info, t_ant **ants, int *ants_arrived)
 		}
 		*ants_arrived += move_ant(info, ants[ant_idx]);
 		ant_idx += 1;
-		if (ant_idx < info->ants - 1)
-			ft_printf(" ");
 	}
 	ft_printf("\n");
 }
@@ -104,7 +103,7 @@ int	move_ants(t_info *info, t_pathgroup *best_group)
 	t_ant		**ants;
 
 	ants = (t_ant **)ft_memalloc(sizeof(t_ant *) * info->ants);
-	if (!ants && ants_array(info, ants) == ERROR)
+	if (!ants || ants_array(info, ants) == ERROR)
 	{
 		free_ants(ants, info->ants);
 		return (ERROR);

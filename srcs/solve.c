@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
-#include "structs.h"
 
 t_pathgroup	*find_paths_for_next_group(t_queue *queue, \
 		t_flowmap *stable_flowmap, t_info *info)

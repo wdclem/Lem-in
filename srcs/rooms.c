@@ -90,7 +90,7 @@ int	save_rooms(t_info *info, t_hasht *table, int i)
 		}
 		i++;
 	}
-	if (info->s_check != 1 || info->e_check != 1)
+	if (info->start == NULL || info->end == NULL)
 		return (ERROR);
 	return (i);
 }

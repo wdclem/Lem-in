@@ -16,7 +16,6 @@
 # include "../libft/includes/libft.h"
 # include "structs.h"
 # include "defines.h"
-# include <stdio.h>
 
 /* MAIN LOOP */
 int			main(int argc, char **argv);

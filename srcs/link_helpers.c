@@ -54,8 +54,6 @@ int	link_room_exist(t_hasht *table, char *from, char *link_to)
 	if (exist == -1)
 		return (ERROR);
 	next_link = table->room[hash_from]->link_head;
-	if (!next_link)
-		return (ERROR);
 	while (next_link)
 	{
 		if (ft_strcmp(next_link->link_to->id, link_to) == 0)
