@@ -12,23 +12,23 @@
 
 #include "lemin.h"
 
-static int	link_room_exists(t_hasht *table, char *room_name, int hash)
+static int	link_room_exists(t_hasht *table, char *room_name, int *hash)
 {
 	int	exist;
 
-	if (hash == HT_CAP)
-		hash = 0;
+	if ((*hash) == HT_CAP)
+		(*hash) = 0;
 	exist = 0;
-	if (ft_strcmp(table->room[hash]->id, room_name) != 0)
+	if (ft_strcmp(table->room[(*hash)]->id, room_name) != 0)
 	{
-		hash++;
-		while (table->room[hash] != NULL)
+		(*hash)++;
+		while (table->room[(*hash)] != NULL)
 		{
-			if (ft_strcmp(table->room[hash]->id, room_name) == 0)
+			if (ft_strcmp(table->room[(*hash)]->id, room_name) == 0)
 				return (0);
-			hash++;
-			if (hash == HT_CAP)
-				hash = 0;
+			(*hash)++;
+			if ((*hash) == HT_CAP)
+				(*hash) = 0;
 		}
 		exist = -1;
 	}
@@ -49,8 +49,8 @@ int	link_room_exist(t_hasht *table, char *from, char *link_to)
 	hash_to = dj2b_hash(link_to);
 	if (!table->room[hash_from] || !table->room[hash_to])
 		return (ERROR);
-	exist = link_room_exists(table, from, hash_from);
-	exist = link_room_exists(table, link_to, hash_to);
+	exist = link_room_exists(table, from, &hash_from);
+	exist = link_room_exists(table, link_to, &hash_to);
 	if (exist == -1)
 		return (ERROR);
 	next_link = table->room[hash_from]->link_head;

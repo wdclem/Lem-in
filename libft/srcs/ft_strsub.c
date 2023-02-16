@@ -22,14 +22,14 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 	if (s == NULL)
 		return (NULL);
 	i = 0;
-	str = (char *)malloc(sizeof (char) * (len + 1));
+	str = (char *)ft_memalloc(sizeof (char) * (len + 1));
 	if (str == NULL)
 		return (NULL);
 	while (i < len)
 	{
 		str[i] = s[start];
-		i ++;
-		start ++;
+		i++;
+		start++;
 	}
 	str[i] = '\0';
 	return (str);

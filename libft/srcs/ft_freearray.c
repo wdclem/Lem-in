@@ -14,16 +14,16 @@
 /* Function to free array/2d array
  */
 
-void	ft_freearray(void **array, int n)
+void	ft_freearray(void ***array, int n)
 {
 	int	i;
 
 	i = 0;
 	while (i < n)
 	{
-		free(array[i]);
+		free((*array)[i]);
 		i++;
 	}
-	free(array);
-	array = NULL;
+	free(*array);
+	*array = NULL;
 }
