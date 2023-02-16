@@ -12,42 +12,52 @@
 
 #include "lemin.h"
 
-void	free_hashtable(t_hasht **table)
+static void	free_links(t_room *room)
 {
-	int		i;
 	t_link	*seek;
 	t_link	*previous;
 
-	i = 0;
-	while (i < HT_CAP)
+	seek = room->link_head;
+	while (seek)
 	{
-		if ((*table)->room[i])
-		{
-			seek = (*table)->room[i]->link_head;
-			while (seek)
-			{
-				previous = seek;
-				seek = seek->next;
-				free(previous);
-			}
-			free((*table)->room[i]->id);
-			free((*table)->room[i]);
-		}
-		i++;
+		previous = seek;
+		seek = seek->next;
+		free(previous);
 	}
-	free((*table)->room);
-	free(*table);
 }
 
-void	free_before_exit(t_info *info, t_hasht **table)
+void	free_hashtable(t_hasht *table)
+{
+	int		i;
+
+	i = 0;
+	printf("table->room is %p\n", table->room);
+	if (table->room)
+	{
+		while (i < HT_CAP)
+		{
+			if (table->room[i])
+			{
+				free_links(table->room[i]);
+				free(table->room[i]->id);
+				free(table->room[i]);
+			}
+			i++;
+		}
+		free(table->room);
+	}
+	free(table);
+}
+
+void	free_before_exit(t_info *info, t_hasht *table)
 {
 	if (info->str)
-		ft_freearray((void **)info->str, MAX_LINES);
+		ft_freearray((void ***)&info->str, MAX_LINES);
 	if (table)
 		free_hashtable(table);
 }
 
-int	error_center(t_info *info, int error_code, t_hasht **table)
+int	error_center(t_info *info, int error_code, t_hasht *table)
 {
 	if (error_code == 0)
 		ft_printf("usage ./lem-in < path/to/file\n");
@@ -63,8 +73,7 @@ int	error_center(t_info *info, int error_code, t_hasht **table)
 		ft_printf("link incorrect\n");
 	else if (error_code == 5)
 		ft_printf("table allocation failed, program stop\n");
-	if (table)
-		free(table);
+	printf("table is %p\n", table);
 	free_before_exit(info, table);
 	return (-1);
 }

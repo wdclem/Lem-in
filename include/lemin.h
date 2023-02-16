@@ -21,8 +21,8 @@
 /* MAIN LOOP */
 int			main(int argc, char **argv);
 t_pathgroup	*solve(t_info *info);
-void		free_before_exit(t_info *info, t_hasht **table);
-void		free_hashtable(t_hasht **table);
+void		free_before_exit(t_info *info, t_hasht *table);
+void		free_hashtable(t_hasht *table);
 
 /* PARSING/VALIDATION */
 int			save_map(t_info *info);
@@ -92,7 +92,7 @@ int			bitmasks_are_equal(t_bitmask *left, t_bitmask *right);
 int			bitmasks_share_bits(t_bitmask *left, t_bitmask *right);
 
 /* ERROR MANAGEMENT*/
-int			error_center(t_info *info, int error_code, t_hasht **table);
+int			error_center(t_info *info, int error_code, t_hasht *table);
 
 /* STORAGE */
 t_path		*get_path_arr(void);

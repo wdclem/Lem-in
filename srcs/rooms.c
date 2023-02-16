@@ -70,7 +70,7 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 		return (ERROR);
 	if (room_to_hasht(info, table, room_checker) != 0)
 		return (ERROR);
-	ft_freearray((void **)room_checker, 3);
+	ft_freearray((void ***)&room_checker, 3);
 	return (0);
 }
 

@@ -41,13 +41,15 @@ t_hasht	*table_init(void)
 {
 	t_hasht		*table;
 
-	table = (t_hasht *)malloc(sizeof(t_hasht));
+	table = (t_hasht *)ft_memalloc(sizeof(t_hasht));
 	if (!table)
 		return (NULL);
 	table->room = (t_room **)ft_memalloc(sizeof(t_room *) * HT_CAP);
 	if (!table->room)
+	{
+		free(table);
 		return (NULL);
-	ft_bzero(table->room, HT_CAP);
+	}
 	return (table);
 }
 

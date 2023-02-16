@@ -12,6 +12,8 @@
 NAME = libft.a
 HEAD = libft.h
 FLAG =  -Werror -Wextra -Wall -g
+DFLAGS = -fsanitize=address -fsanitize=undefined \
+	-fno-sanitize-recover=all -fno-sanitize=null -fno-sanitize=alignment 
 OBJ_DIR = ./object/
 SRC_DIR = ./srcs/
 INC_DIR = ./includes/
@@ -48,6 +50,9 @@ LFT_OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 PF_OBJ = $(addprefix $(OBJ_DIR), $(PF_SRC:.c=.o))
 
 all: $(NAME) 
+
+debug: FLAGS += $(DFLAGS)
+debug: all
 
 $(NAME): $(LFT_OBJ) $(PF_OBJ)
 	@ar rcs $(NAME) $(LFT_OBJ) $(PF_OBJ)

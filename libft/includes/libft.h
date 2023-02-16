@@ -120,7 +120,7 @@ char	*ft_itoa(int n);
 */
 
 int		ft_isspace(char c);
-void	ft_freearray(void **array, int n);
+void	ft_freearray(void ***array, int n);
 char	**ft_maketab(int len);
 char	*ft_makearray(int len);
 int		get_next_line(const int fd, char **line);
