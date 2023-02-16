@@ -48,7 +48,7 @@ static int	cut_word(char const *string, char delimiter, char **tab, int i)
 	stop = ft_strchr(string, delimiter);
 	if (stop == NULL)
 		stop = string + ft_strlen(string);
-	word = ft_strsub(string, 0, (size_t)(stop - string + 1));
+	word = ft_strsub(string, 0, (size_t)(stop - string));
 	if (!word)
 		return (free_str_tab(&tab, i));
 	tab[i] = word;

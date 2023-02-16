@@ -66,7 +66,7 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 		return (free_str_split(room_checker, count, ERROR));
 	if (room_to_hasht(info, table, room_checker) != 0)
 		return (free_str_split(room_checker, count, ERROR));
-	ft_freearray((void ***)&room_checker, 4);
+	ft_freearray((void ***)&room_checker, count);
 	return (0);
 }
 
