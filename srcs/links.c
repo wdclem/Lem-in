@@ -84,7 +84,7 @@ static int	check_link(t_info *info, t_hasht *table, int i)
 		add_link(from, link_to);
 		add_link(link_to, from);
 	}
-	ft_freearray((void ***)&link, 2);
+	ft_freearray((void ***)&link, 3);
 	return (0);
 }
 

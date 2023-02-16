@@ -12,10 +12,6 @@
 
 #include "lemin.h"
 
-/* Create a new room in the HT
- * TODO check if coordinate needed/ t_coord ?
- */
-
 static int	room_to_hasht(t_info *info, t_hasht *table, char **room_checker)
 {
 	if (set_table(info, table, room_checker[0]) != 0)
@@ -70,7 +66,7 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 		return (ERROR);
 	if (room_to_hasht(info, table, room_checker) != 0)
 		return (ERROR);
-	ft_freearray((void ***)&room_checker, 3);
+	ft_freearray((void ***)&room_checker, 4);
 	return (0);
 }
 
