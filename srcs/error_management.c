@@ -37,7 +37,6 @@ void	free_hashtable(t_hasht *table)
 	int		i;
 
 	i = 0;
-	printf("table->room is %p\n", table->room);
 	if (table->room)
 	{
 		while (i < HT_CAP)
