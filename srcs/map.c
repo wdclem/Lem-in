@@ -36,12 +36,12 @@ int	save_map(t_info *info)
 	int			gnl_ret;
 	int			i;
 
-	info->str = (char **)ft_memalloc(sizeof(char *) * len + 1);
+	info->str = (char **)ft_memalloc(sizeof(char *) * len);
 	if (!info->str)
 		return (ERROR);
 	i = 0;
 	gnl_ret = 1;
-	while (gnl_ret > 0 && i <= len - 1)
+	while (gnl_ret > 0 && i < len)
 	{
 		gnl_ret = can_read_map(info, i);
 		i++;

@@ -23,6 +23,7 @@ int			main(int argc, char **argv);
 t_pathgroup	*solve(t_info *info);
 void		free_before_exit(t_info *info, t_hasht *table);
 void		free_hashtable(t_hasht *table);
+int			free_str_split(char **link, int count, int error);
 
 /* PARSING/VALIDATION */
 int			save_map(t_info *info);
@@ -43,7 +44,7 @@ t_room		*pointer_to_room(t_hasht *table, char *id);
 t_hasht		*table_init(void);
 t_room		*make_room(t_info *info, char *key);
 t_link		*new_link(t_room *from, t_room *link_to);
-t_ant		**ants_array(t_info *info, t_ant **array);
+int			ants_array(t_info *info, t_ant **array);
 t_ant		*init_ant(t_info *info, int *id);
 
 /* QUEUE */

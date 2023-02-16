@@ -23,7 +23,7 @@ static int	validate_info(t_info *info, t_hasht *table)
 	if (i == -1)
 		return (error_center(info, 2, table));
 	i = save_rooms(info, table, i);
-	if (!info->str[i] || i == -1)
+	if (i == -1 || !info->str[i])
 		return (error_center(info, 4, table));
 	i = save_links(info, table, i);
 	if (i == -1 || info->total_links <= 0)

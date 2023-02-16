@@ -17,6 +17,8 @@ void	free_ants(t_ant	**ant_arr, int total_ants)
 	int	ant_idx;
 
 	ant_idx = 0;
+	if (!ant_arr)
+		return ;
 	while (ant_idx < total_ants)
 	{
 		ft_memdel((void **)&ant_arr[ant_idx]);
@@ -66,7 +68,6 @@ int	move_ant(t_info *info, t_ant *ant)
 		ant->room = next;
 		ant->room->occupied = 1;
 		ant->path_idx += 1;
-		ft_printf(" ");
 		if (next == info->end)
 		{
 			ant->room->occupied = 0;
@@ -76,7 +77,7 @@ int	move_ant(t_info *info, t_ant *ant)
 	return (0);
 }
 
-static void	step_ants(t_info *info, t_ant **ants, int *ants_arrived, int *lines)
+static void	step_ants(t_info *info, t_ant **ants, int *ants_arrived)
 {
 	int	ant_idx;
 
@@ -90,8 +91,9 @@ static void	step_ants(t_info *info, t_ant **ants, int *ants_arrived, int *lines)
 		}
 		*ants_arrived += move_ant(info, ants[ant_idx]);
 		ant_idx += 1;
+		if (ant_idx < info->ants - 1)
+			ft_printf(" ");
 	}
-	(*lines)++;
 	ft_printf("\n");
 }
 
@@ -100,10 +102,13 @@ int	move_ants(t_info *info, t_pathgroup *best_group)
 	int			ant_idx;
 	int			ants_arrived;
 	t_ant		**ants;
-	int			lines;
 
 	ants = (t_ant **)ft_memalloc(sizeof(t_ant *) * info->ants);
-	ants = ants_array(info, ants);
+	if (!ants && ants_array(info, ants) == ERROR)
+	{
+		free_ants(ants, info->ants);
+		return (ERROR);
+	}
 	grouping_optimize_pathgroup(get_queue(), info, best_group);
 	ant_idx = 0;
 	ants_arrived = 0;
@@ -112,12 +117,8 @@ int	move_ants(t_info *info, t_pathgroup *best_group)
 		ants[ant_idx]->path = choose_path(best_group);
 		ant_idx++;
 	}
-	lines = 0;
 	while (ants_arrived < info->ants)
-	{
-		step_ants(info, ants, &ants_arrived, &lines);
-	}
+		step_ants(info, ants, &ants_arrived);
 	free_ants(ants, info->ants);
-	ft_printf("line count was %d\n", lines);
 	return (1);
 }

@@ -12,6 +12,12 @@
 
 #include "lemin.h"
 
+int	free_str_split(char **str_arr, int count, int error)
+{
+	ft_freearray((void ***)&str_arr, count);
+	return (error);
+}
+
 static void	free_links(t_room *room)
 {
 	t_link	*seek;

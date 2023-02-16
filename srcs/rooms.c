@@ -19,16 +19,14 @@ static int	room_to_hasht(t_info *info, t_hasht *table, char **room_checker)
 	return (0);
 }
 
-int	validate_room_input(char **room_checker)
+int	validate_room_input(char **room_checker, int *split)
 {
-	int	split;
 	int	str_idx;
 
-	split = 0;
 	str_idx = -1;
-	while (room_checker[split] != NULL)
-		split++;
-	if (split != 3)
+	while (room_checker[(*split)] != NULL)
+		(*split)++;
+	if (*split != 3)
 		return (ERROR);
 	while (room_checker[1][++str_idx])
 	{
@@ -56,16 +54,18 @@ int	unique_id(int id, t_hasht *table, char *room_name)
 int	room_is_valid(t_info *info, t_hasht *table, int i)
 {
 	char	**room_checker;
+	int		count;
 
+	count = 0;
 	room_checker = ft_strsplit(info->str[i], ' ');
 	if (!room_checker)
 		return (ERROR);
-	if (validate_room_input(room_checker) == -1)
-		return (ERROR);
+	if (validate_room_input(room_checker, &count) == -1)
+		return (free_str_split(room_checker, count, ERROR));
 	if (ft_atoi(room_checker[1]) < 0 || ft_atoi(room_checker[2]) < 0)
-		return (ERROR);
+		return (free_str_split(room_checker, count, ERROR));
 	if (room_to_hasht(info, table, room_checker) != 0)
-		return (ERROR);
+		return (free_str_split(room_checker, count, ERROR));
 	ft_freearray((void ***)&room_checker, 4);
 	return (0);
 }

@@ -17,24 +17,33 @@ t_ant	*init_ant(t_info *info, int *id)
 	t_ant	*ant;
 
 	ant = (t_ant *)ft_memalloc(sizeof(t_ant));
+	if (!ant)
+		return (NULL);
 	ant->room = info->start;
 	ant->id = (*id)++;
 	return (ant);
 }
 
-t_ant	**ants_array(t_info *info, t_ant **array)
+int	ants_array(t_info *info, t_ant **array)
 {
 	int		i;
 	int		id;
+	int		error;
 
 	i = 0;
 	id = 1;
-	while (i < info->ants)
+	error = 0;
+	if (!array)
+		error = ERROR;
+	while (i < info->ants && error >= 0)
 	{
 		array[i] = init_ant(info, &id);
-		i++;
+		if (!array[i])
+			error = ERROR;
+		else
+			i++;
 	}
-	return (array);
+	return (error);
 }
 
 t_hasht	*table_init(void)

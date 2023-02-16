@@ -50,14 +50,12 @@ t_room	*pointer_to_room(t_hasht *table, char *id)
 	return (room);
 }
 
-static int	check_link_amount(char **link)
+static int	check_link_amount(char **link, int *count)
 {
-	int	room_idx;
-
-	room_idx = 0;
-	while (link[room_idx])
-		room_idx++;
-	if (room_idx != 2 || ft_strcmp(link[0], link[1]) == 0)
+	*count = 0;
+	while (link[*count])
+		(*count)++;
+	if ((*count) != 2 || ft_strcmp(link[0], link[1]) == 0)
 		return (ERROR);
 	return (0);
 }
@@ -65,13 +63,14 @@ static int	check_link_amount(char **link)
 static int	check_link(t_info *info, t_hasht *table, int i)
 {
 	char	**link;
+	int		count;
 	t_room	*from;
 	t_room	*link_to;
 
 	link = ft_strsplit(info->str[i], '-');
 	if (!link)
 		return (ERROR);
-	if (check_link_amount(link) == -1)
+	if (check_link_amount(link, &count) == -1)
 		return (ERROR);
 	if (link_room_exist(table, link[0], link[1]) == -1)
 		return (ERROR);
