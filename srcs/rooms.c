@@ -72,7 +72,8 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 
 int	save_rooms(t_info *info, t_hasht *table, int i)
 {
-	while (i < info->total_strs && !ft_strchr(info->str[i], '-'))
+	while (info->str[i] && i < info->total_strs && \
+			!ft_strchr(info->str[i], '-'))
 	{
 		if (info->str[i][0] == 'L' || info->str[i][0] == 0)
 			return (ERROR);

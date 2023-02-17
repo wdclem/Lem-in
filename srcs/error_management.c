@@ -67,17 +67,17 @@ int	error_center(t_info *info, int error_code, t_hasht *table)
 	if (error_code == 0)
 		ft_printf("usage ./lem-in < path/to/file\n");
 	else if (error_code == 1)
-		ft_printf("empty file/file incorrect\n");
+		ft_printf("Bad input\n");
 	else if (error_code == 2)
-		ft_printf("ants number incorrect\n");
+		ft_printf("Bad input\n");
 	else if (error_code == 3)
-		ft_printf("'L' in room name\n");
+		ft_printf("Bad input\n");
 	else if (error_code == 4)
-		ft_printf("room incorrect\n");
+		ft_printf("Bad input\n");
 	else if (error_code == 5)
-		ft_printf("link incorrect\n");
+		ft_printf("Bad input\n");
 	else if (error_code == 6)
-		ft_printf("table allocation failed, program stop\n");
+		ft_printf("Table allocation failed, program stop\n");
 	free_before_exit(info, table);
 	return (-1);
 }
