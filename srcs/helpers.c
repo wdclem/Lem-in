@@ -27,6 +27,23 @@ int	dj2b_hash(char *key)
 	return (hash);
 }
 
+int	valid_amount_of_spaces_in_room_name(t_info *info, int i)
+{
+	int	idx;
+	int	space_count;
+
+	idx = 0;
+	space_count = 0;
+	while (info->str[i][idx])
+	{
+		space_count += ft_isspace(info->str[i][idx]);
+		idx++;
+	}
+	if (space_count != 2)
+		return (ERROR);
+	return (1);
+}
+
 static void	set_start_end(t_info *info, t_hasht *table, int i)
 {
 	if (info->s_check == 1 && !info->start)

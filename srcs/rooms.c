@@ -63,6 +63,8 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 	int		count;
 
 	count = 0;
+	if (valid_amount_of_spaces_in_room_name(info, i) == ERROR)
+		return (ERROR);
 	room_checker = ft_strsplit(info->str[i], ' ');
 	if (!room_checker)
 		return (ERROR);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   links.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: tpolonen <tpolonen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:19:43 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/15 19:42:24 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/18 13:33:33 by tpolonen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	save_links(t_info *info, t_hasht *table, int i)
 {
 	while (i < info->total_strs && info->str[i])
 	{
-		ft_printf("str == %s\n", info->str[i]);
 		if (ft_strchr(info->str[i], '-') && info->str[i][0] == '#' && \
 			info->str[i][1] != '#')
 			i++;
