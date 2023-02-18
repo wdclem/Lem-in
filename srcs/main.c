@@ -67,7 +67,10 @@ int	main(int argc, char **argv)
 	if (best_group)
 		move_ants(&info, best_group);
 	else
+	{
+		ft_printf("No valid path from start to end\n");
 		return (error_center(&info, 0, table));
+	}
 	free_before_exit(&info, table);
 	return (0);
 }

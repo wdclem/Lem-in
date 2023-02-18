@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static int	search_for_ant_count(t_info *info, int i)
+static int	validate_ant_count(t_info *info, int i)
 {
 	int	error_index;
 
@@ -28,11 +28,10 @@ static int	search_for_ant_count(t_info *info, int i)
 		error_index = 0;
 		while (ft_isdigit(info->str[i][error_index]))
 		{
-			if (!ft_isdigit(info->str[i][error_index]))
-				return (ERROR);
-			else
-				error_index++;
+			error_index++;
 		}
+		if (info->str[i][error_index])
+			return (ERROR);
 		return (1);
 	}
 	return (ERROR);
@@ -45,7 +44,7 @@ int	save_ants(t_info *info, int i)
 	ants_found = 0;
 	while (i < info->total_strs && !ants_found)
 	{
-		ants_found = search_for_ant_count(info, i);
+		ants_found = validate_ant_count(info, i);
 		if (ants_found == -1)
 			return (ERROR);
 		else if (ants_found != 1)
