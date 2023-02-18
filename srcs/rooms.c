@@ -23,21 +23,27 @@ int	validate_room_input(char **room_checker, int *split)
 {
 	int	str_idx;
 
-	str_idx = -1;
 	while (room_checker[(*split)] != NULL)
 		(*split)++;
 	if (*split != 3)
 		return (ERROR);
-	while (room_checker[1][++str_idx])
+	if (!(room_checker[1][0] == '-' || ft_isdigit(room_checker[1][0]) == 1))
+		return (ERROR);
+	str_idx = 1;
+	while (room_checker[1][str_idx])
 	{
 		if (ft_isdigit(room_checker[1][str_idx]) != 1)
 			return (ERROR);
+		str_idx++;
 	}
-	str_idx = -1;
-	while (room_checker[2][++str_idx])
+	if (!(room_checker[2][0] == '-' || ft_isdigit(room_checker[2][0]) == 1))
+		return (ERROR);
+	str_idx = 1;
+	while (room_checker[2][str_idx])
 	{
 		if (ft_isdigit(room_checker[2][str_idx]) != 1)
 			return (ERROR);
+		str_idx++;
 	}
 	return (0);
 }
@@ -60,9 +66,12 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 	room_checker = ft_strsplit(info->str[i], ' ');
 	if (!room_checker)
 		return (ERROR);
-	if (validate_room_input(room_checker, &count) == -1)
+	if (ft_strchr(room_checker[0], '-'))
+	{
+		ft_printf("'-' not allowed in room name\n");
 		return (free_str_split(room_checker, count, ERROR));
-	if (ft_atoi(room_checker[1]) < 0 || ft_atoi(room_checker[2]) < 0)
+	}
+	if (validate_room_input(room_checker, &count) == -1)
 		return (free_str_split(room_checker, count, ERROR));
 	if (room_to_hasht(info, table, room_checker) != 0)
 		return (free_str_split(room_checker, count, ERROR));
@@ -73,7 +82,7 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 int	save_rooms(t_info *info, t_hasht *table, int i)
 {
 	while (info->str[i] && i < info->total_strs && \
-			!ft_strchr(info->str[i], '-'))
+			(ft_strchr(info->str[i], ' ') || ft_strchr(info->str[i], '#')))
 	{
 		if (info->str[i][0] == 'L' || info->str[i][0] == 0)
 			return (ERROR);

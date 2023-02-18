@@ -61,24 +61,14 @@ int	check_comment_for_start_and_end(t_info *info, int i)
 	int	ret;
 
 	ret = 0;
-	if (ft_strequ(info->str[i], "##start"))
+	info->s_check = ft_strequ(info->str[i], "##start");
+	info->e_check = ft_strequ(info->str[i], "##end");
+	if (info->s_check || info->e_check)
 	{
-		if ((info->str[i + 1] && info->str[i + 1][0] == '#') || \
-				(info->str[i + 1] && ft_strchr(info->str[i + 1], '-')))
+		if ((info->str[i + 1] && info->str[i + 1][0] == '#'))
 			return (-1);
 		else if (info->str[i + 1] && info->str[i + 1][0] == 0)
 			return (-1);
-		info->s_check += 1;
-		ret = 1;
-	}
-	else if (ft_strequ(info->str[i], "##end"))
-	{
-		if ((info->str[i + 1] && info->str[i + 1][0] == '#') || \
-				(info->str[i + 1] && ft_strchr(info->str[i + 1], '-')))
-			return (-1);
-		else if (info->str[i + 1] && info->str[i + 1][0] == '0')
-			return (-1);
-		info->e_check += 1;
 		ret = 1;
 	}
 	return (ret);

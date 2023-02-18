@@ -56,7 +56,7 @@ int	main(int argc, char **argv)
 	if (!table)
 		return (error_center(&info, 6, table));
 	if (argc < 1 || argc > 2 || !argv)
-		return (error_center(&info, 0, table));
+		return (error_center(&info, 7, table));
 	if (save_map(&info) == -1)
 		return (error_center(&info, 1, table));
 	if (validate_info(&info, table) == -1)

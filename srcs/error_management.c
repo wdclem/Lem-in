@@ -64,7 +64,7 @@ void	free_before_exit(t_info *info, t_hasht *table)
 
 int	error_center(t_info *info, int error_code, t_hasht *table)
 {
-	if (error_code == 0)
+	if (error_code == 7)
 		ft_printf("usage ./lem-in < path/to/file\n");
 	else if (error_code == 1)
 		ft_printf("Bad input\n");
