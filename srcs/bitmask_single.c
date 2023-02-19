@@ -26,5 +26,5 @@ void	bitmask_set_idx(t_bitmask *mask, int idx)
 
 void	bitmask_clear_idx(t_bitmask *mask, int idx)
 {
-	mask->bits[idx / PAGE_SIZE] &= ~(1 << (idx % PAGE_SIZE));
+	mask->bits[idx / PAGE_SIZE] &= ~(1LU << (idx % PAGE_SIZE));
 }

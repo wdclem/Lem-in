@@ -63,18 +63,21 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 	int		count;
 
 	count = 0;
-	if (valid_amount_of_spaces_in_room_name(info, i) == ERROR)
+	if (valid_amount_of_chars_in_room_name(info->str[i], ' ') != 2)
+	{
+		ft_printf("Line %d invalid: wrong amount of ` ` characters\n", i);
 		return (ERROR);
+	}
 	room_checker = ft_strsplit(info->str[i], ' ');
 	if (!room_checker)
 		return (ERROR);
-	if (ft_strchr(room_checker[0], '-'))
-	{
-		ft_printf("'-' not allowed in room name\n");
-		return (free_str_split(room_checker, count, ERROR));
-	}
 	if (validate_room_input(room_checker, &count) == -1)
 		return (free_str_split(room_checker, count, ERROR));
+	if (valid_amount_of_chars_in_room_name(room_checker[0], '-') != 0)
+	{
+		ft_printf("Line %d invalid: Character `-` not allowed in room name\n");
+		return (free_str_split(room_checker, count, ERROR));
+	}
 	if (room_to_hasht(info, table, room_checker) != 0)
 		return (free_str_split(room_checker, count, ERROR));
 	ft_freearray((void ***)&room_checker, count);

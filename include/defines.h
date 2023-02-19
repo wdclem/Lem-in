@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   defines.h                                            :+:      :+:    :+: */
+/*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:59:25 by ccariou           #+#    #+#             */
-/*   Updated: 2023/02/13 16:15:44 by ccariou          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:21:36 by teppo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # define ERROR -1
 # define ANTS_MAX 8192
 # define HT_CAP 18192
-# define MAX_ROOMS 8192 
-# define MAX_LINKS 16192
-# define MAX_QUEUE 8192 
-# define MAX_PATHS 8192 
-# define MAX_PATH_SIZE 2048
+# define MAX_ROOMS 9192 
+# define MAX_LINKS 17192
+# define MAX_QUEUE 9192 
+# define MAX_PATHS 9192 
+# define MAX_PATH_SIZE 4048
 # define MAX_GROUPS 2048 
 # define MAX_GROUP_SIZE 2048
 # define MAX_PAGES 2048

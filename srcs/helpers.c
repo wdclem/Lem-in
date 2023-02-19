@@ -21,27 +21,25 @@ int	dj2b_hash(char *key)
 	hash = 5381;
 	while (key[i] != '\0')
 	{
-		hash = (((hash << 5) + hash) + key[i]) % HT_CAP;
+		hash = (((hash << 5) + hash) + key[i]);
 		i++;
 	}
-	return (hash);
+	return (hash % HT_CAP);
 }
 
-int	valid_amount_of_spaces_in_room_name(t_info *info, int i)
+int	valid_amount_of_chars_in_room_name(char *name, char c)
 {
 	int	idx;
-	int	space_count;
+	int	count;
 
 	idx = 0;
-	space_count = 0;
-	while (info->str[i][idx])
+	count = 0;
+	while (name[idx])
 	{
-		space_count += ft_isspace(info->str[i][idx]);
+		count += name[idx] == c;
 		idx++;
 	}
-	if (space_count != 2)
-		return (ERROR);
-	return (1);
+	return (count);
 }
 
 static void	set_start_end(t_info *info, t_hasht *table, int i)
