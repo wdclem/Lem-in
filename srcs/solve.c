@@ -84,7 +84,7 @@ static t_pathgroup	*get_next_pathgroup(t_queue *queue, t_info *info)
 }
 
 t_pathgroup	*solve(t_info *info)
-{	
+{
 	t_queue		*queue;
 	t_pathgroup	*next_group;
 	t_pathgroup	*previous_group;

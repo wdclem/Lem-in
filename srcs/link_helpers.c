@@ -61,4 +61,4 @@ int	link_room_exist(t_hasht *table, char *from, char *link_to)
 		next_link = next_link->next;
 	}
 	return (0);
-}	
+}

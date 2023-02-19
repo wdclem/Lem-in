@@ -39,7 +39,7 @@ typedef struct s_link
 /* Struct to hold input info */
 typedef struct s_info
 {
-	int				total_links;	
+	int				total_links;
 	int				total_paths;
 	int				total_groups;
 	int				ants;
