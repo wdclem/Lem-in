@@ -29,6 +29,7 @@ int			save_map(t_info *info);
 int			save_ants(t_info *info, int i);
 int			save_rooms(t_info *info, t_hasht *table, int i);
 int			save_links(t_info *info, t_hasht *table, int i);
+int			validate_string_is_integer(char *str);
 
 /* HELPERS */
 int			set_table(t_info *info, t_hasht *table, char *room_key);
@@ -37,7 +38,7 @@ int			check_comment_link(t_info *info, t_hasht *table, int i);
 int			link_room_exist(t_hasht *table, char *from, char *link_to);
 int			dj2b_hash(char *key);
 int			unique_id(int id, t_hasht *table, char *room_name);
-int			valid_amount_of_chars_in_room_name(char *name, char c);
+int			count_amount_of_chars_in_str(char *name, char c);
 t_room		*pointer_to_room(t_hasht *table, char *id);
 
 /* INIT.C */

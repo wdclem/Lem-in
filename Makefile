@@ -15,7 +15,7 @@ HEAD 	= lemin.h
 # compile specs
 FLAGS 	= -Werror -Wextra -Wall -g
 DFLAGS  = -fsanitize=address -fsanitize=undefined \
-	-fno-sanitize-recover=all -fno-sanitize=null -fno-sanitize=alignment 
+	-fno-sanitize-recover=all -fno-sanitize=null -fno-sanitize=alignment
 CC 		= gcc
 LFT 	= -L ./libft/ -lft
 
@@ -23,7 +23,7 @@ LFT 	= -L ./libft/ -lft
 SRC_DIR = ./srcs/
 SRCS 	= main.c ants.c map.c rooms.c helpers.c init.c links.c link_helpers.c \
 		  solve.c queue.c path.c move_ants.c grouping.c bitmask_single.c \
-		  bitmask_group.c storage.c error_management.c flowmap.c
+		  bitmask_group.c storage.c error_management.c flowmap.c validate.c
 
 INC 	= -I./include
 INC_LFT = -I./libft/includes 

@@ -27,20 +27,6 @@ int	dj2b_hash(char *key)
 	return (hash % HT_CAP);
 }
 
-int	valid_amount_of_chars_in_room_name(char *name, char c)
-{
-	int	idx;
-	int	count;
-
-	idx = 0;
-	count = 0;
-	while (name[idx])
-	{
-		count += name[idx] == c;
-		idx++;
-	}
-	return (count);
-}
 
 static void	set_start_end(t_info *info, t_hasht *table, int i)
 {

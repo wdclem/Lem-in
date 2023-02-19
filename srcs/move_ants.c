@@ -102,6 +102,7 @@ int	move_ants(t_info *info, t_pathgroup *best_group)
 	int			ants_arrived;
 	t_ant		**ants;
 
+	ft_printf("\n");
 	ants = (t_ant **)ft_memalloc(sizeof(t_ant *) * info->ants);
 	if (!ants || ants_array(info, ants) == ERROR)
 	{

@@ -21,30 +21,13 @@ static int	room_to_hasht(t_info *info, t_hasht *table, char **room_checker)
 
 int	validate_room_input(char **room_checker, int *split)
 {
-	int	str_idx;
-
 	while (room_checker[(*split)] != NULL)
 		(*split)++;
 	if (*split != 3)
 		return (ERROR);
-	if (!(room_checker[1][0] == '-' || ft_isdigit(room_checker[1][0]) == 1))
+	if (validate_string_is_integer(room_checker[1]) == -1 || \
+			validate_string_is_integer(room_checker[2]) == -1)
 		return (ERROR);
-	str_idx = 1;
-	while (room_checker[1][str_idx])
-	{
-		if (ft_isdigit(room_checker[1][str_idx]) != 1)
-			return (ERROR);
-		str_idx++;
-	}
-	if (!(room_checker[2][0] == '-' || ft_isdigit(room_checker[2][0]) == 1))
-		return (ERROR);
-	str_idx = 1;
-	while (room_checker[2][str_idx])
-	{
-		if (ft_isdigit(room_checker[2][str_idx]) != 1)
-			return (ERROR);
-		str_idx++;
-	}
 	return (0);
 }
 
@@ -63,7 +46,7 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 	int		count;
 
 	count = 0;
-	if (valid_amount_of_chars_in_room_name(info->str[i], ' ') != 2)
+	if (count_amount_of_chars_in_str(info->str[i], ' ') != 2)
 	{
 		ft_printf("Line %d invalid: wrong amount of ` ` characters\n", i);
 		return (ERROR);
@@ -73,7 +56,7 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 		return (ERROR);
 	if (validate_room_input(room_checker, &count) == -1)
 		return (free_str_split(room_checker, count, ERROR));
-	if (valid_amount_of_chars_in_room_name(room_checker[0], '-') != 0)
+	if (count_amount_of_chars_in_str(room_checker[0], '-') != 0)
 	{
 		ft_printf("Line %d invalid: Character `-` not allowed in room name\n");
 		return (free_str_split(room_checker, count, ERROR));
