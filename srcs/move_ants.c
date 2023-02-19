@@ -56,19 +56,20 @@ t_path	*choose_path(t_pathgroup *path_group)
 	return (best_path);
 }
 
-int	move_ant(t_info *info, t_ant *ant)
+int	move_ant(t_info *info, t_ant *ant, int first)
 {
 	t_room	*next;
 
 	next = ant->path->room_arr[ant->path_idx];
 	if (next->occupied == 0)
 	{
+		if (!first)
+			ft_printf(" ");
 		ft_printf("L%d-%s", ant->id, next->id);
 		ant->room->occupied = 0;
 		ant->room = next;
 		ant->room->occupied = 1;
 		ant->path_idx += 1;
-		ft_printf(" ");
 		if (next == info->end)
 		{
 			ant->room->occupied = 0;
@@ -81,8 +82,10 @@ int	move_ant(t_info *info, t_ant *ant)
 static void	step_ants(t_info *info, t_ant **ants, int *ants_arrived)
 {
 	int	ant_idx;
+	int	first;
 
 	ant_idx = 0;
+	first = 1;
 	while (ant_idx < info->ants)
 	{
 		if (ants[ant_idx]->room == info->end)
@@ -90,8 +93,9 @@ static void	step_ants(t_info *info, t_ant **ants, int *ants_arrived)
 			ant_idx += 1;
 			continue ;
 		}
-		*ants_arrived += move_ant(info, ants[ant_idx]);
+		*ants_arrived += move_ant(info, ants[ant_idx], first);
 		ant_idx += 1;
+		first = 0;
 	}
 	ft_printf("\n");
 }
