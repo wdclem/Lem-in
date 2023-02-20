@@ -48,7 +48,7 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 	count = 0;
 	if (count_amount_of_chars_in_str(info->str[i], ' ') != 2)
 	{
-		ft_printf("Line %d invalid: wrong amount of ` ` characters\n", i);
+		ft_printf("Line %d invalid: wrong amount of ` ` characters\n", i + 1);
 		return (ERROR);
 	}
 	room_checker = ft_strsplit(info->str[i], ' ');
@@ -58,7 +58,8 @@ int	room_is_valid(t_info *info, t_hasht *table, int i)
 		return (free_str_split(room_checker, count, ERROR));
 	if (count_amount_of_chars_in_str(room_checker[0], '-') != 0)
 	{
-		ft_printf("Line %d invalid: Character `-` not allowed in room name\n");
+		ft_printf("Line %d invalid: Character `-` not allowed in room name\n", \
+				i + 1);
 		return (free_str_split(room_checker, count, ERROR));
 	}
 	if (room_to_hasht(info, table, room_checker) != 0)

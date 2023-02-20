@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 	= lem-in 
+NAME 	= lem-in
 HEAD 	= lemin.h
 # compile specs
 FLAGS 	= -Werror -Wextra -Wall -g
@@ -26,14 +26,14 @@ SRCS 	= main.c ants.c map.c rooms.c helpers.c init.c links.c link_helpers.c \
 		  bitmask_group.c storage.c error_management.c flowmap.c validate.c
 
 INC 	= -I./include
-INC_LFT = -I./libft/includes 
+INC_LFT = -I./libft/includes
 LIB		=	./libft/libft.a
 
 #OBJECTS
 OBJ_DIR = ./object/
 OBJ 	= $(addprefix $(OBJ_DIR), $(SRCS:%.c=%.o))
 
-all: $(NAME) 
+all: $(NAME)
 
 debug: FLAGS += $(DFLAGS)
 debug: all
@@ -47,7 +47,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(FLAGS) $(INC_LFT) $(INC) -o $@ -c $<
 
 $(LIB):
-	-@make -C ./libft/ 
+	-@make -C ./libft/
 
 clean:
 	-@rm -rf $(OBJ_DIR)

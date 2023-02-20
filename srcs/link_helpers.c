@@ -21,14 +21,11 @@ static int	link_room_exists(t_hasht *table, char *room_name, int *hash)
 	exist = 0;
 	if (ft_strcmp(table->room[(*hash)]->id, room_name) != 0)
 	{
-		(*hash)++;
 		while (table->room[(*hash)] != NULL)
 		{
+			*hash = (*hash + 1) % HT_CAP;
 			if (ft_strcmp(table->room[(*hash)]->id, room_name) == 0)
 				return (0);
-			(*hash)++;
-			if ((*hash) == HT_CAP)
-				(*hash) = 0;
 		}
 		exist = -1;
 	}
