@@ -9,9 +9,11 @@ fi
 iteration=0
 
 while [ $iteration -lt $max_iterations ]; do
-    command_to_run
+    ./generator --big-superposition | ./lem-in &> last.log
     if [ $? -ne 0 ]; then
+		echo "crash on iteration $iteration"
         break
     fi
     iteration=$((iteration+1))
+	echo "iteration $iteration pass"
 done
