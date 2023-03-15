@@ -10,9 +10,11 @@ The farm or maps are display in the following way :
 number_of_ants
 the_rooms
 the_links
+
 <img width="255" alt="Screenshot 2023-03-15 at 11 47 40" src="https://user-images.githubusercontent.com/32699739/225271789-adf9b5ca-be80-4027-adf2-ba2f57c6dcce.png">
 
 (example available in the repo >> cat map)
+
 <img width="429" alt="Screenshot 2023-03-15 at 11 13 08" src="https://user-images.githubusercontent.com/32699739/225271536-450030bd-0304-49e0-a8e1-d3dc1c15616e.png">
 
 At the start of the game all the ants are in the start room, at each turn you can move each ant only once and through a tube (the room at the receiving end must be empty).
